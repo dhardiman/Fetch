@@ -15,7 +15,7 @@ import Foundation
  - Failure:    The fetch returned, but the object returned represents a failure
  - Error:      The fetch failed with an error
  */
-enum FetchResult<T: Parsable> {
+public enum FetchResult<T: Parsable> {
     case Successful(T)
     case Failure(T)
     case Error(ErrorType)
@@ -58,7 +58,7 @@ private func makeRequest<T: Parsable>(request: Request, method: String, completi
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-func get<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
+public func get<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
     makeRequest(request, method: "GET", completion: completion)
 }
 
@@ -68,6 +68,6 @@ func get<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-func post<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
+public func post<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
     makeRequest(request, method: "POST", completion: completion)
 }

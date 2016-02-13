@@ -11,7 +11,7 @@ import Foundation
 /**
  *  Item that can parse data retrieved from a request
  */
-protocol Parsable {
+public protocol Parsable {
     
     /**
      Parses an object from the supplied data

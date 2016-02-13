@@ -11,7 +11,7 @@ import Foundation
 /**
  *  Simple struct representing a network request
  */
-struct Request {
+public struct Request {
     
     /// The URL to fetch
     let url: NSURL

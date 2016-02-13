@@ -10,6 +10,8 @@
 		071F20271C6F86BF00BBCBAF /* Fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = 071F20261C6F86BF00BBCBAF /* Fetch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		071F202E1C6F86BF00BBCBAF /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; };
 		071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F20321C6F86BF00BBCBAF /* FetchTests.swift */; };
+		071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F203D1C6F878400BBCBAF /* Parsable.swift */; };
+		07A399781C6F89A100896C87 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399771C6F89A100896C87 /* Request.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		071F202D1C6F86BF00BBCBAF /* FetchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		071F20321C6F86BF00BBCBAF /* FetchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTests.swift; sourceTree = "<group>"; };
 		071F20341C6F86BF00BBCBAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		071F203D1C6F878400BBCBAF /* Parsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
+		07A399771C6F89A100896C87 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,8 @@
 			children = (
 				071F20261C6F86BF00BBCBAF /* Fetch.h */,
 				071F20281C6F86BF00BBCBAF /* Info.plist */,
+				071F203D1C6F878400BBCBAF /* Parsable.swift */,
+				07A399771C6F89A100896C87 /* Request.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -194,6 +200,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
+				07A399781C6F89A100896C87 /* Request.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +316,7 @@
 		071F20381C6F86BF00BBCBAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -318,12 +327,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Fetch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		071F20391C6F86BF00BBCBAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -376,6 +387,7 @@
 				071F20391C6F86BF00BBCBAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		071F203A1C6F86BF00BBCBAF /* Build configuration list for PBXNativeTarget "FetchTests" */ = {
 			isa = XCConfigurationList;
@@ -384,6 +396,7 @@
 				071F203C1C6F86BF00BBCBAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

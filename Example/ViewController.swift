@@ -40,9 +40,11 @@ struct Establishment {
     let name: String
 }
 
-struct EstablishmentsResponse: Parsable {
+struct EstablishmentsResponse {
     let establishments: [Establishment]
-    
+}
+
+extension EstablishmentsResponse: Parsable {
     static func parse(fromData data: NSData, withStatus status: Int) -> Result<EstablishmentsResponse> {
         if status != 200 {
             return .Failure(EstablishmentParseError.Non200Response)

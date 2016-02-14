@@ -29,6 +29,11 @@ class ViewController: UIViewController {
 
 }
 
+enum EstablishmentParseError: ErrorType {
+    case Non200Response
+    case ParseFailure
+}
+
 struct Establishment {
     let address: String
     let id: Int
@@ -40,7 +45,7 @@ struct EstablishmentsResponse: Parsable {
     
     static func parse(fromData data: NSData, withStatus status: Int) -> Result<EstablishmentsResponse> {
         if status != 200 {
-            return .Failure(NSError(domain: "me.davidhardiman.fail", code: 1, userInfo: [NSLocalizedDescriptionKey: "Non 200 response"]))
+            return .Failure(EstablishmentParseError.Non200Response)
         }
         do {
             if let parsedResponse = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [Dictionary<String, AnyObject>] {
@@ -53,7 +58,7 @@ struct EstablishmentsResponse: Parsable {
                 return .Success(EstablishmentsResponse(establishments: establishments))
             }
         } catch {}
-        return .Failure(NSError(domain: "me.davidhardiman.fail", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse response"]))
+        return .Failure(EstablishmentParseError.ParseFailure)
     }
 }
 

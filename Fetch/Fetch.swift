@@ -9,7 +9,7 @@
 import Foundation
 
 private extension Request {
-    func urlRequest() -> NSMutableURLRequest {
+    private func urlRequest() -> NSMutableURLRequest {
         let request = NSMutableURLRequest(URL: url)
         if let headers = headers {
             request.allHTTPHeaderFields = headers

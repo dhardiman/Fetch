@@ -8,19 +8,6 @@
 
 import Foundation
 
-/**
- The result of a fetch request
- 
- - Successful: The fetch and parse was successful
- - Failure:    The fetch returned, but the object returned represents a failure
- - Error:      The fetch failed with an error
- */
-public enum FetchResult<T: Parsable> {
-    case Successful(T)
-    case Failure(T)
-    case Error(ErrorType)
-}
-
 private extension Request {
     func urlRequest() -> NSMutableURLRequest {
         let request = NSMutableURLRequest(URL: url)
@@ -34,19 +21,17 @@ private extension Request {
     }
 }
 
-private func makeRequest<T: Parsable>(request: Request, method: String, completion: FetchResult<T> -> Void) {
+private func makeRequest<T: Parsable>(request: Request, method: String, completion: Result<T> -> Void) {
     let request = request.urlRequest()
     request.HTTPMethod = method
     let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
         if let error = error {
-            completion(.Error(error))
+            completion(.Failure(error))
             return
         }
         if let actualResponse = response as? NSHTTPURLResponse,
             data = data {
-                let item = T.parse(fromData: data, withStatus: actualResponse.statusCode)
-                let result: FetchResult = item.successful ? .Successful(item) : .Failure(item)
-                completion(result)
+                completion(T.parse(fromData: data, withStatus: actualResponse.statusCode))
         }
     }
     task.resume()
@@ -58,7 +43,7 @@ private func makeRequest<T: Parsable>(request: Request, method: String, completi
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func get<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
+public func get<T: Parsable>(request: Request, completion: Result<T> -> Void) {
     makeRequest(request, method: "GET", completion: completion)
 }
 
@@ -68,6 +53,6 @@ public func get<T: Parsable>(request: Request, completion: FetchResult<T> -> Voi
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func post<T: Parsable>(request: Request, completion: FetchResult<T> -> Void) {
+public func post<T: Parsable>(request: Request, completion: Result<T> -> Void) {
     makeRequest(request, method: "POST", completion: completion)
 }

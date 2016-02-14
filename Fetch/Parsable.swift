@@ -19,9 +19,6 @@ public protocol Parsable {
      - parameter data:   The data retrieved
      - parameter status: The HTTP status code retrieved
      */
-    static func parse(fromData data: NSData, withStatus status: Int) -> Self
-    
-    /// Does this object represent a successful fetch?
-    var successful: Bool { get }
+    static func parse(fromData data: NSData, withStatus status: Int) -> Result<Self>
     
 }

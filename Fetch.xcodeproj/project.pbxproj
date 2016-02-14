@@ -20,6 +20,7 @@
 		07A3998C1C6F8E5600896C87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07A3998A1C6F8E5600896C87 /* LaunchScreen.storyboard */; };
 		07A399911C6F8E6600896C87 /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; };
 		07A399921C6F8E6600896C87 /* Fetch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		07A399971C70976800896C87 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399961C70976800896C87 /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		07A399881C6F8E5600896C87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07A3998B1C6F8E5600896C87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		07A3998D1C6F8E5600896C87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07A399961C70976800896C87 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				071F203D1C6F878400BBCBAF /* Parsable.swift */,
 				07A399771C6F89A100896C87 /* Request.swift */,
 				07A399791C6F8A6800896C87 /* Fetch.swift */,
+				07A399961C70976800896C87 /* Result.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			files = (
 				07A3997A1C6F8A6800896C87 /* Fetch.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
+				07A399971C70976800896C87 /* Result.swift in Sources */,
 				07A399781C6F89A100896C87 /* Request.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,6 +562,7 @@
 				07A399901C6F8E5600896C87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -15,14 +15,14 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let url = NSURL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
         let request = Request(url: url)
-        get(request) { (result: FetchResult<EstablishmentsResponse>) in
+        get(request) { (result: Result<EstablishmentsResponse>) in
             switch result {
-            case .Successful(let response):
+            case .Success(let response):
                 response.establishments.forEach { (est) in
                     print("\(est.name)")
                 }
-            default:
-                print("Badness")
+            case .Failure(let error):
+                print("Badness \(error)")
             }
         }
     }
@@ -38,11 +38,9 @@ struct Establishment {
 struct EstablishmentsResponse: Parsable {
     let establishments: [Establishment]
     
-    private(set) var successful: Bool
-    
-    static func parse(fromData data: NSData, withStatus status: Int) -> EstablishmentsResponse {
+    static func parse(fromData data: NSData, withStatus status: Int) -> Result<EstablishmentsResponse> {
         if status != 200 {
-            return EstablishmentsResponse(establishments: [], successful: false)
+            return .Failure(NSError(domain: "me.davidhardiman.fail", code: 1, userInfo: [NSLocalizedDescriptionKey: "Non 200 response"]))
         }
         do {
             if let parsedResponse = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [Dictionary<String, AnyObject>] {
@@ -52,10 +50,10 @@ struct EstablishmentsResponse: Parsable {
                     let name = est["name"] as! String
                     return Establishment(address: address, id: id, name: name)
                 }
-                return EstablishmentsResponse(establishments: establishments, successful: true)
+                return .Success(EstablishmentsResponse(establishments: establishments))
             }
         } catch {}
-        return EstablishmentsResponse(establishments: [], successful: false)
+        return .Failure(NSError(domain: "me.davidhardiman.fail", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse response"]))
     }
 }
 

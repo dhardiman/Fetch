@@ -21,10 +21,10 @@ private extension Request {
     }
 }
 
-private func makeRequest<T: Parsable>(request: Request, method: String, completion: Result<T> -> Void) {
+private func makeRequest<T: Parsable>(request: Request, method: String, session: NSURLSession, responseQueue: NSOperationQueue, completion: Result<T> -> Void) {
     let request = request.urlRequest()
     request.HTTPMethod = method
-    let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+    let task = session.dataTaskWithRequest(request) { (data, response, error) in
         if let error = error {
             completion(.Failure(error))
             return
@@ -43,8 +43,8 @@ private func makeRequest<T: Parsable>(request: Request, method: String, completi
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func get<T: Parsable>(request: Request, completion: Result<T> -> Void) {
-    makeRequest(request, method: "GET", completion: completion)
+public func get<T: Parsable>(request: Request, session: NSURLSession = NSURLSession.sharedSession(), responseQueue: NSOperationQueue = NSOperationQueue.mainQueue(), completion: Result<T> -> Void) {
+    makeRequest(request, method: "GET", session: session, responseQueue: responseQueue, completion: completion)
 }
 
 /**
@@ -53,6 +53,6 @@ public func get<T: Parsable>(request: Request, completion: Result<T> -> Void) {
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func post<T: Parsable>(request: Request, completion: Result<T> -> Void) {
-    makeRequest(request, method: "POST", completion: completion)
+public func post<T: Parsable>(request: Request, session: NSURLSession = NSURLSession.sharedSession(), responseQueue: NSOperationQueue = NSOperationQueue.mainQueue(), completion: Result<T> -> Void) {
+    makeRequest(request, method: "POST", session: session, responseQueue: responseQueue, completion: completion)
 }

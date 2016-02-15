@@ -9,7 +9,7 @@
 import Foundation
 
 private extension Request {
-    private func urlRequest() -> NSMutableURLRequest {
+    private func urlRequest(method: String) -> NSURLRequest {
         let request = NSMutableURLRequest(URL: url)
         if let headers = headers {
             request.allHTTPHeaderFields = headers
@@ -17,13 +17,13 @@ private extension Request {
         if let body = body {
             request.HTTPBody = body
         }
+        request.HTTPMethod = method
         return request
     }
 }
 
 private func makeRequest<T: Parsable>(request: Request, method: String, session: NSURLSession, responseQueue: NSOperationQueue, completion: Result<T> -> Void) {
-    let request = request.urlRequest()
-    request.HTTPMethod = method
+    let request = request.urlRequest(method)
     let task = session.dataTaskWithRequest(request) { (data, response, error) in
         if let error = error {
             completion(.Failure(error))

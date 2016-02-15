@@ -26,6 +26,13 @@
 		45D71D091C71E9CA009059C2 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D041C71E9CA009059C2 /* OCMock.framework */; };
 		45D71D0A1C71E9CA009059C2 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */; };
 		45D71D0B1C71E9CA009059C2 /* Specta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D061C71E9CA009059C2 /* Specta.framework */; };
+		45D71D0D1C722987009059C2 /* Expecta.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D021C71E9CA009059C2 /* Expecta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		45D71D0E1C722987009059C2 /* MIQTestingFramework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D031C71E9CA009059C2 /* MIQTestingFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		45D71D0F1C722987009059C2 /* OCMock.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D041C71E9CA009059C2 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		45D71D101C722987009059C2 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		45D71D111C722987009059C2 /* Specta.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D061C71E9CA009059C2 /* Specta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		45D71D131C722AAD009059C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; };
+		45D71D141C722AB6009059C2 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +64,22 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		45D71D0C1C722970009059C2 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				45D71D141C722AB6009059C2 /* Nimble.framework in Copy Frameworks */,
+				45D71D0D1C722987009059C2 /* Expecta.framework in Copy Frameworks */,
+				45D71D0E1C722987009059C2 /* MIQTestingFramework.framework in Copy Frameworks */,
+				45D71D0F1C722987009059C2 /* OCMock.framework in Copy Frameworks */,
+				45D71D101C722987009059C2 /* OHHTTPStubs.framework in Copy Frameworks */,
+				45D71D111C722987009059C2 /* Specta.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +105,7 @@
 		45D71D041C71E9CA009059C2 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Carthage/Build/iOS/OCMock.framework; sourceTree = SOURCE_ROOT; };
 		45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		45D71D061C71E9CA009059C2 /* Specta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Specta.framework; path = Carthage/Build/iOS/Specta.framework; sourceTree = SOURCE_ROOT; };
+		45D71D121C722AAD009059C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +126,7 @@
 				45D71D071C71E9CA009059C2 /* Expecta.framework in Frameworks */,
 				45D71D0B1C71E9CA009059C2 /* Specta.framework in Frameworks */,
 				45D71D081C71E9CA009059C2 /* MIQTestingFramework.framework in Frameworks */,
+				45D71D131C722AAD009059C2 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +177,7 @@
 		071F20311C6F86BF00BBCBAF /* FetchTests */ = {
 			isa = PBXGroup;
 			children = (
+				45D71D121C722AAD009059C2 /* Nimble.framework */,
 				45D71D021C71E9CA009059C2 /* Expecta.framework */,
 				45D71D031C71E9CA009059C2 /* MIQTestingFramework.framework */,
 				45D71D041C71E9CA009059C2 /* OCMock.framework */,
@@ -213,6 +239,7 @@
 			buildConfigurationList = 071F203A1C6F86BF00BBCBAF /* Build configuration list for PBXNativeTarget "FetchTests" */;
 			buildPhases = (
 				071F20291C6F86BF00BBCBAF /* Sources */,
+				45D71D0C1C722970009059C2 /* Copy Frameworks */,
 				071F202A1C6F86BF00BBCBAF /* Frameworks */,
 				071F202B1C6F86BF00BBCBAF /* Resources */,
 			);

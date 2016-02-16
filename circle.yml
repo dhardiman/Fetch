@@ -4,7 +4,7 @@ machine:
 test:
   override:
     - carthage update --platform iOS --no-use-binaries
-    - xcodebuild -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest'
+    - set -o pipefail && xcodebuild -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest'
       -sdk iphonesimulator -scheme "Fetch" clean test |
       tee $CIRCLE_ARTIFACTS/xcodebuild.log |
       xcpretty --report html --output $CIRCLE_TEST_REPORTS/results.html --report junit --output $CIRCLE_TEST_REPORTS/results.xml

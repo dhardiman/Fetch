@@ -11,7 +11,7 @@ import Nimble
 import MIQTestingFramework
 @testable import Fetch
 
-let testString: NSString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
+let testString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
 let testURL = NSURL(string: "https://fetch.davidhardiman.me")!
 let basicRequest = Request(url: testURL)
 
@@ -152,4 +152,27 @@ class FetchTests: XCTestCase {
         }
     }
 
+    func testBodyIsPassedToTheRequest() {
+        let testBody = "test body"
+        let testRequest = Request(url: testURL, headers: nil, body: testBody.dataUsingEncoding(NSUTF8StringEncoding))
+
+        stubRequest { (request) -> Bool in
+            return request.URL! == testURL && request.HTTPMethod == "POST"
+        }
+        let mockSession = MockSession()
+        Fetch.post(testRequest, session: mockSession) { (result: Result<TestResponse>) in
+        }
+        expect(mockSession.receivedBody).to(equal(testBody))
+    }
+
+}
+
+public class MockSession: NSURLSession {
+    var receivedBody: String?
+    override public func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
+        if let body = request.HTTPBody {
+            receivedBody = String(data: body, encoding: NSUTF8StringEncoding)
+        }
+        return NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: completionHandler)
+    }
 }

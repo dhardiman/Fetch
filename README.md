@@ -1,4 +1,7 @@
 # Fetch
+[![Coverage Status](https://coveralls.io/repos/github/dhardiman/Fetch/badge.svg?branch=master)](https://coveralls.io/github/dhardiman/Fetch?branch=master)
+[![Circle CI](https://circleci.com/gh/dhardiman/Fetch.svg?style=svg)](https://circleci.com/gh/dhardiman/Fetch)
+
 Simple HTTP in Swift. Hides the boilerplate code. Fetch allows you to make HTTP `get` and `post` requests, whilst providing a custom class or struct capable of parsing the response in to model objects your app can understand.
 
 ## `Parsable`

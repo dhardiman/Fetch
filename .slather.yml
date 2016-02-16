@@ -1,4 +1,5 @@
 coverage_service: coveralls
+ci_service: circleci
 xcodeproj: Fetch.xcodeproj
 ignore:
   - Carthage/*

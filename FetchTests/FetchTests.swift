@@ -165,6 +165,21 @@ class FetchTests: XCTestCase {
         expect(mockSession.receivedBody).to(equal(testBody))
     }
 
+    func testCallbackQueueCanBeSpecified() {
+        let callBackQueue = NSOperationQueue()
+        stubRequest { (request) -> Bool in
+            return request.URL! == testURL && request.HTTPMethod == "POST"
+        }
+        let expectation = expectationWithDescription("post request")
+        var receivedQueue: NSOperationQueue?
+        Fetch.post(basicRequest, responseQueue: callBackQueue) { (result: Result<TestResponse>) in
+            receivedQueue = NSOperationQueue.currentQueue()
+            expectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(1.0, handler: nil)
+        expect(receivedQueue).to(equal(callBackQueue))
+    }
+
 }
 
 public class MockSession: NSURLSession {

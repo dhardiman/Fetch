@@ -29,9 +29,8 @@ private func makeRequest<T: Parsable>(request: Request, method: String, session:
             completion(.Failure(error))
             return
         }
-        if let actualResponse = response as? NSHTTPURLResponse,
-            data = data {
-                completion(T.parse(fromData: data, withStatus: actualResponse.statusCode))
+        if let actualResponse = response as? NSHTTPURLResponse {
+            completion(T.parse(fromData: data, withStatus: actualResponse.statusCode))
         }
     }
     task.resume()

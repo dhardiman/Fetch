@@ -24,12 +24,12 @@ struct TestResponse: Parsable {
     let name: String
     let desc: String
 
-    static func parse(fromData data: NSData, withStatus status: Int) -> Result<TestResponse> {
+    static func parse(fromData data: NSData?, withStatus status: Int) -> Result<TestResponse> {
         if status != 200 {
             return .Failure(Fail.StatusFail)
         }
         do {
-            if let dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: String] {
+            if let data = data, dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: String] {
                 return .Success(TestResponse(name: dict["name"]!, desc: dict["desc"]!))
             }
         } catch {}

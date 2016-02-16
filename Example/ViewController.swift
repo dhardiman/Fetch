@@ -45,12 +45,12 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(fromData data: NSData, withStatus status: Int) -> Result<EstablishmentsResponse> {
+    static func parse(fromData data: NSData?, withStatus status: Int) -> Result<EstablishmentsResponse> {
         if status != 200 {
             return .Failure(EstablishmentParseError.Non200Response)
         }
         do {
-            if let parsedResponse = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [Dictionary<String, AnyObject>] {
+            if let data = data, parsedResponse = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [Dictionary<String, AnyObject>] {
                 let establishments = parsedResponse.map { est -> Establishment in
                     let id = est["id"] as! Int
                     let address = est["address"] as! String

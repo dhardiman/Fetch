@@ -59,7 +59,7 @@ class FetchTests: XCTestCase {
         }
         let expectation = expectationWithDescription("get request")
         var receivedResult: Result<TestResponse>?
-        Fetch.get(basicRequest) { (result: Result<TestResponse>) in
+        Fetch.get(request) { (result: Result<TestResponse>) in
             receivedResult = result
             expectation.fulfill()
         }
@@ -132,7 +132,24 @@ class FetchTests: XCTestCase {
                     fail("Should be an error response")
                 }
         }
+    }
 
+    func testHeadersArePassedToTheRequest() {
+        let testRequest = Request(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
+        let requestTestBlock = { (request: NSURLRequest) -> Bool in
+            let urlMatch = request.URL == testURL
+            let methodMatch = request.HTTPMethod == "GET"
+            let headersMatch = request.allHTTPHeaderFields! == ["Test Header": "Test Value"]
+            return urlMatch && methodMatch && headersMatch
+        }
+        performGetRequestTest(testRequest, passingTest: requestTestBlock) { (receivedResult) -> Void in
+            switch receivedResult! {
+            case .Success(_):
+                break
+            default:
+                fail("Should be a successful response")
+            }
+        }
     }
 
 }

@@ -23,14 +23,16 @@ struct TestResponse: Parsable {
 
     let name: String
     let desc: String
+    let headers: [String: String]?
+    
 
-    static func parse(fromData data: NSData?, withStatus status: Int) -> Result<TestResponse> {
+    static func parse(fromData data: NSData?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
             return .Failure(Fail.StatusFail)
         }
         do {
             if let data = data, dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: String] {
-                return .Success(TestResponse(name: dict["name"]!, desc: dict["desc"]!))
+                return .Success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers))
             }
         } catch {}
         return .Failure(Fail.ParseFail)
@@ -47,7 +49,7 @@ class FetchTests: XCTestCase {
 
     func stubRequest(statusCode statusCode: Int32 = 200, passingTest test: OHHTTPStubsTestBlock) {
         OHHTTPStubs.stubRequestsPassingTest(test) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: testString.dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: statusCode, headers: nil)
+            return OHHTTPStubsResponse(data: testString.dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: statusCode, headers: ["header": "test header"])
         }
     }
 
@@ -79,6 +81,7 @@ class FetchTests: XCTestCase {
                 case .Success(let response):
                     expect(response.name).to(equal("test name"))
                     expect(response.desc).to(equal("test desc"))
+                    expect(response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
                 default:
                     fail("Should be a successful response")
                 }

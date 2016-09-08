@@ -32,6 +32,13 @@ public struct Request {
         self.init(url: url, headers: nil, body: nil)
     }
 
+
+    /// Performs the request
+    ///
+    /// - parameter method:        The HTTP Method to use, defaults to get
+    /// - parameter session:       The URLSession to use, defaults to the main shared session
+    /// - parameter responseQueue: The OperationQueue to receive the response on, defaults to the main queue
+    /// - parameter completion:    The completion block to call with the response
     public func perform<T: Parsable>(method: HTTPMethod = .get, session: URLSession = URLSession.shared, responseQueue: OperationQueue = OperationQueue.main, completion: @escaping (Result<T>) -> Void) {
         let request = self.urlRequest(method.rawValue)
         let task = session.dataTask(with: request, completionHandler: { (data, response, error) in

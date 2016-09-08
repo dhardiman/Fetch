@@ -14,21 +14,21 @@ import Foundation
 public struct Request {
     
     /// The URL to fetch
-    public let url: NSURL
+    public let url: URL
     
     /// The headers for the request
     public let headers: [String: String]?
     
     /// The body of the request
-    public let body: NSData?
+    public let body: Data?
     
-    public init(url: NSURL, headers: [String: String]?, body: NSData?) {
+    public init(url: URL, headers: [String: String]?, body: Data?) {
         self.url = url
         self.headers = headers
         self.body = body
     }
     
-    public init(url: NSURL) {
+    public init(url: URL) {
         self.init(url: url, headers: nil, body: nil)
     }
 }

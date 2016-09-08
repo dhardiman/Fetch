@@ -13,15 +13,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
+        let url = URL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
         let request = Request(url: url)
         get(request) { (result: Result<EstablishmentsResponse>) in
             switch result {
-            case .Success(let response):
+            case .success(let response):
                 response.establishments.forEach { (est) in
                     print("\(est.name)")
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 print("Badness \(error)")
             }
         }
@@ -29,9 +29,9 @@ class ViewController: UIViewController {
 
 }
 
-enum EstablishmentParseError: ErrorType {
-    case Non200Response
-    case ParseFailure
+enum EstablishmentParseError: Error {
+    case non200Response
+    case parseFailure
 }
 
 struct Establishment {
@@ -45,22 +45,22 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(fromData data: NSData?, withStatus status: Int) -> Result<EstablishmentsResponse> {
+    static func parse(fromData data: Data?, withStatus status: Int) -> Result<EstablishmentsResponse> {
         if status != 200 {
-            return .Failure(EstablishmentParseError.Non200Response)
+            return .failure(EstablishmentParseError.non200Response)
         }
         do {
-            if let data = data, parsedResponse = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [Dictionary<String, AnyObject>] {
+            if let data = data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [Dictionary<String, AnyObject>] {
                 let establishments = parsedResponse.map { est -> Establishment in
                     let id = est["id"] as! Int
                     let address = est["address"] as! String
                     let name = est["name"] as! String
                     return Establishment(address: address, id: id, name: name)
                 }
-                return .Success(EstablishmentsResponse(establishments: establishments))
+                return .success(EstablishmentsResponse(establishments: establishments))
             }
         } catch {}
-        return .Failure(EstablishmentParseError.ParseFailure)
+        return .failure(EstablishmentParseError.parseFailure)
     }
 }
 

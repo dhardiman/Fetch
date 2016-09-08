@@ -8,15 +8,15 @@
 
 import XCTest
 import Nimble
-import MIQTestingFramework
+import OHHTTPStubs
 @testable import Fetch
 
 let testString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
-let testURL = NSURL(string: "https://fetch.davidhardiman.me")!
+let testURL = URL(string: "https://fetch.davidhardiman.me")!
 let basicRequest = Request(url: testURL)
 
 struct TestResponse: Parsable {
-    enum Fail: ErrorType {
+    enum Fail: Error {
         case StatusFail
         case ParseFail
     }
@@ -26,16 +26,16 @@ struct TestResponse: Parsable {
     let headers: [String: String]?
     
 
-    static func parse(fromData data: NSData?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
+    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
-            return .Failure(Fail.StatusFail)
+            return .failure(Fail.StatusFail)
         }
         do {
-            if let data = data, dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: String] {
-                return .Success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers))
+            if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
+                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers))
             }
         } catch {}
-        return .Failure(Fail.ParseFail)
+        return .failure(Fail.ParseFail)
 
     }
 }
@@ -47,38 +47,38 @@ class FetchTests: XCTestCase {
         super.tearDown()
     }
 
-    func stubRequest(statusCode statusCode: Int32 = 200, passingTest test: OHHTTPStubsTestBlock) {
-        OHHTTPStubs.stubRequestsPassingTest(test) { (request) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: testString.dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: statusCode, headers: ["header": "test header"])
+    func stubRequest(statusCode: Int32 = 200, passingTest test: @escaping OHHTTPStubsTestBlock) {
+        OHHTTPStubs.stubRequests(passingTest: test) { (request) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(data: testString.data(using: String.Encoding.utf8)!, statusCode: statusCode, headers: ["header": "test header"])
         }
     }
 
-    typealias TestBlock = Result<TestResponse>? -> Void
+    typealias TestBlock = (Result<TestResponse>?) -> Void
 
     func performGetRequestTest(request: Request = basicRequest, statusCode: Int32 = 200, passingTest requestTest: OHHTTPStubsTestBlock?, testBlock testToPerform: TestBlock) {
         if let requestTest = requestTest {
             stubRequest(statusCode: statusCode, passingTest: requestTest)
         }
-        let expectation = expectationWithDescription("get request")
+        let exp = expectation(description: "get request")
         var receivedResult: Result<TestResponse>?
         Fetch.get(request) { (result: Result<TestResponse>) in
             receivedResult = result
-            expectation.fulfill()
+            exp.fulfill()
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
         testToPerform(receivedResult)
     }
     
     func testItIsPossibleToMakeAGetRequest() {
         performGetRequestTest(passingTest: { (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "GET"
+            return request.url! == testURL && request.httpMethod == "GET"
             }) { receivedResult in
                 guard let testResult = receivedResult else {
                     fail("Should have received a result")
                     return
                 }
                 switch testResult {
-                case .Success(let response):
+                case .success(let response):
                     expect(response.name).to(equal("test name"))
                     expect(response.desc).to(equal("test desc"))
                     expect(response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
@@ -90,17 +90,17 @@ class FetchTests: XCTestCase {
 
     func testItIsPossibleToMakeAPostRequest() {
         stubRequest { (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "POST"
+            return request.url! == testURL && request.httpMethod == "POST"
         }
-        let expectation = expectationWithDescription("post request")
+        let exp = expectation(description: "post request")
         var receivedResult: Result<TestResponse>?
         Fetch.post(basicRequest) { (result: Result<TestResponse>) in
             receivedResult = result
-            expectation.fulfill()
+            exp.fulfill()
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
         switch receivedResult! {
-        case .Success(_):
+        case .success(_):
             break
         default:
             fail("Should be a successful response")
@@ -109,14 +109,14 @@ class FetchTests: XCTestCase {
 
     func testSessionErrorsAreReturned() {
         let testError = NSError(domain: "me.davidhardiman", code: 1234, userInfo: nil)
-        OHHTTPStubs.stubRequestsPassingTest({ (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "GET"
+        OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
+            return request.url! == testURL && request.httpMethod == "GET"
             }) { (request) -> OHHTTPStubsResponse in
                 return OHHTTPStubsResponse(error: testError)
         }
         performGetRequestTest(passingTest: nil) { receivedResult in
             switch receivedResult! {
-            case .Failure(let receivedError as NSError):
+            case .failure(let receivedError as NSError):
                 expect(receivedError).to(equal(testError))
             default:
                 fail("Should be an error response")
@@ -126,10 +126,10 @@ class FetchTests: XCTestCase {
 
     func testStatusCodesAreReportedToAllowParseFailures() {
         performGetRequestTest(statusCode: 404, passingTest: { (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "GET"
+            return request.url! == testURL && request.httpMethod == "GET"
             }) { receivedResult in
                 switch receivedResult! {
-                case .Failure(let receivedError as TestResponse.Fail):
+                case .failure(let receivedError as TestResponse.Fail):
                     expect(receivedError).to(equal(TestResponse.Fail.StatusFail))
                 default:
                     fail("Should be an error response")
@@ -139,15 +139,15 @@ class FetchTests: XCTestCase {
 
     func testHeadersArePassedToTheRequest() {
         let testRequest = Request(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
-        let requestTestBlock = { (request: NSURLRequest) -> Bool in
-            let urlMatch = request.URL == testURL
-            let methodMatch = request.HTTPMethod == "GET"
+        let requestTestBlock = { (request: URLRequest) -> Bool in
+            let urlMatch = request.url == testURL
+            let methodMatch = request.httpMethod == "GET"
             let headersMatch = request.allHTTPHeaderFields! == ["Test Header": "Test Value"]
             return urlMatch && methodMatch && headersMatch
         }
-        performGetRequestTest(testRequest, passingTest: requestTestBlock) { (receivedResult) -> Void in
+        performGetRequestTest(request: testRequest, passingTest: requestTestBlock) { (receivedResult) -> Void in
             switch receivedResult! {
-            case .Success(_):
+            case .success(_):
                 break
             default:
                 fail("Should be a successful response")
@@ -157,10 +157,10 @@ class FetchTests: XCTestCase {
 
     func testBodyIsPassedToTheRequest() {
         let testBody = "test body"
-        let testRequest = Request(url: testURL, headers: nil, body: testBody.dataUsingEncoding(NSUTF8StringEncoding))
+        let testRequest = Request(url: testURL, headers: nil, body: testBody.data(using: String.Encoding.utf8))
 
         stubRequest { (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "POST"
+            return request.url! == testURL && request.httpMethod == "POST"
         }
         let mockSession = MockSession()
         Fetch.post(testRequest, session: mockSession) { (result: Result<TestResponse>) in
@@ -169,28 +169,28 @@ class FetchTests: XCTestCase {
     }
 
     func testCallbackQueueCanBeSpecified() {
-        let callBackQueue = NSOperationQueue()
+        let callBackQueue = OperationQueue()
         stubRequest { (request) -> Bool in
-            return request.URL! == testURL && request.HTTPMethod == "POST"
+            return request.url! == testURL && request.httpMethod == "POST"
         }
-        let expectation = expectationWithDescription("post request")
-        var receivedQueue: NSOperationQueue?
+        let exp = expectation(description: "post request")
+        var receivedQueue: OperationQueue?
         Fetch.post(basicRequest, responseQueue: callBackQueue) { (result: Result<TestResponse>) in
-            receivedQueue = NSOperationQueue.currentQueue()
-            expectation.fulfill()
+            receivedQueue = OperationQueue.current
+            exp.fulfill()
         }
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectations(timeout: 1.0, handler: nil)
         expect(receivedQueue).to(equal(callBackQueue))
     }
 
 }
 
-public class MockSession: NSURLSession {
+public class MockSession: URLSession {
     var receivedBody: String?
-    override public func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
-        if let body = request.HTTPBody {
-            receivedBody = String(data: body, encoding: NSUTF8StringEncoding)
+    public override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        if let body = request.httpBody {
+            receivedBody = String(data: body, encoding: String.Encoding.utf8)
         }
-        return NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: completionHandler)
+        return URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
     }
 }

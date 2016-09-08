@@ -9,34 +9,34 @@
 import Foundation
 
 private extension Request {
-    private func urlRequest(method: String) -> NSURLRequest {
-        let request = NSMutableURLRequest(URL: url)
+    func urlRequest(_ method: String) -> URLRequest {
+        var request = URLRequest(url: url as URL)
         if let headers = headers {
             request.allHTTPHeaderFields = headers
         }
         if let body = body {
-            request.HTTPBody = body
+            request.httpBody = body
         }
-        request.HTTPMethod = method
+        request.httpMethod = method
         return request
     }
 }
 
-private func makeRequest<T: Parsable>(request: Request, method: String, session: NSURLSession, responseQueue: NSOperationQueue, completion: Result<T> -> Void) {
+private func makeRequest<T: Parsable>(_ request: Request, method: String, session: URLSession, responseQueue: OperationQueue, completion: @escaping (Result<T>) -> Void) {
     let request = request.urlRequest(method)
-    let task = session.dataTaskWithRequest(request) { (data, response, error) in
+    let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
         if let error = error {
-            completion(.Failure(error))
+            completion(.failure(error))
             return
         }
-        guard let actualResponse = response as? NSHTTPURLResponse else {
+        guard let actualResponse = response as? HTTPURLResponse else {
             fatalError("Response is not an HTTP response")
         }
         let result = T.parse(fromData: data, withStatus: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
-        responseQueue.addOperationWithBlock() {
+        responseQueue.addOperation() {
             completion(result)
         }
-    }
+    }) 
     task.resume()
 }
 
@@ -46,7 +46,7 @@ private func makeRequest<T: Parsable>(request: Request, method: String, session:
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func get<T: Parsable>(request: Request, session: NSURLSession = NSURLSession.sharedSession(), responseQueue: NSOperationQueue = NSOperationQueue.mainQueue(), completion: Result<T> -> Void) {
+public func get<T: Parsable>(_ request: Request, session: URLSession = URLSession.shared, responseQueue: OperationQueue = OperationQueue.main, completion: @escaping (Result<T>) -> Void) {
     makeRequest(request, method: "GET", session: session, responseQueue: responseQueue, completion: completion)
 }
 
@@ -56,6 +56,6 @@ public func get<T: Parsable>(request: Request, session: NSURLSession = NSURLSess
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
-public func post<T: Parsable>(request: Request, session: NSURLSession = NSURLSession.sharedSession(), responseQueue: NSOperationQueue = NSOperationQueue.mainQueue(), completion: Result<T> -> Void) {
+public func post<T: Parsable>(_ request: Request, session: URLSession = URLSession.shared, responseQueue: OperationQueue = OperationQueue.main, completion: @escaping (Result<T>) -> Void) {
     makeRequest(request, method: "POST", session: session, responseQueue: responseQueue, completion: completion)
 }

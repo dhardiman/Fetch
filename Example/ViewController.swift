@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let url = URL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
         let request = Request(url: url)
-        get(request) { (result: Result<EstablishmentsResponse>) in
+        request.perform() { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
                 response.establishments.forEach { (est) in
@@ -45,7 +45,7 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(fromData data: Data?, withStatus status: Int) -> Result<EstablishmentsResponse> {
+    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<EstablishmentsResponse> {
         if status != 200 {
             return .failure(EstablishmentParseError.non200Response)
         }

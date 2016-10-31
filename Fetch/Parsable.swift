@@ -20,6 +20,6 @@ public protocol Parsable {
      - parameter status:  The HTTP status code received
      - parameter headers: The HTTP headers received
      */
-    static func parse(fromData data: NSData?, withStatus status: Int, headers: [String: String]?) -> Result<Self>
+    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<Self>
     
 }

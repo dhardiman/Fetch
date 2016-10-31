@@ -1,2 +1,2 @@
-github "dhardiman/miq-ios-testingframeworks"
-github "Quick/Nimble"
+github "AliSoftware/OHHTTPStubs" "xcode8-gm"
+github "Quick/Nimble" "swift-3.0"

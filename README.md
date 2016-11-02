@@ -18,4 +18,4 @@ The easiest way to use this library is via Carthage. Just add
 to your Cartfile
 
 ## License
-[MIT](LICENSE.md)
+[MIT](LICENSE.md) 

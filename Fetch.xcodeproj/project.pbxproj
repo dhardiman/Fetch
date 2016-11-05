@@ -21,6 +21,7 @@
 		07A399911C6F8E6600896C87 /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; };
 		07A399921C6F8E6600896C87 /* Fetch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		07A399971C70976800896C87 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399961C70976800896C87 /* Result.swift */; };
+		45D1A7241D8191F300AE91C2 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D1A7231D8191F300AE91C2 /* HTTPMethod.swift */; };
 		45D71D0A1C71E9CA009059C2 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */; };
 		45D71D101C722987009059C2 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		45D71D131C722AAD009059C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; };
@@ -88,6 +89,7 @@
 		07A3998B1C6F8E5600896C87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		07A3998D1C6F8E5600896C87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07A399961C70976800896C87 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		45D1A7231D8191F300AE91C2 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		45D71D121C722AAD009059C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -150,6 +152,7 @@
 				07A399771C6F89A100896C87 /* Request.swift */,
 				07A399791C6F8A6800896C87 /* Fetch.swift */,
 				07A399961C70976800896C87 /* Result.swift */,
+				45D1A7231D8191F300AE91C2 /* HTTPMethod.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				07A3997A1C6F8A6800896C87 /* Fetch.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,
+				45D1A7241D8191F300AE91C2 /* HTTPMethod.swift in Sources */,
 				07A399781C6F89A100896C87 /* Request.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

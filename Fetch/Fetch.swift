@@ -22,6 +22,15 @@ private extension Request {
     }
 }
 
+/// Protocol describing an operation that can be cancelled
+public protocol Cancellable {
+
+    /// Cancel the operation
+    func cancel()
+}
+
+extension URLSessionTask: Cancellable {}
+
 public extension Request {
 
     /// Make an HTTP request for the resource described by this `Request`
@@ -30,7 +39,9 @@ public extension Request {
     ///   - session: The URL session to use
     ///   - responseQueue: The queue to  send the response on
     ///   - completion: The completion block to call with the response
-    public func perform<T: Parsable>(session: URLSession = URLSession.shared, responseQueue: OperationQueue = OperationQueue.main, completion: @escaping (Result<T>) -> Void) {
+    /// - Returns: A cancellable reference to the request operation
+    @discardableResult
+    public func perform<T: Parsable>(session: URLSession = URLSession.shared, responseQueue: OperationQueue = OperationQueue.main, completion: @escaping (Result<T>) -> Void) -> Cancellable {
         let task = session.dataTask(with: urlRequest(), completionHandler: { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -45,5 +56,6 @@ public extension Request {
             }
         })
         task.resume()
+        return task
     }
 }

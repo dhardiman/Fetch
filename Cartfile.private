@@ -1,2 +1,2 @@
-github "AliSoftware/OHHTTPStubs" "xcode8-gm"
-github "Quick/Nimble" "swift-3.0"
+github "AliSoftware/OHHTTPStubs"
+github "Quick/Nimble"

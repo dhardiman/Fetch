@@ -9,26 +9,18 @@
 import Foundation
 
 /**
- *  Simple struct representing a network request
+ *  Simple protocol representing a network request
  */
-public struct Request {
+public protocol Request {
 
     /// The URL to fetch
-    public let url: URL
+    var url: URL { get }
+
+    var method: HTTPMethod { get }
 
     /// The headers for the request
-    public let headers: [String: String]?
+    var headers: [String: String]? { get }
 
     /// The body of the request
-    public let body: Data?
-
-    public init(url: URL, headers: [String: String]?, body: Data?) {
-        self.url = url
-        self.headers = headers
-        self.body = body
-    }
-
-    public init(url: URL) {
-        self.init(url: url, headers: nil, body: nil)
-    }
+    var body: Data? { get }
 }

@@ -10,11 +10,12 @@ import UIKit
 import Fetch
 
 class ViewController: UIViewController {
+    let session = Session()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let request = EstablishmentRequest()
-        request.perform { (result: Result<EstablishmentsResponse>) in
+        session.perform(request) { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
                 response.establishments.forEach { est in

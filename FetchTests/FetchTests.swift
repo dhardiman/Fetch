@@ -13,7 +13,29 @@ import OHHTTPStubs
 
 let testString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
 let testURL = URL(string: "https://fetch.davidhardiman.me")!
-let basicRequest = Request(url: testURL)
+
+struct TestRequest: Request {
+    let url: URL
+
+    let method: HTTPMethod
+
+    let headers: [String: String]?
+
+    let body: Data?
+
+    init(url: URL) {
+        self.init(url: url, headers: nil, body: nil)
+    }
+
+    init(url: URL, method: HTTPMethod = .get, headers: [String: String]?, body: Data?) {
+        self.url = url
+        self.method = method
+        self.headers = headers
+        self.body = body
+    }
+}
+
+let basicRequest = TestRequest(url: testURL)
 
 struct TestResponse: Parsable {
     enum Fail: Error {
@@ -136,7 +158,7 @@ class FetchTests: XCTestCase {
     }
 
     func testHeadersArePassedToTheRequest() {
-        let testRequest = Request(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
+        let testRequest = TestRequest(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
         let requestTestBlock = { (request: URLRequest) -> Bool in
             let urlMatch = request.url == testURL
             let methodMatch = request.httpMethod == "GET"
@@ -155,7 +177,7 @@ class FetchTests: XCTestCase {
 
     func testBodyIsPassedToTheRequest() {
         let testBody = "test body"
-        let testRequest = Request(url: testURL, headers: nil, body: testBody.data(using: String.Encoding.utf8))
+        let testRequest = TestRequest(url: testURL, headers: nil, body: testBody.data(using: String.Encoding.utf8))
 
         stubRequest { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "POST"

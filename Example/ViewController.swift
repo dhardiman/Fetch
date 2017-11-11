@@ -13,8 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = URL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
-        let request = Request(url: url)
+        let request = EstablishmentRequest()
         get(request) { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
@@ -27,6 +26,16 @@ class ViewController: UIViewController {
         }
     }
 
+}
+
+struct EstablishmentRequest: Request {
+    let url = URL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
+
+    let method = HTTPMethod.get
+
+    let headers: [String: String]? = nil
+
+    let body: Data? = nil
 }
 
 enum EstablishmentParseError: Error {

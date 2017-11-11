@@ -27,7 +27,7 @@ struct TestRequest: Request {
         self.init(url: url, headers: nil, body: nil)
     }
 
-    init(url: URL, method: HTTPMethod = .get, headers: [String: String]?, body: Data?) {
+    init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil) {
         self.url = url
         self.method = method
         self.headers = headers
@@ -47,7 +47,7 @@ struct TestResponse: Parsable {
     let desc: String
     let headers: [String: String]?
 
-    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
             return .failure(Fail.statusFail)
         }
@@ -81,7 +81,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "get request")
         var receivedResult: Result<TestResponse>?
-        Fetch.get(request) { (result: Result<TestResponse>) in
+        request.perform { (result: Result<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -114,7 +114,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedResult: Result<TestResponse>?
-        Fetch.post(basicRequest) { (result: Result<TestResponse>) in
+        TestRequest(url: testURL, method: .post).perform { (result: Result<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -177,13 +177,13 @@ class FetchTests: XCTestCase {
 
     func testBodyIsPassedToTheRequest() {
         let testBody = "test body"
-        let testRequest = TestRequest(url: testURL, headers: nil, body: testBody.data(using: String.Encoding.utf8))
+        let testRequest = TestRequest(url: testURL, method: .post, headers: nil, body: testBody.data(using: String.Encoding.utf8))
 
         stubRequest { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "POST"
         }
         let mockSession = MockSession()
-        Fetch.post(testRequest, session: mockSession) { (_: Result<TestResponse>) in
+        testRequest.perform(session: mockSession) { (_: Result<TestResponse>) in
         }
         expect(mockSession.receivedBody).to(equal(testBody))
     }
@@ -195,7 +195,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedQueue: OperationQueue?
-        Fetch.post(basicRequest, responseQueue: callBackQueue) { (_: Result<TestResponse>) in
+        TestRequest(url: testURL, method: .post).perform(responseQueue: callBackQueue) { (_: Result<TestResponse>) in
             receivedQueue = OperationQueue.current
             exp.fulfill()
         }

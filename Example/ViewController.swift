@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let request = EstablishmentRequest()
-        get(request) { (result: Result<EstablishmentsResponse>) in
+        request.perform { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
                 response.establishments.forEach { est in
@@ -54,7 +54,7 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<EstablishmentsResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<EstablishmentsResponse> {
         if status != 200 {
             return .failure(EstablishmentParseError.non200Response)
         }

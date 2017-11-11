@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let request = EstablishmentRequest()
-        get(request) { (result: Result<EstablishmentsResponse>) in
+        request.perform { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
                 response.establishments.forEach { est in

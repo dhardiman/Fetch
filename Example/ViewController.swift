@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         get(request) { (result: Result<EstablishmentsResponse>) in
             switch result {
             case .success(let response):
-                response.establishments.forEach { (est) in
+                response.establishments.forEach { est in
                     print("\(est.name)")
                 }
             case .failure(let error):
@@ -63,4 +63,3 @@ extension EstablishmentsResponse: Parsable {
         return .failure(EstablishmentParseError.parseFailure)
     }
 }
-

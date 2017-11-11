@@ -10,7 +10,7 @@ import Foundation
 
 /**
  The result of a fetch request
- 
+
  - Successful: Represents a success
  - Failure:    Represents a failure
  */

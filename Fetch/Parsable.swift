@@ -12,14 +12,14 @@ import Foundation
  *  Item that can parse data retrieved from a request
  */
 public protocol Parsable {
-    
+
     /**
      Parses an object from the supplied data
-     
+
      - parameter data:    The data received
      - parameter status:  The HTTP status code received
      - parameter headers: The HTTP headers received
      */
     static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<Self>
-    
+
 }

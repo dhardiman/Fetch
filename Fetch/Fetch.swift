@@ -24,7 +24,7 @@ private extension Request {
 
 private func makeRequest<T: Parsable>(_ request: Request, method: String, session: URLSession, responseQueue: OperationQueue, completion: @escaping (Result<T>) -> Void) {
     let request = request.urlRequest(method)
-    let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+    let task = session.dataTask(with: request, completionHandler: { data, response, error in
         if let error = error {
             completion(.failure(error))
             return
@@ -33,16 +33,16 @@ private func makeRequest<T: Parsable>(_ request: Request, method: String, sessio
             fatalError("Response is not an HTTP response")
         }
         let result = T.parse(fromData: data, withStatus: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
-        responseQueue.addOperation() {
+        responseQueue.addOperation {
             completion(result)
         }
-    }) 
+    })
     task.resume()
 }
 
 /**
  Make a HTTP GET request for the resource specified by `request`
- 
+
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */
@@ -52,7 +52,7 @@ public func get<T: Parsable>(_ request: Request, session: URLSession = URLSessio
 
 /**
  Make a HTTP POST request for the resource specified by `request`
- 
+
  - parameter request:    The request to make
  - parameter completion: The callback to call on completion
  */

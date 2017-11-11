@@ -24,7 +24,6 @@ struct TestResponse: Parsable {
     let name: String
     let desc: String
     let headers: [String: String]?
-    
 
     static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
@@ -48,7 +47,7 @@ class FetchTests: XCTestCase {
     }
 
     func stubRequest(statusCode: Int32 = 200, passingTest test: @escaping OHHTTPStubsTestBlock) {
-        OHHTTPStubs.stubRequests(passingTest: test) { (request) -> OHHTTPStubsResponse in
+        OHHTTPStubs.stubRequests(passingTest: test) { (_) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(data: testString.data(using: String.Encoding.utf8)!, statusCode: statusCode, headers: ["header": "test header"])
         }
     }
@@ -68,23 +67,23 @@ class FetchTests: XCTestCase {
         waitForExpectations(timeout: 1.0, handler: nil)
         testToPerform(receivedResult)
     }
-    
+
     func testItIsPossibleToMakeAGetRequest() {
         performGetRequestTest(passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
-            }) { receivedResult in
-                guard let testResult = receivedResult else {
-                    fail("Should have received a result")
-                    return
-                }
-                switch testResult {
-                case .success(let response):
-                    expect(response.name).to(equal("test name"))
-                    expect(response.desc).to(equal("test desc"))
-                    expect(response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
-                default:
-                    fail("Should be a successful response")
-                }
+        }) { receivedResult in
+            guard let testResult = receivedResult else {
+                fail("Should have received a result")
+                return
+            }
+            switch testResult {
+            case .success(let response):
+                expect(response.name).to(equal("test name"))
+                expect(response.desc).to(equal("test desc"))
+                expect(response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
+            default:
+                fail("Should be a successful response")
+            }
         }
     }
 
@@ -100,7 +99,7 @@ class FetchTests: XCTestCase {
         }
         waitForExpectations(timeout: 1.0, handler: nil)
         switch receivedResult! {
-        case .success(_):
+        case .success:
             break
         default:
             fail("Should be a successful response")
@@ -111,8 +110,8 @@ class FetchTests: XCTestCase {
         let testError = NSError(domain: "me.davidhardiman", code: 1234, userInfo: nil)
         OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
-            }) { (request) -> OHHTTPStubsResponse in
-                return OHHTTPStubsResponse(error: testError)
+        }) { (_) -> OHHTTPStubsResponse in
+            return OHHTTPStubsResponse(error: testError)
         }
         performGetRequestTest(passingTest: nil) { receivedResult in
             switch receivedResult! {
@@ -127,13 +126,13 @@ class FetchTests: XCTestCase {
     func testStatusCodesAreReportedToAllowParseFailures() {
         performGetRequestTest(statusCode: 404, passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
-            }) { receivedResult in
-                switch receivedResult! {
-                case .failure(let receivedError as TestResponse.Fail):
-                    expect(receivedError).to(equal(TestResponse.Fail.StatusFail))
-                default:
-                    fail("Should be an error response")
-                }
+        }) { receivedResult in
+            switch receivedResult! {
+            case .failure(let receivedError as TestResponse.Fail):
+                expect(receivedError).to(equal(TestResponse.Fail.StatusFail))
+            default:
+                fail("Should be an error response")
+            }
         }
     }
 
@@ -147,7 +146,7 @@ class FetchTests: XCTestCase {
         }
         performGetRequestTest(request: testRequest, passingTest: requestTestBlock) { (receivedResult) -> Void in
             switch receivedResult! {
-            case .success(_):
+            case .success:
                 break
             default:
                 fail("Should be a successful response")
@@ -163,7 +162,7 @@ class FetchTests: XCTestCase {
             return request.url! == testURL && request.httpMethod == "POST"
         }
         let mockSession = MockSession()
-        Fetch.post(testRequest, session: mockSession) { (result: Result<TestResponse>) in
+        Fetch.post(testRequest, session: mockSession) { (_: Result<TestResponse>) in
         }
         expect(mockSession.receivedBody).to(equal(testBody))
     }
@@ -175,7 +174,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedQueue: OperationQueue?
-        Fetch.post(basicRequest, responseQueue: callBackQueue) { (result: Result<TestResponse>) in
+        Fetch.post(basicRequest, responseQueue: callBackQueue) { (_: Result<TestResponse>) in
             receivedQueue = OperationQueue.current
             exp.fulfill()
         }

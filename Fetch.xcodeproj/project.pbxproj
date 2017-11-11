@@ -200,6 +200,7 @@
 				071F201F1C6F86BF00BBCBAF /* Frameworks */,
 				071F20201C6F86BF00BBCBAF /* Headers */,
 				071F20211C6F86BF00BBCBAF /* Resources */,
+				0764F7D91FB702E2006AA048 /* Formatting */,
 			);
 			buildRules = (
 			);
@@ -317,6 +318,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0764F7D91FB702E2006AA048 /* Formatting */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Formatting;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nreleaseConfig=\"Release\"\nif [ \"$releaseConfig\" != \"${CONFIGURATION}\" ]; then\n  if which swiftformat >/dev/null; then\n    SCAN_PATH=\"${SRCROOT}\"\n    swiftformat \"${SCAN_PATH}\" `< ../Scripts/swiftformat-options.txt`\n  else\n    echo \"swiftformat not installed, install from homebrew\"\n  fi\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		071F201E1C6F86BF00BBCBAF /* Sources */ = {

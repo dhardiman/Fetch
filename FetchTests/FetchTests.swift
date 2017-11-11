@@ -123,7 +123,7 @@ class FetchTests: XCTestCase {
     }
 
     func testStatusCodesAreReportedToAllowParseFailures() {
-        performGetRequestTest(statusCode: 404, passingTest: { (request) -> Bool in
+        performGetRequestTest(statusCode: 404, passingTest: { (_) -> Bool in
         }, passingTest: { receivedResult in
             return request.url! == testURL && request.httpMethod == "GET"
             switch receivedResult! {

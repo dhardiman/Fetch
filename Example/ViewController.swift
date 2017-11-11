@@ -36,7 +36,7 @@ enum EstablishmentParseError: Error {
 
 struct Establishment {
     let address: String
-    let id: Int
+    let id: Int // swiftlint:disable:this identifier_name
     let name: String
 }
 
@@ -50,7 +50,8 @@ extension EstablishmentsResponse: Parsable {
             return .failure(EstablishmentParseError.non200Response)
         }
         do {
-            if let data = data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [Dictionary<String, AnyObject>] {
+            // swiftlint:disable force_cast
+            if let data = data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: AnyObject]] {
                 let establishments = parsedResponse.map { est -> Establishment in
                     let id = est["id"] as! Int
                     let address = est["address"] as! String
@@ -59,6 +60,7 @@ extension EstablishmentsResponse: Parsable {
                 }
                 return .success(EstablishmentsResponse(establishments: establishments))
             }
+            // swiftlint:enable force_cast
         } catch {}
         return .failure(EstablishmentParseError.parseFailure)
     }

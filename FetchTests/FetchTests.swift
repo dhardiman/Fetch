@@ -17,8 +17,8 @@ let basicRequest = Request(url: testURL)
 
 struct TestResponse: Parsable {
     enum Fail: Error {
-        case StatusFail
-        case ParseFail
+        case statusFail
+        case parseFail
     }
 
     let name: String
@@ -27,15 +27,14 @@ struct TestResponse: Parsable {
 
     static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
-            return .failure(Fail.StatusFail)
+            return .failure(Fail.statusFail)
         }
         do {
             if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
                 return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers))
             }
         } catch {}
-        return .failure(Fail.ParseFail)
-
+        return .failure(Fail.parseFail)
     }
 }
 
@@ -70,8 +69,8 @@ class FetchTests: XCTestCase {
 
     func testItIsPossibleToMakeAGetRequest() {
         performGetRequestTest(passingTest: { (request) -> Bool in
-            return request.url! == testURL && request.httpMethod == "GET"
-        }) { receivedResult in
+            request.url! == testURL && request.httpMethod == "GET"
+        }, testBlock: { receivedResult in
             guard let testResult = receivedResult else {
                 fail("Should have received a result")
                 return
@@ -84,7 +83,7 @@ class FetchTests: XCTestCase {
             default:
                 fail("Should be a successful response")
             }
-        }
+        })
     }
 
     func testItIsPossibleToMakeAPostRequest() {
@@ -110,9 +109,9 @@ class FetchTests: XCTestCase {
         let testError = NSError(domain: "me.davidhardiman", code: 1234, userInfo: nil)
         OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
-        }) { (_) -> OHHTTPStubsResponse in
+        }, withStubResponse: { (_) -> OHHTTPStubsResponse in
             return OHHTTPStubsResponse(error: testError)
-        }
+        })
         performGetRequestTest(passingTest: nil) { receivedResult in
             switch receivedResult! {
             case .failure(let receivedError as NSError):
@@ -125,15 +124,15 @@ class FetchTests: XCTestCase {
 
     func testStatusCodesAreReportedToAllowParseFailures() {
         performGetRequestTest(statusCode: 404, passingTest: { (request) -> Bool in
+        }, passingTest: { receivedResult in
             return request.url! == testURL && request.httpMethod == "GET"
-        }) { receivedResult in
             switch receivedResult! {
             case .failure(let receivedError as TestResponse.Fail):
                 expect(receivedError).to(equal(TestResponse.Fail.StatusFail))
             default:
                 fail("Should be an error response")
             }
-        }
+        })
     }
 
     func testHeadersArePassedToTheRequest() {

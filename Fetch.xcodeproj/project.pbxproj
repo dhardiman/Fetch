@@ -12,8 +12,8 @@
 		071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F20321C6F86BF00BBCBAF /* FetchTests.swift */; };
 		071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F203D1C6F878400BBCBAF /* Parsable.swift */; };
 		0764F7DC1FB71027006AA048 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7DB1FB71027006AA048 /* HTTPMethod.swift */; };
+		0764F7DE1FB71D96006AA048 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7DD1FB71D96006AA048 /* Session.swift */; };
 		07A399781C6F89A100896C87 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399771C6F89A100896C87 /* Request.swift */; };
-		07A3997A1C6F8A6800896C87 /* Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399791C6F8A6800896C87 /* Fetch.swift */; };
 		07A399821C6F8E5600896C87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399811C6F8E5600896C87 /* AppDelegate.swift */; };
 		07A399841C6F8E5600896C87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399831C6F8E5600896C87 /* ViewController.swift */; };
 		07A399871C6F8E5600896C87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07A399851C6F8E5600896C87 /* Main.storyboard */; };
@@ -80,8 +80,8 @@
 		071F20341C6F86BF00BBCBAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		071F203D1C6F878400BBCBAF /* Parsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
 		0764F7DB1FB71027006AA048 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		0764F7DD1FB71D96006AA048 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		07A399771C6F89A100896C87 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		07A399791C6F8A6800896C87 /* Fetch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetch.swift; sourceTree = "<group>"; };
 		07A3997F1C6F8E5600896C87 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A399811C6F8E5600896C87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07A399831C6F8E5600896C87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -150,9 +150,9 @@
 				071F20281C6F86BF00BBCBAF /* Info.plist */,
 				071F203D1C6F878400BBCBAF /* Parsable.swift */,
 				07A399771C6F89A100896C87 /* Request.swift */,
-				07A399791C6F8A6800896C87 /* Fetch.swift */,
 				07A399961C70976800896C87 /* Result.swift */,
 				0764F7DB1FB71027006AA048 /* HTTPMethod.swift */,
+				0764F7DD1FB71D96006AA048 /* Session.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -360,7 +360,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07A3997A1C6F8A6800896C87 /* Fetch.swift in Sources */,
+				0764F7DE1FB71D96006AA048 /* Session.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,
 				0764F7DC1FB71027006AA048 /* HTTPMethod.swift in Sources */,

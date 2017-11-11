@@ -62,7 +62,15 @@ struct TestResponse: Parsable {
 
 class FetchTests: XCTestCase {
 
+    var session: Session!
+
+    override func setUp() {
+        super.setUp()
+        session = Session()
+    }
+
     override func tearDown() {
+        session = nil
         OHHTTPStubs.removeAllStubs()
         super.tearDown()
     }
@@ -81,7 +89,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "get request")
         var receivedResult: Result<TestResponse>?
-        request.perform { (result: Result<TestResponse>) in
+        session.perform(request) { (result: Result<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -114,7 +122,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedResult: Result<TestResponse>?
-        TestRequest(url: testURL, method: .post).perform { (result: Result<TestResponse>) in
+        session.perform(TestRequest(url: testURL, method: .post)) { (result: Result<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -183,7 +191,8 @@ class FetchTests: XCTestCase {
             return request.url! == testURL && request.httpMethod == "POST"
         }
         let mockSession = MockSession()
-        testRequest.perform(session: mockSession) { (_: Result<TestResponse>) in
+        session = Session(session: mockSession)
+        session.perform(testRequest) { (_: Result<TestResponse>) in
         }
         expect(mockSession.receivedBody).to(equal(testBody))
     }
@@ -195,7 +204,8 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedQueue: OperationQueue?
-        TestRequest(url: testURL, method: .post).perform(responseQueue: callBackQueue) { (_: Result<TestResponse>) in
+        session = Session(responseQueue: callBackQueue)
+        session.perform(TestRequest(url: testURL, method: .post)) { (_: Result<TestResponse>) in
             receivedQueue = OperationQueue.current
             exp.fulfill()
         }

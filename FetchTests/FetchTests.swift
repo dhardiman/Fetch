@@ -123,12 +123,12 @@ class FetchTests: XCTestCase {
     }
 
     func testStatusCodesAreReportedToAllowParseFailures() {
-        performGetRequestTest(statusCode: 404, passingTest: { (_) -> Bool in
-        }, passingTest: { receivedResult in
+        performGetRequestTest(statusCode: 404, passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
+        }, testBlock: { receivedResult in
             switch receivedResult! {
             case .failure(let receivedError as TestResponse.Fail):
-                expect(receivedError).to(equal(TestResponse.Fail.StatusFail))
+                expect(receivedError).to(equal(TestResponse.Fail.statusFail))
             default:
                 fail("Should be an error response")
             }

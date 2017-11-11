@@ -1,6 +1,8 @@
 coverage_service: coveralls
 ci_service: circleci
 xcodeproj: Fetch.xcodeproj
+scheme: Fetch
 ignore:
   - Carthage/*
   - Example/*
+  - FetchTests/*

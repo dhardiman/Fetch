@@ -39,7 +39,7 @@ public extension Request {
             guard let actualResponse = response as? HTTPURLResponse else {
                 fatalError("Response is not an HTTP response")
             }
-            let result = T.parse(fromData: data, withStatus: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
+            let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
             responseQueue.addOperation {
                 completion(result)
             }

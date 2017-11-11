@@ -47,7 +47,7 @@ struct TestResponse: Parsable {
     let desc: String
     let headers: [String: String]?
 
-    static func parse(fromData data: Data?, withStatus status: Int, headers: [String: String]?) -> Result<TestResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<TestResponse> {
         if status != 200 {
             return .failure(Fail.statusFail)
         }

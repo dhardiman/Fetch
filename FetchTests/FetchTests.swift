@@ -213,13 +213,34 @@ class FetchTests: XCTestCase {
         expect(receivedQueue).to(equal(callBackQueue))
     }
 
+    func testAnUnknownResponseTypeReturnsAnError() {
+        let mockSession = MockSession()
+        mockSession.mockResponse = URLResponse()
+        session = Session(session: mockSession)
+        var receivedResult: Result<TestResponse>?
+        session.perform(basicRequest) { (result: Result<TestResponse>) in
+            receivedResult = result
+        }
+        guard let result = receivedResult, case .failure(let error) = result else {
+            return fail("Expected a failure")
+        }
+        guard let sessionError = error as? SessionError else {
+            return fail("Expected a session error")
+        }
+        expect(sessionError).to(equal(SessionError.unknownResponseType))
+    }
+
 }
 
 public class MockSession: URLSession {
     var receivedBody: String?
+    var mockResponse: URLResponse?
     public override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         if let body = request.httpBody {
             receivedBody = String(data: body, encoding: String.Encoding.utf8)
+        }
+        if let mockResponse = mockResponse {
+            completionHandler(nil, mockResponse, nil)
         }
         return URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
     }

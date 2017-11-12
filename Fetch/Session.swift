@@ -38,7 +38,8 @@ public class Session: RequestPerforming {
                 return
             }
             guard let actualResponse = response as? HTTPURLResponse else {
-                fatalError("Response is not an HTTP response")
+                completion(.failure(SessionError.unknownResponseType))
+                return
             }
             let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
             self.responseQueue.addOperation {
@@ -48,6 +49,10 @@ public class Session: RequestPerforming {
         task.resume()
         return task
     }
+}
+
+enum SessionError: Error {
+    case unknownResponseType
 }
 
 private extension Request {

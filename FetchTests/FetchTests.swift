@@ -14,28 +14,7 @@ import OHHTTPStubs
 let testString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
 let testURL = URL(string: "https://fetch.davidhardiman.me")!
 
-struct TestRequest: Request {
-    let url: URL
-
-    let method: HTTPMethod
-
-    let headers: [String: String]?
-
-    let body: Data?
-
-    init(url: URL) {
-        self.init(url: url, headers: nil, body: nil)
-    }
-
-    init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil) {
-        self.url = url
-        self.method = method
-        self.headers = headers
-        self.body = body
-    }
-}
-
-let basicRequest = TestRequest(url: testURL)
+let basicRequest = BasicURLRequest(url: testURL)
 
 struct TestResponse: Parsable {
     enum Fail: Error {
@@ -122,7 +101,7 @@ class FetchTests: XCTestCase {
         }
         let exp = expectation(description: "post request")
         var receivedResult: Result<TestResponse>?
-        session.perform(TestRequest(url: testURL, method: .post)) { (result: Result<TestResponse>) in
+        session.perform(BasicURLRequest(url: testURL, method: .post)) { (result: Result<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -166,7 +145,7 @@ class FetchTests: XCTestCase {
     }
 
     func testHeadersArePassedToTheRequest() {
-        let testRequest = TestRequest(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
+        let testRequest = BasicURLRequest(url: testURL, headers: ["Test Header": "Test Value"], body: nil)
         let requestTestBlock = { (request: URLRequest) -> Bool in
             let urlMatch = request.url == testURL
             let methodMatch = request.httpMethod == "GET"
@@ -185,7 +164,7 @@ class FetchTests: XCTestCase {
 
     func testBodyIsPassedToTheRequest() {
         let testBody = "test body"
-        let testRequest = TestRequest(url: testURL, method: .post, headers: nil, body: testBody.data(using: String.Encoding.utf8))
+        let testRequest = BasicURLRequest(url: testURL, method: .post, headers: nil, body: testBody.data(using: String.Encoding.utf8))
 
         stubRequest { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "POST"
@@ -205,7 +184,7 @@ class FetchTests: XCTestCase {
         let exp = expectation(description: "post request")
         var receivedQueue: OperationQueue?
         session = Session(responseQueue: callBackQueue)
-        session.perform(TestRequest(url: testURL, method: .post)) { (_: Result<TestResponse>) in
+        session.perform(BasicURLRequest(url: testURL, method: .post)) { (_: Result<TestResponse>) in
             receivedQueue = OperationQueue.current
             exp.fulfill()
         }

@@ -19,6 +19,7 @@
 		0764F7E61FB84E25006AA048 /* UIImageParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7E51FB84E25006AA048 /* UIImageParsingTests.swift */; };
 		0764F7E81FB84FBC006AA048 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0764F7E71FB84FBC006AA048 /* image.png */; };
 		0764F7EA1FB852ED006AA048 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7E91FB852ED006AA048 /* ResponseError.swift */; };
+		0764F7F01FB98C4D006AA048 /* BasicURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */; };
 		07A399781C6F89A100896C87 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399771C6F89A100896C87 /* Request.swift */; };
 		07A399821C6F8E5600896C87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399811C6F8E5600896C87 /* AppDelegate.swift */; };
 		07A399841C6F8E5600896C87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399831C6F8E5600896C87 /* ViewController.swift */; };
@@ -93,6 +94,7 @@
 		0764F7E51FB84E25006AA048 /* UIImageParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageParsingTests.swift; sourceTree = "<group>"; };
 		0764F7E71FB84FBC006AA048 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 		0764F7E91FB852ED006AA048 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicURLRequest.swift; sourceTree = "<group>"; };
 		07A399771C6F89A100896C87 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		07A3997F1C6F8E5600896C87 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A399811C6F8E5600896C87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				0764F7DF1FB84B24006AA048 /* JSONRequest.swift */,
 				0764F7E31FB84DF9006AA048 /* UIImage+Parsable.swift */,
 				0764F7E91FB852ED006AA048 /* ResponseError.swift */,
+				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,
 				0764F7DC1FB71027006AA048 /* HTTPMethod.swift in Sources */,
+				0764F7F01FB98C4D006AA048 /* BasicURLRequest.swift in Sources */,
 				07A399781C6F89A100896C87 /* Request.swift in Sources */,
 				0764F7E01FB84B24006AA048 /* JSONRequest.swift in Sources */,
 			);

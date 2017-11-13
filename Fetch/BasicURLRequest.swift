@@ -19,7 +19,7 @@ public struct BasicURLRequest: Request {
 
     public let body: Data?
 
-    init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil) {
+    public init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil) {
         self.url = url
         self.method = method
         self.headers = headers

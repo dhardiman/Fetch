@@ -17,7 +17,7 @@ public enum ImageParseError: Error {
 /// Protocol 'Parsable' requirement 'parse(from:status:headers:)' cannot be satisfied by a non-final class ('UIImage') because it uses 'Self' in a non-parameter, non-result type position
 /// meaning we can't extend UIImage directly with `Parsable` as it's `open`
 public struct Image {
-    let image: UIImage
+    public let image: UIImage
 }
 
 extension Image: Parsable {

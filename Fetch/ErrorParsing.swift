@@ -13,5 +13,5 @@ import Foundation
 /// might return the same model object on success but has a different set of
 /// errors.
 public protocol ErrorParsing {
-    static func parseError(from: Data?, statusCode: Int) -> Error?
+    static func parseError(from data: Data?, statusCode: Int) -> Error?
 }

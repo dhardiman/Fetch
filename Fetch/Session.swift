@@ -10,6 +10,19 @@ import Foundation
 
 /// Protocol describing an object that can make requests
 public protocol RequestPerforming {
+
+    /// Make an HTTP request for the resource described by this `Request`
+    ///
+    /// - Parameters:
+    ///   - request: The request to perform
+    ///   - completion: The completion block to call with the response
+    ///   - errorParser: Optional object to provide custom error parsing
+    /// - Returns: A cancellable reference to the request operation
+    @discardableResult
+    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable
+}
+
+public extension RequestPerforming {
     /// Make an HTTP request for the resource described by this `Request`
     ///
     /// - Parameters:
@@ -17,7 +30,9 @@ public protocol RequestPerforming {
     ///   - completion: The completion block to call with the response
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
-    func perform<T: Parsable>(_ request: Request, completion: @escaping (Result<T>) -> Void) -> Cancellable
+    func perform<T: Parsable>(_ request: Request, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+        return perform(request, errorParser: nil, completion: completion)
+    }
 }
 
 /// Session for making requests using a URLSession
@@ -31,7 +46,7 @@ public class Session: RequestPerforming {
     }
 
     @discardableResult
-    public func perform<T: Parsable>(_ request: Request, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+    public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             if let error = error {
                 completion(.failure(error))
@@ -41,7 +56,7 @@ public class Session: RequestPerforming {
                 completion(.failure(SessionError.unknownResponseType))
                 return
             }
-            let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String])
+            let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
             self.responseQueue.addOperation {
                 completion(result)
             }

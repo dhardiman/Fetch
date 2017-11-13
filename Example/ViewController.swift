@@ -39,9 +39,16 @@ struct EstablishmentRequest: Request {
     let body: Data? = nil
 }
 
-enum EstablishmentParseError: Error {
+enum EstablishmentParseError: Error, ErrorParsing {
     case non200Response
     case parseFailure
+
+    static func parseError(from: Data?, statusCode: Int) -> Error? {
+        if statusCode != 200 {
+            return EstablishmentParseError.non200Response
+        }
+        return nil
+    }
 }
 
 struct Establishment {
@@ -55,9 +62,13 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<EstablishmentsResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
         if status != 200 {
-            return .failure(EstablishmentParseError.non200Response)
+            if let error = errorParser?.parseError(from: data, statusCode: status) {
+                return .failure(error)
+            } else {
+                return .failure(EstablishmentParseError.non200Response)
+            }
         }
         do {
             // swiftlint:disable force_cast

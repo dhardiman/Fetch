@@ -24,7 +24,7 @@ struct UserRequest: Request {
 ```
 
 ## `Parsable`
-This is the protocol to use when creating a request. It has a single function, `static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<Self>`, which is intended to interpret the data and status code received from the successful request. Implement this method to determine success or failure and to populate a model object with data. For example, if parsing a response from our user request above, you might create the following:
+This is the protocol to use when creating a request. It has a single function, `static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?) -> Result<Self>`, which is intended to interpret the data and status code received from the successful request. Implement this method to determine success or failure and to populate a model object with data. For example, if parsing a response from our user request above, you might create the following:
   
 ```swift
 struct User {
@@ -38,9 +38,12 @@ extension User: Parsable {
     case parseError
   }
   
-  static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<User> {
+  static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?) -> Result<User> {
     guard status == 200 else {
       // Parse data for any error message
+      if let error = errorParser.parseError(from: data, status: status) {
+        return .failure(error)
+      }
       return .failure(UserError.statusCodeError)
     }
     guard let data = data, 

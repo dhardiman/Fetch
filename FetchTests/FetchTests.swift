@@ -26,7 +26,7 @@ struct TestResponse: Parsable {
     let desc: String
     let headers: [String: String]?
 
-    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<TestResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
         if status != 200 {
             return .failure(Fail.statusFail)
         }

@@ -21,7 +21,7 @@ public struct Image {
 }
 
 extension Image: Parsable {
-    public static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?) -> Result<Image> {
+    public static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<Image> {
         guard status < 400 else {
             return .failure(ResponseError.statusCode(status))
         }

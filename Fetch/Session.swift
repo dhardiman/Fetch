@@ -19,7 +19,7 @@ public protocol RequestPerforming {
     ///   - errorParser: Optional object to provide custom error parsing
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
-    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing?, completion: @escaping (Result<T>) -> Void) -> Cancellable
+    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable
 }
 
 public extension RequestPerforming {
@@ -46,7 +46,7 @@ public class Session: RequestPerforming {
     }
 
     @discardableResult
-    public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+    public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             if let error = error {
                 completion(.failure(error))

@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol JSONRequest: Request {
+public protocol JSONRequest: Request {
     var jsonBody: Any { get }
 }
 
-extension JSONRequest {
-    var body: Data? {
+public extension JSONRequest {
+    public var body: Data? {
         return try? JSONSerialization.data(withJSONObject: jsonBody, options: [])
     }
 }

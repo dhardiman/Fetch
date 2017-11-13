@@ -55,7 +55,7 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(from data: Data?, status: Int, headers: [String: String]?) -> Result<EstablishmentsResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?) -> Result<EstablishmentsResponse> {
         if status != 200 {
             return .failure(EstablishmentParseError.non200Response)
         }

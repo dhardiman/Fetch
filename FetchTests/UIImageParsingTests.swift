@@ -17,14 +17,14 @@ class UIImageParsingTests: XCTestCase {
             let data = UIImagePNGRepresentation(testImage) else {
             return fail("Couldn't parse test image")
         }
-        guard case .success(let image) = Image.parse(from: data, status: 200, headers: nil) else {
+        guard case .success(let image) = Image.parse(from: data, status: 200, headers: nil, errorParser: nil) else {
             return fail("Expected a successful response")
         }
         expect(UIImagePNGRepresentation(image.image)).to(equal(data))
     }
 
     func testItReturnsAnErrorForNonSuccessStatus() {
-        guard case .failure(let error) = Image.parse(from: nil, status: 400, headers: nil) else {
+        guard case .failure(let error) = Image.parse(from: nil, status: 400, headers: nil, errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let responseError = error as? ResponseError else {
@@ -37,7 +37,7 @@ class UIImageParsingTests: XCTestCase {
     }
 
     func testItReturnsAParseErrorForBadImageData() {
-        guard case .failure(let error) = Image.parse(from: Data(), status: 200, headers: nil) else {
+        guard case .failure(let error) = Image.parse(from: Data(), status: 200, headers: nil, errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let parseError = error as? ImageParseError else {
@@ -47,7 +47,7 @@ class UIImageParsingTests: XCTestCase {
     }
 
     func testItReturnsAnErrorForNoImageData() {
-        guard case .failure(let error) = Image.parse(from: nil, status: 200, headers: nil) else {
+        guard case .failure(let error) = Image.parse(from: nil, status: 200, headers: nil, errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let parseError = error as? ImageParseError else {

@@ -248,12 +248,6 @@ public class MockTask: URLSessionDataTask {
         cancelCalled = true
     }
 
-    var taskDescriptionStorage: String?
-    public override var taskDescription: String? {
-        get { return taskDescriptionStorage }
-        set { taskDescriptionStorage = newValue }
-    }
-
     override public func resume() {
     }
 }

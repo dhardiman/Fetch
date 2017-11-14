@@ -42,16 +42,19 @@ public extension RequestPerforming {
 public class Session: RequestPerforming {
     private let session: URLSession
     private let responseQueue: OperationQueue
-    let identifier = UUID().uuidString
 
     public init(session: URLSession = .shared, responseQueue: OperationQueue = .main) {
         self.session = session
         self.responseQueue = responseQueue
     }
 
+    var tasks = [String: URLSessionTask]()
+
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+        let taskIdentifier = UUID().uuidString
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
+            self.tasks.removeValue(forKey: taskIdentifier)
             if let error = error {
                 completion(.failure(error))
                 return
@@ -65,16 +68,14 @@ public class Session: RequestPerforming {
                 completion(result)
             }
         })
-        task.taskDescription = identifier
+        tasks[taskIdentifier] = task
         task.resume()
         return task
     }
 
     public func cancelAllTasks() {
-        session.getAllTasks { tasks in
-            tasks.filter { $0.taskDescription == self.identifier }
-                .forEach { $0.cancel() }
-        }
+        tasks.values.forEach { $0.cancel() }
+        tasks.removeAll()
     }
 }
 

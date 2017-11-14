@@ -209,6 +209,17 @@ class FetchTests: XCTestCase {
         expect(sessionError).to(equal(SessionError.unknownResponseType))
     }
 
+    func testAllTasksCanBeCancelled() {
+        let task1 = MockTask()
+        let task2 = MockTask()
+        let mockSession = MockSession()
+        session = Session(session: mockSession)
+        mockSession.overriddenTasks = [task1, task2]
+        session.cancelAllTasks()
+        expect(task1.cancelCalled).to(beTrue())
+        expect(task2.cancelCalled).to(beTrue())
+    }
+
 }
 
 public class MockSession: URLSession {
@@ -222,5 +233,21 @@ public class MockSession: URLSession {
             completionHandler(nil, mockResponse, nil)
         }
         return URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
+    }
+
+    var overriddenTasks: [URLSessionTask]?
+    public override func getAllTasks(completionHandler: @escaping ([URLSessionTask]) -> Void) {
+        if let overriddenTasks = overriddenTasks {
+            completionHandler(overriddenTasks)
+        } else {
+            super.getAllTasks(completionHandler: completionHandler)
+        }
+    }
+}
+
+public class MockTask: URLSessionTask {
+    var cancelCalled = false
+    public override func cancel() {
+        cancelCalled = true
     }
 }

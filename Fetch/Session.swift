@@ -20,6 +20,9 @@ public protocol RequestPerforming {
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
     func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable
+
+    /// Cancels all outstanding tasks
+    func cancelAllTasks()
 }
 
 public extension RequestPerforming {
@@ -63,6 +66,12 @@ public class Session: RequestPerforming {
         })
         task.resume()
         return task
+    }
+
+    public func cancelAllTasks() {
+        session.getAllTasks { tasks in
+            tasks.forEach { $0.cancel() }
+        }
     }
 }
 

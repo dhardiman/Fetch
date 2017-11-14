@@ -197,9 +197,12 @@ class FetchTests: XCTestCase {
         mockSession.mockResponse = URLResponse()
         session = Session(session: mockSession)
         var receivedResult: Result<TestResponse>?
+        let exp = expectation(description: "test request")
         session.perform(basicRequest) { (result: Result<TestResponse>) in
             receivedResult = result
+            exp.fulfill()
         }
+        waitForExpectations(timeout: 1.0, handler: nil)
         guard let result = receivedResult, case .failure(let error) = result else {
             return fail("Expected a failure")
         }

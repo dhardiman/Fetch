@@ -55,18 +55,22 @@ public class Session: RequestPerforming {
         let taskIdentifier = UUID().uuidString
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             self.tasks.removeValue(forKey: taskIdentifier)
+            let result: Result<T>
+            defer {
+                self.responseQueue.addOperation {
+                    completion(result)
+                }
+            }
             if let error = error {
-                completion(.failure(error))
+                result = .failure(error)
                 return
             }
             guard let actualResponse = response as? HTTPURLResponse else {
-                completion(.failure(SessionError.unknownResponseType))
+                result = .failure(SessionError.unknownResponseType)
                 return
             }
-            let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
-            self.responseQueue.addOperation {
-                completion(result)
-            }
+            result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
+
         })
         tasks[taskIdentifier] = task
         task.resume()

@@ -42,6 +42,7 @@ public extension RequestPerforming {
 public class Session: RequestPerforming {
     private let session: URLSession
     private let responseQueue: OperationQueue
+    let identifier = UUID().uuidString
 
     public init(session: URLSession = .shared, responseQueue: OperationQueue = .main) {
         self.session = session
@@ -64,13 +65,15 @@ public class Session: RequestPerforming {
                 completion(result)
             }
         })
+        task.taskDescription = identifier
         task.resume()
         return task
     }
 
     public func cancelAllTasks() {
         session.getAllTasks { tasks in
-            tasks.forEach { $0.cancel() }
+            tasks.filter { $0.taskDescription == self.identifier }
+                .forEach { $0.cancel() }
         }
     }
 }

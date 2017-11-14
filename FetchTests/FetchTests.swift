@@ -210,14 +210,13 @@ class FetchTests: XCTestCase {
     }
 
     func testAllTasksCanBeCancelled() {
-        let task1 = MockTask()
-        let task2 = MockTask()
         let mockSession = MockSession()
         session = Session(session: mockSession)
-        mockSession.overriddenTasks = [task1, task2]
+        let task1 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
+        let task2 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
         session.cancelAllTasks()
-        expect(task1.cancelCalled).to(beTrue())
-        expect(task2.cancelCalled).to(beTrue())
+        expect(task1?.cancelCalled).to(beTrue())
+        expect(task2?.cancelCalled).to(beTrue())
     }
 
 }
@@ -232,22 +231,29 @@ public class MockSession: URLSession {
         if let mockResponse = mockResponse {
             completionHandler(nil, mockResponse, nil)
         }
-        return URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
+        let task = MockTask()
+        mockedTasks.append(task)
+        return task
     }
 
-    var overriddenTasks: [URLSessionTask]?
+    var mockedTasks = [URLSessionTask]()
     public override func getAllTasks(completionHandler: @escaping ([URLSessionTask]) -> Void) {
-        if let overriddenTasks = overriddenTasks {
-            completionHandler(overriddenTasks)
-        } else {
-            super.getAllTasks(completionHandler: completionHandler)
-        }
+        completionHandler(mockedTasks)
     }
 }
 
-public class MockTask: URLSessionTask {
+public class MockTask: URLSessionDataTask {
     var cancelCalled = false
     public override func cancel() {
         cancelCalled = true
+    }
+
+    var taskDescriptionStorage: String?
+    public override var taskDescription: String? {
+        get { return taskDescriptionStorage }
+        set { taskDescriptionStorage = newValue }
+    }
+
+    override public func resume() {
     }
 }

@@ -25,14 +25,15 @@ struct TestResponse: Parsable {
     let name: String
     let desc: String
     let headers: [String: String]?
+    let userInfo: [String: Any]?
 
-    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<TestResponse> {
         if status != 200 {
             return .failure(Fail.statusFail)
         }
         do {
             if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
-                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers))
+                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers, userInfo: userInfo))
             }
         } catch {}
         return .failure(Fail.parseFail)
@@ -142,6 +143,24 @@ class FetchTests: XCTestCase {
                 fail("Should be an error response")
             }
         })
+    }
+
+    func testUserInfoIsPassedFromTheRequestToTheResponse() {
+        let request = BasicURLRequest(url: testURL, userInfo: ["Test": "Test Value!"])
+
+        let requestTestBlock = { (request: URLRequest) -> Bool in
+            let urlMatch = request.url == testURL
+            let methodMatch = request.httpMethod == "GET"
+            return urlMatch && methodMatch
+        }
+        performGetRequestTest(request: request, passingTest: requestTestBlock) { (receivedResult) -> Void in
+            switch receivedResult! {
+            case .success(let response):
+                expect(response.userInfo?["Test"] as? String).to(equal("Test Value!"))
+            default:
+                fail("Should be a successful response")
+            }
+        }
     }
 
     func testHeadersArePassedToTheRequest() {

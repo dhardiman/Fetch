@@ -69,7 +69,12 @@ public class Session: RequestPerforming {
                 result = .failure(SessionError.unknownResponseType)
                 return
             }
-            result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
+            let userInfo = (request as? UserInfoProviding)?.userInfo
+            result = T.parse(from: data,
+                             status: actualResponse.statusCode,
+                             headers: actualResponse.allHeaderFields as? [String: String],
+                             errorParser: errorParser,
+                             userInfo: userInfo)
 
         })
         tasks[taskIdentifier] = task
@@ -89,7 +94,7 @@ enum SessionError: Error {
 
 private extension Request {
     func urlRequest() -> URLRequest {
-        var request = URLRequest(url: url as URL)
+        var request = URLRequest(url: url)
         if let headers = headers {
             request.allHTTPHeaderFields = headers
         }

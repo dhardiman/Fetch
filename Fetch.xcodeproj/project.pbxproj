@@ -36,6 +36,7 @@
 		45D71D101C722987009059C2 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		45D71D131C722AAD009059C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; };
 		45D71D141C722AB6009059C2 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		96154EF81FBC824500B6B4F3 /* UserInfoProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		07A399961C70976800896C87 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		45D71D121C722AAD009059C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
+		96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoProviding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
 				072B885C1FB9E37300E66676 /* URL+QueryItems.swift */,
 				072B88601FB9F86B00E66676 /* ErrorParsing.swift */,
+				96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */,
 			);
 			path = Fetch;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				0764F7DE1FB71D96006AA048 /* Session.swift in Sources */,
 				0764F7EA1FB852ED006AA048 /* ResponseError.swift in Sources */,
 				0764F7E41FB84DF9006AA048 /* UIImage+Parsable.swift in Sources */,
+				96154EF81FBC824500B6B4F3 /* UserInfoProviding.swift in Sources */,
 				072B885D1FB9E37300E66676 /* URL+QueryItems.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,

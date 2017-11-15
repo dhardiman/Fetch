@@ -20,7 +20,8 @@ public protocol Parsable {
      - parameter status:  The HTTP status code received
      - parameter headers: The HTTP headers received
      - parameter errorParser: Object used to parse errors
+     - parameter userInfo: A userInfo dictionary attached to the request.
      */
-    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<Self>
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<Self>
 
 }

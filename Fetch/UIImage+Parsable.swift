@@ -14,14 +14,14 @@ public enum ImageParseError: Error {
 }
 
 /// Box structure to get around the error:
-/// Protocol 'Parsable' requirement 'parse(from:status:headers:)' cannot be satisfied by a non-final class ('UIImage') because it uses 'Self' in a non-parameter, non-result type position
+/// Protocol 'Parsable' requirement 'parse(from:status:headers:errorParser:userInfo:)' cannot be satisfied by a non-final class ('UIImage') because it uses 'Self' in a non-parameter, non-result type position
 /// meaning we can't extend UIImage directly with `Parsable` as it's `open`
 public struct Image {
     public let image: UIImage
 }
 
 extension Image: Parsable {
-    public static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<Image> {
+    public static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<Image> {
         guard status < 400 else {
             return .failure(ResponseError.statusCode(status))
         }

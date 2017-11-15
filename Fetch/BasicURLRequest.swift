@@ -10,7 +10,7 @@ import Foundation
 
 /// Simple implementation of `Request` for scenarios where you just need to perform
 /// a request with a URL rather than creating specific domain requests
-public struct BasicURLRequest: Request {
+public struct BasicURLRequest: Request, UserInfoProviding {
     public let url: URL
 
     public let method: HTTPMethod
@@ -19,10 +19,13 @@ public struct BasicURLRequest: Request {
 
     public let body: Data?
 
-    public init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil) {
+    public let userInfo: [String: Any]?
+
+    public init(url: URL, method: HTTPMethod = .get, headers: [String: String]? = nil, body: Data? = nil, userInfo: [String: Any]? = nil) {
         self.url = url
         self.method = method
         self.headers = headers
         self.body = body
+        self.userInfo = userInfo
     }
 }

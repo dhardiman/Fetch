@@ -197,9 +197,12 @@ class FetchTests: XCTestCase {
         mockSession.mockResponse = URLResponse()
         session = Session(session: mockSession)
         var receivedResult: Result<TestResponse>?
+        let exp = expectation(description: "test request")
         session.perform(basicRequest) { (result: Result<TestResponse>) in
             receivedResult = result
+            exp.fulfill()
         }
+        waitForExpectations(timeout: 1.0, handler: nil)
         guard let result = receivedResult, case .failure(let error) = result else {
             return fail("Expected a failure")
         }
@@ -207,6 +210,16 @@ class FetchTests: XCTestCase {
             return fail("Expected a session error")
         }
         expect(sessionError).to(equal(SessionError.unknownResponseType))
+    }
+
+    func testAllTasksCanBeCancelled() {
+        let mockSession = MockSession()
+        session = Session(session: mockSession)
+        let task1 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
+        let task2 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
+        session.cancelAllTasks()
+        expect(task1?.cancelCalled).to(beTrue())
+        expect(task2?.cancelCalled).to(beTrue())
     }
 
 }
@@ -221,6 +234,23 @@ public class MockSession: URLSession {
         if let mockResponse = mockResponse {
             completionHandler(nil, mockResponse, nil)
         }
-        return URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
+        let task = MockTask()
+        mockedTasks.append(task)
+        return task
+    }
+
+    var mockedTasks = [URLSessionTask]()
+    public override func getAllTasks(completionHandler: @escaping ([URLSessionTask]) -> Void) {
+        completionHandler(mockedTasks)
+    }
+}
+
+public class MockTask: URLSessionDataTask {
+    var cancelCalled = false
+    public override func cancel() {
+        cancelCalled = true
+    }
+
+    override public func resume() {
     }
 }

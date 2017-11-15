@@ -20,6 +20,9 @@ public protocol RequestPerforming {
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
     func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable
+
+    /// Cancels all outstanding tasks
+    func cancelAllTasks()
 }
 
 public extension RequestPerforming {
@@ -45,24 +48,38 @@ public class Session: RequestPerforming {
         self.responseQueue = responseQueue
     }
 
+    var tasks = [String: URLSessionTask]()
+
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+        let taskIdentifier = UUID().uuidString
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
+            self.tasks.removeValue(forKey: taskIdentifier)
+            let result: Result<T>
+            defer {
+                self.responseQueue.addOperation {
+                    completion(result)
+                }
+            }
             if let error = error {
-                completion(.failure(error))
+                result = .failure(error)
                 return
             }
             guard let actualResponse = response as? HTTPURLResponse else {
-                completion(.failure(SessionError.unknownResponseType))
+                result = .failure(SessionError.unknownResponseType)
                 return
             }
-            let result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
-            self.responseQueue.addOperation {
-                completion(result)
-            }
+            result = T.parse(from: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], errorParser: errorParser)
+
         })
+        tasks[taskIdentifier] = task
         task.resume()
         return task
+    }
+
+    public func cancelAllTasks() {
+        tasks.values.forEach { $0.cancel() }
+        tasks.removeAll()
     }
 }
 

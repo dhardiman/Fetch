@@ -48,13 +48,16 @@ public class Session: RequestPerforming {
         self.responseQueue = responseQueue
     }
 
-    var tasks = [String: URLSessionTask]()
+    var tasks = [UUID: URLSessionTask]()
+    let taskQueue = DispatchQueue(label: "me.davidhardiman.taskqueue")
 
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
-        let taskIdentifier = UUID().uuidString
+        let taskIdentifier = UUID()
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
-            self.tasks.removeValue(forKey: taskIdentifier)
+            self.taskQueue.sync {
+                self.removeTask(for: taskIdentifier)
+            }
             let result: Result<T>
             defer {
                 self.responseQueue.addOperation {
@@ -77,14 +80,22 @@ public class Session: RequestPerforming {
                              userInfo: userInfo)
 
         })
-        tasks[taskIdentifier] = task
+        self.taskQueue.sync {
+            tasks[taskIdentifier] = task
+        }
         task.resume()
         return task
     }
 
+    private func removeTask(for identifier: UUID) {
+        tasks.removeValue(forKey: identifier)
+    }
+
     public func cancelAllTasks() {
         tasks.values.forEach { $0.cancel() }
-        tasks.removeAll()
+        self.taskQueue.sync {
+            tasks.removeAll()
+        }
     }
 }
 

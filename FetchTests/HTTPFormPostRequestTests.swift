@@ -18,12 +18,17 @@ class HTTPFormPostRequestTests: XCTestCase {
             return fail("Expected to receive some data")
         }
         let string = String(data: data, encoding: .utf8)! // swiftlint:disable:this
-        expect(string).to(equal("test=test"))
+        expect(string).to(equal("test=test&extra=characters%26here"))
+    }
+
+    func testItDefaultsToPOST() {
+        let testRequest = TestHTTPFormPostRequest()
+        expect(testRequest.method).to(equal(HTTPMethod.post))
     }
 }
 
 struct TestHTTPFormPostRequest: HTTPFormPostRequest {
-    let jsonBody: [String: String] = ["test": "test"]
+    let jsonBody: [String: String] = ["test": "test", "extra": "characters&here"]
 
     let url: URL = URL(string: "https://test.com")!
 

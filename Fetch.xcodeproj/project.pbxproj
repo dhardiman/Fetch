@@ -37,6 +37,8 @@
 		45D71D131C722AAD009059C2 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; };
 		45D71D141C722AB6009059C2 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 45D71D121C722AAD009059C2 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		96154EF81FBC824500B6B4F3 /* UserInfoProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */; };
+		96154EFC1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */; };
+		96154EFE1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EFD1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +116,8 @@
 		45D71D051C71E9CA009059C2 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		45D71D121C722AAD009059C2 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoProviding.swift; sourceTree = "<group>"; };
+		96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPFormPostRequest.swift; sourceTree = "<group>"; };
+		96154EFD1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPFormPostRequestTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +180,7 @@
 				0764F7DB1FB71027006AA048 /* HTTPMethod.swift */,
 				0764F7DD1FB71D96006AA048 /* Session.swift */,
 				0764F7DF1FB84B24006AA048 /* JSONRequest.swift */,
+				96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */,
 				0764F7E31FB84DF9006AA048 /* UIImage+Parsable.swift */,
 				0764F7E91FB852ED006AA048 /* ResponseError.swift */,
 				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
@@ -194,6 +199,7 @@
 				071F20321C6F86BF00BBCBAF /* FetchTests.swift */,
 				071F20341C6F86BF00BBCBAF /* Info.plist */,
 				0764F7E11FB84BEF006AA048 /* JSONRequestTests.swift */,
+				96154EFD1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift */,
 				0764F7E51FB84E25006AA048 /* UIImageParsingTests.swift */,
 				0764F7E71FB84FBC006AA048 /* image.png */,
 				072B885E1FB9E3A700E66676 /* URLQueryItemTests.swift */,
@@ -401,6 +407,7 @@
 				072B885D1FB9E37300E66676 /* URL+QueryItems.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,
+				96154EFC1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift in Sources */,
 				072B88611FB9F86B00E66676 /* ErrorParsing.swift in Sources */,
 				0764F7DC1FB71027006AA048 /* HTTPMethod.swift in Sources */,
 				0764F7F01FB98C4D006AA048 /* BasicURLRequest.swift in Sources */,
@@ -416,6 +423,7 @@
 				0764F7E61FB84E25006AA048 /* UIImageParsingTests.swift in Sources */,
 				072B885F1FB9E3A700E66676 /* URLQueryItemTests.swift in Sources */,
 				071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */,
+				96154EFE1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift in Sources */,
 				0764F7E21FB84BEF006AA048 /* JSONRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

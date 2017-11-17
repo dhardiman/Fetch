@@ -54,12 +54,14 @@ public class Session: RequestPerforming {
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
         let taskIdentifier = UUID()
+        SessionActivityMonitor.shared.incrementCount()
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             self.taskQueue.sync {
                 self.removeTask(for: taskIdentifier)
             }
             let result: Result<T>
             defer {
+                SessionActivityMonitor.shared.decrementCount()
                 self.responseQueue.addOperation {
                     completion(result)
                 }

@@ -16,4 +16,10 @@ class URLQueryItemTests: XCTestCase {
         let receivedURL = url?.appending(queryItems: [URLQueryItem(name: "test", value: "test")])
         expect(receivedURL?.absoluteString).to(equal("https://www.test.com?test=test"))
     }
+
+    func testUsingAConstructedURLAllowsQueryItemsToBeAppended() {
+        let url = URL(string: "endpoint.json", relativeTo: URL(string: "https://www.test.com"))
+        let receivedURL = url?.appending(queryItems: [URLQueryItem(name: "test", value: "test")])
+        expect(receivedURL?.absoluteString).to(equal("https://www.test.com/endpoint.json?test=test"))
+    }
 }

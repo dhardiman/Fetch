@@ -18,3 +18,14 @@ public enum Result<T> {
     case success(T)
     case failure(Error)
 }
+
+public extension Result {
+    public func map<U>(_ transform: (T) -> U) -> Result<U> {
+        switch self {
+        case .success(let value):
+            return .success(transform(value))
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+}

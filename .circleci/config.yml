@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  test:
+    macos:
+      xcode: "9.1.0"
+    steps:
+      - checkout
+      - run: bundle install
+      - run:
+          name: Install Carthage Dependencies
+          command: carthage update --platform iOS --no-use-binaries
+      - run:
+          name: Run Tests
+          command: |
+              xcodebuild -destination 'platform=iOS Simulator,name=iPhone 8,OS=latest' -sdk iphonesimulator -scheme "Fetch" clean test |
+              tee xcodebuild.log |
+              xcpretty --report html --output test_output/results.html --report junit --output test_output/results.xml
+      - run:
+          name: Post Coverage
+          command: bundle exec slather
+      - store_test_results:
+          path: test_output/results.xml
+      - store_artifacts:
+          path: test_output/results.html
+      - store_artifacts:
+          path: xcodebuild.log
+
+workflows:
+  version: 2
+  run-tests:
+    jobs:
+      - test

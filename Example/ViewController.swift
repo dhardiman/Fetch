@@ -62,6 +62,10 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
+    static func parse(from data: Data?, status: Int, headers: [String : String]?, errorParser: ErrorParsing.Type?, userInfo: [String : Any]?) -> Result<EstablishmentsResponse> {
+        return parse(from: data, status: status, headers: headers, errorParser: errorParser)
+    }
+
     static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
         if status != 200 {
             if let error = errorParser?.parseError(from: data, statusCode: status) {

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "071F20221C6F86BF00BBCBAF"
                BuildableName = "Fetch.framework"
-               BlueprintName = "Fetch"
+               BlueprintName = "Fetch-iOS"
                ReferencedContainer = "container:Fetch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -36,7 +36,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "071F202C1C6F86BF00BBCBAF"
                BuildableName = "FetchTests.xctest"
-               BlueprintName = "FetchTests"
+               BlueprintName = "Fetch-iOSTests"
                ReferencedContainer = "container:Fetch.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -46,7 +46,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "071F20221C6F86BF00BBCBAF"
             BuildableName = "Fetch.framework"
-            BlueprintName = "Fetch"
+            BlueprintName = "Fetch-iOS"
             ReferencedContainer = "container:Fetch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -69,7 +69,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "071F20221C6F86BF00BBCBAF"
             BuildableName = "Fetch.framework"
-            BlueprintName = "Fetch"
+            BlueprintName = "Fetch-iOS"
             ReferencedContainer = "container:Fetch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -87,7 +87,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "071F20221C6F86BF00BBCBAF"
             BuildableName = "Fetch.framework"
-            BlueprintName = "Fetch"
+            BlueprintName = "Fetch-iOS"
             ReferencedContainer = "container:Fetch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

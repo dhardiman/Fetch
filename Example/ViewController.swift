@@ -6,8 +6,8 @@
 //  Copyright © 2016 David Hardiman. All rights reserved.
 //
 
-import UIKit
 import Fetch
+import UIKit
 
 class ViewController: UIViewController {
     let session = Session()
@@ -26,16 +26,12 @@ class ViewController: UIViewController {
             }
         }
     }
-
 }
 
 struct EstablishmentRequest: Request {
     let url = URL(string: "https://gist.githubusercontent.com/drhaynes/8532fa509bf1b518e37902fde0d2fe0e/raw/69a2b0e8e3fd237ced8ad063cdb57486aa93f831/establishments.json")!
-
     let method = HTTPMethod.get
-
     let headers: [String: String]? = nil
-
     let body: Data? = nil
 }
 

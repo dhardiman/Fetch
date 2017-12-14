@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 }
 
 struct EstablishmentRequest: Request {
-    let url = URL(string: "https://dl.dropboxusercontent.com/u/42100549/establishments.json")!
+    let url = URL(string: "https://gist.githubusercontent.com/drhaynes/8532fa509bf1b518e37902fde0d2fe0e/raw/69a2b0e8e3fd237ced8ad063cdb57486aa93f831/establishments.json")!
 
     let method = HTTPMethod.get
 
@@ -62,7 +62,7 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(from data: Data?, status: Int, headers: [String : String]?, errorParser: ErrorParsing.Type?, userInfo: [String : Any]?) -> Result<EstablishmentsResponse> {
+    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<EstablishmentsResponse> {
         return parse(from: data, status: status, headers: headers, errorParser: errorParser)
     }
 

@@ -59,6 +59,8 @@
 		3D6A61B61FCED96D002AB5C0 /* JSONRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7E11FB84BEF006AA048 /* JSONRequestTests.swift */; };
 		3D6A61BF1FCED96D002AB5C0 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0764F7E71FB84FBC006AA048 /* image.png */; };
 		3D6A61C81FCEE2A4002AB5C0 /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6A61AA1FCED95F002AB5C0 /* Fetch.framework */; };
+		3D6DA17F1FE2A4F80024C131 /* NoDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */; };
+		3D6DA1801FE2ADDD0024C131 /* NoDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */; };
 		3DAEAD4C1FCEE58C00CE6CF6 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD491FCEE57600CE6CF6 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DAEAD4D1FCEE58C00CE6CF6 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD481FCEE57600CE6CF6 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DAEAD521FCEE5B400CE6CF6 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD4E1FCEE5AC00CE6CF6 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -164,6 +166,7 @@
 		07A399961C70976800896C87 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		3D6A61AA1FCED95F002AB5C0 /* Fetch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fetch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D6A61C31FCED96D002AB5C0 /* FetchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataResponse.swift; sourceTree = "<group>"; };
 		3DAEAD481FCEE57600CE6CF6 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = SOURCE_ROOT; };
 		3DAEAD491FCEE57600CE6CF6 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
 		3DAEAD4E1FCEE5AC00CE6CF6 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/tvOS/Nimble.framework; sourceTree = SOURCE_ROOT; };
@@ -251,6 +254,7 @@
 				0764F7DF1FB84B24006AA048 /* JSONRequest.swift */,
 				96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */,
 				0764F7E31FB84DF9006AA048 /* UIImage+Parsable.swift */,
+				3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */,
 				0764F7E91FB852ED006AA048 /* ResponseError.swift */,
 				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
 				072B885C1FB9E37300E66676 /* URL+QueryItems.swift */,
@@ -598,6 +602,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0764F7DE1FB71D96006AA048 /* Session.swift in Sources */,
+				3D6DA17F1FE2A4F80024C131 /* NoDataResponse.swift in Sources */,
 				0764F7EA1FB852ED006AA048 /* ResponseError.swift in Sources */,
 				0764F7E41FB84DF9006AA048 /* UIImage+Parsable.swift in Sources */,
 				96154EF81FBC824500B6B4F3 /* UserInfoProviding.swift in Sources */,
@@ -642,6 +647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D6A61931FCED95F002AB5C0 /* Session.swift in Sources */,
+				3D6DA1801FE2ADDD0024C131 /* NoDataResponse.swift in Sources */,
 				3D6A61941FCED95F002AB5C0 /* ResponseError.swift in Sources */,
 				3D6A61951FCED95F002AB5C0 /* UIImage+Parsable.swift in Sources */,
 				3D6A61961FCED95F002AB5C0 /* UserInfoProviding.swift in Sources */,

@@ -6,10 +6,10 @@
 //  Copyright © 2016 David Hardiman. All rights reserved.
 //
 
-import XCTest
+@testable import Fetch
 import Nimble
 import OHHTTPStubs
-@testable import Fetch
+import XCTest
 
 let testString = "{ \"name\": \"test name\", \"desc\": \"test desc\" }"
 let testURL = URL(string: "https://fetch.davidhardiman.me")!
@@ -239,6 +239,47 @@ class FetchTests: XCTestCase {
         session.cancelAllTasks()
         expect(task1?.cancelCalled).to(beTrue())
         expect(task2?.cancelCalled).to(beTrue())
+    }
+
+    func testNoDataResponseSuccess() {
+        stubRequest { (request) -> Bool in
+            return request.url! == testURL && request.httpMethod == "GET"
+        }
+        let exp = expectation(description: "get request")
+        var receivedResult: VoidResult?
+        session.perform(BasicURLRequest(url: testURL)) { (result: VoidResult) in
+            receivedResult = result
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1.0, handler: nil)
+        switch receivedResult! {
+        case .success:
+            break
+        case .failure:
+            fail("Should be a successful response")
+        }
+    }
+
+    func testNoDataResponseFailure() {
+        stubRequest(statusCode: 400) { (request) -> Bool in
+            return request.url! == testURL && request.httpMethod == "GET"
+        }
+        let exp = expectation(description: "get request")
+        var receivedResult: VoidResult?
+        session.perform(BasicURLRequest(url: testURL)) { (result: VoidResult) in
+            receivedResult = result
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1.0, handler: nil)
+        switch receivedResult! {
+        case .success:
+            fail("Should be a failing response")
+        case let .failure(NoDataResponseError.httpError(code)):
+            expect(code).to(equal(400))
+            break
+        default:
+            fail("Should be a 400 response")
+        }
     }
 
 }

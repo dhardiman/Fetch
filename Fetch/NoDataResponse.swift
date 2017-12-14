@@ -1,6 +1,6 @@
 //
 //  NoDataResponse.swift
-//  Fetch-iOS
+//  Fetch
 //
 //  Created by David Haynes on 14/12/2017.
 //  Copyright © 2017 David Hardiman. All rights reserved.

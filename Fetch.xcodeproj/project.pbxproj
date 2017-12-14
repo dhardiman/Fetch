@@ -60,6 +60,7 @@
 		3D6A61BF1FCED96D002AB5C0 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0764F7E71FB84FBC006AA048 /* image.png */; };
 		3D6A61C81FCEE2A4002AB5C0 /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6A61AA1FCED95F002AB5C0 /* Fetch.framework */; };
 		3D6DA17F1FE2A4F80024C131 /* NoDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */; };
+		3D6DA1801FE2ADDD0024C131 /* NoDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */; };
 		3DAEAD4C1FCEE58C00CE6CF6 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD491FCEE57600CE6CF6 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DAEAD4D1FCEE58C00CE6CF6 /* OHHTTPStubs.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD481FCEE57600CE6CF6 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3DAEAD521FCEE5B400CE6CF6 /* Nimble.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAEAD4E1FCEE5AC00CE6CF6 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -646,6 +647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D6A61931FCED95F002AB5C0 /* Session.swift in Sources */,
+				3D6DA1801FE2ADDD0024C131 /* NoDataResponse.swift in Sources */,
 				3D6A61941FCED95F002AB5C0 /* ResponseError.swift in Sources */,
 				3D6A61951FCED95F002AB5C0 /* UIImage+Parsable.swift in Sources */,
 				3D6A61961FCED95F002AB5C0 /* UserInfoProviding.swift in Sources */,

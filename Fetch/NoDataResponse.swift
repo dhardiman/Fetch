@@ -9,10 +9,13 @@
 import Foundation
 
 /// Represents a response that has no data to parse
-public struct NoDataResponse {
-    enum NoDataResponseError: Error {
-        case httpError
-    }
+public struct NoDataResponse {}
+
+/// Wraps HTTP error response codes in an Error
+///
+/// - httpError: The HTTP response error code
+public enum NoDataResponseError: Error {
+    case httpError(code: Int)
 }
 
 /// Use this result type when you don't want to parse (e.g. for a response with
@@ -25,7 +28,7 @@ extension NoDataResponse: Parsable {
         if status < 400 {
             return .success(NoDataResponse())
         } else {
-            return .failure(NoDataResponseError.httpError)
+            return .failure(NoDataResponseError.httpError(code: status))
         }
     }
 }

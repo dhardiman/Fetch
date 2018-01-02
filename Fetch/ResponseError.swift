@@ -14,3 +14,12 @@ import Foundation
 public enum ResponseError: Error {
     case statusCode(Int)
 }
+
+extension ResponseError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .statusCode(let code):
+            return "Status code error: \(code)"
+        }
+    }
+}

@@ -276,7 +276,6 @@ class FetchTests: XCTestCase {
             fail("Should be a failing response")
         case let .failure(NoDataResponseError.httpError(code)):
             expect(code).to(equal(400))
-            break
         default:
             fail("Should be a 400 response")
         }

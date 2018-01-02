@@ -12,7 +12,7 @@ import XCTest
 
 class ResponseErrorTests: XCTestCase {
     func testStatusCodeErrorsHaveALocalisedString() {
-        let codeError = ResponseError.statusCode(404)
+        let codeError = ResponseError.statusCode(404) as Error
         expect(codeError.localizedDescription).to(equal("Status code error: 404"))
     }
 }

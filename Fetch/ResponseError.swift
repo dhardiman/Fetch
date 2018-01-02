@@ -15,8 +15,8 @@ public enum ResponseError: Error {
     case statusCode(Int)
 }
 
-public extension ResponseError {
-    public var localizedDescription: String {
+extension ResponseError: LocalizedError {
+    public var errorDescription: String? {
         switch self {
         case .statusCode(let code):
             return "Status code error: \(code)"

@@ -94,8 +94,8 @@ public class Session: RequestPerforming {
     }
 
     public func cancelAllTasks() {
-        tasks.values.forEach { $0.cancel() }
         self.taskQueue.sync {
+            tasks.values.forEach { $0.cancel() }
             tasks.removeAll()
         }
     }

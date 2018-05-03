@@ -24,16 +24,15 @@ struct TestResponse: Parsable {
 
     let name: String
     let desc: String
-    let headers: [String: String]?
-    let userInfo: [String: Any]?
+    let context: ParsableContext
 
-    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<TestResponse> {
-        if status != 200 {
+    static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> Result<TestResponse> {
+        if context.status != 200 {
             return .failure(Fail.statusFail)
         }
         do {
             if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
-                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, headers: headers, userInfo: userInfo))
+                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, context: context))
             }
         } catch {}
         return .failure(Fail.parseFail)
@@ -89,7 +88,7 @@ class FetchTests: XCTestCase {
             case .success(let response):
                 expect(response.name).to(equal("test name"))
                 expect(response.desc).to(equal("test desc"))
-                expect(response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
+                expect(response.context.headers).to(equal(["header": "test header", "Content-Length": "44"]))
             default:
                 fail("Should be a successful response")
             }
@@ -156,7 +155,7 @@ class FetchTests: XCTestCase {
         performGetRequestTest(request: request, passingTest: requestTestBlock) { (receivedResult) -> Void in
             switch receivedResult! {
             case .success(let response):
-                expect(response.userInfo?["Test"] as? String).to(equal("Test Value!"))
+                expect(response.context.userInfo?["Test"] as? String).to(equal("Test Value!"))
             default:
                 fail("Should be a successful response")
             }
@@ -193,6 +192,25 @@ class FetchTests: XCTestCase {
         session.perform(testRequest) { (_: Result<TestResponse>) in
         }
         expect(mockSession.receivedBody).to(equal(testBody))
+    }
+
+    func testTheHTTPMethodIsPassedToTheResponse() {
+        stubRequest { (request) -> Bool in
+            return request.url! == testURL && request.httpMethod == "TRACE"
+        }
+        let exp = expectation(description: "trace request")
+        var receivedResult: Result<TestResponse>?
+        session.perform(BasicURLRequest(url: testURL, method: .trace)) { (result: Result<TestResponse>) in
+            receivedResult = result
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1.0, handler: nil)
+        switch receivedResult! {
+        case .success(let response):
+            expect(response.context.HTTPMethod).to(equal(.trace))
+        default:
+            fail("Should be a successful response")
+        }
     }
 
     func testCallbackQueueCanBeSpecified() {

@@ -58,13 +58,10 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> Result<EstablishmentsResponse> {
-        return parse(from: data, status: status, headers: headers, errorParser: errorParser)
-    }
 
-    static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
-        if status != 200 {
-            if let error = errorParser?.parseError(from: data, statusCode: status) {
+    static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> Result<EstablishmentsResponse> {
+        if context.status != 200 {
+            if let error = errorParser?.parseError(from: data, statusCode: context.status) {
                 return .failure(error)
             } else {
                 return .failure(EstablishmentParseError.non200Response)
@@ -74,10 +71,10 @@ extension EstablishmentsResponse: Parsable {
             // swiftlint:disable force_cast
             if let data = data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: AnyObject]] {
                 let establishments = parsedResponse.map { est -> Establishment in
-                    let id = est["id"] as! Int
+                    let identifier = est["id"] as! Int
                     let address = est["address"] as! String
                     let name = est["name"] as! String
-                    return Establishment(address: address, id: id, name: name)
+                    return Establishment(address: address, id: identifier, name: name)
                 }
                 return .success(EstablishmentsResponse(establishments: establishments))
             }

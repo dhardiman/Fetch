@@ -24,11 +24,11 @@ public enum NoDataResponseError: Error {
 public typealias VoidResult = Result<NoDataResponse>
 
 extension NoDataResponse: Parsable {
-    public static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing.Type?, userInfo: [String: Any]?) -> VoidResult {
-        if status < 400 {
+    public static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> VoidResult {
+        if context.status < 400 {
             return .success(NoDataResponse())
         } else {
-            return .failure(NoDataResponseError.httpError(code: status))
+            return .failure(NoDataResponseError.httpError(code: context.status))
         }
     }
 }

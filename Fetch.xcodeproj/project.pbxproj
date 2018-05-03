@@ -70,6 +70,8 @@
 		96154EF81FBC824500B6B4F3 /* UserInfoProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */; };
 		96154EFC1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */; };
 		96154EFE1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96154EFD1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift */; };
+		96BA6B59209B41870094E78E /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BA6B58209B41870094E78E /* Response.swift */; };
+		96BA6B5A209B41870094E78E /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BA6B58209B41870094E78E /* Response.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +179,7 @@
 		96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoProviding.swift; sourceTree = "<group>"; };
 		96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPFormPostRequest.swift; sourceTree = "<group>"; };
 		96154EFD1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPFormPostRequestTests.swift; sourceTree = "<group>"; };
+		96BA6B58209B41870094E78E /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +253,7 @@
 				071F20261C6F86BF00BBCBAF /* Fetch.h */,
 				071F20281C6F86BF00BBCBAF /* Info.plist */,
 				071F203D1C6F878400BBCBAF /* Parsable.swift */,
+				96BA6B58209B41870094E78E /* Response.swift */,
 				07A399771C6F89A100896C87 /* Request.swift */,
 				07A399961C70976800896C87 /* Result.swift */,
 				0764F7DB1FB71027006AA048 /* HTTPMethod.swift */,
@@ -613,6 +617,7 @@
 				072B885D1FB9E37300E66676 /* URL+QueryItems.swift in Sources */,
 				071F203E1C6F878400BBCBAF /* Parsable.swift in Sources */,
 				07A399971C70976800896C87 /* Result.swift in Sources */,
+				96BA6B59209B41870094E78E /* Response.swift in Sources */,
 				96154EFC1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift in Sources */,
 				072B88611FB9F86B00E66676 /* ErrorParsing.swift in Sources */,
 				0764F7DC1FB71027006AA048 /* HTTPMethod.swift in Sources */,
@@ -659,6 +664,7 @@
 				3D6A61971FCED95F002AB5C0 /* URL+QueryItems.swift in Sources */,
 				3D6A61981FCED95F002AB5C0 /* Parsable.swift in Sources */,
 				3D6A61991FCED95F002AB5C0 /* Result.swift in Sources */,
+				96BA6B5A209B41870094E78E /* Response.swift in Sources */,
 				3D6A619A1FCED95F002AB5C0 /* HTTPFormPostRequest.swift in Sources */,
 				3D6A619B1FCED95F002AB5C0 /* ErrorParsing.swift in Sources */,
 				3D6A619C1FCED95F002AB5C0 /* HTTPMethod.swift in Sources */,

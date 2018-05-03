@@ -21,9 +21,9 @@ public struct Image {
 }
 
 extension Image: Parsable {
-    public static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> Result<Image> {
-        guard context.status < 400 else {
-            return .failure(ResponseError.statusCode(context.status))
+    public static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<Image> {
+        guard response.status < 400 else {
+            return .failure(ResponseError.statusCode(response.status))
         }
         guard let data = data else {
             return .failure(ImageParseError.noDataReceived)

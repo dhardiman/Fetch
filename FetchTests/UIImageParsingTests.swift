@@ -17,14 +17,14 @@ class UIImageParsingTests: XCTestCase {
             let data = UIImagePNGRepresentation(testImage) else {
             return fail("Couldn't parse test image")
         }
-        guard case .success(let image) = Image.parse(from: data, errorParser: nil, context: ParsableContext(status: 200, HTTPMethod: .get)) else {
+        guard case .success(let image) = Image.parse(from: data, response: Response(status: 200, HTTPMethod: .get), errorParser: nil) else {
             return fail("Expected a successful response")
         }
         expect(UIImagePNGRepresentation(image.image)).to(equal(data))
     }
 
     func testItReturnsAnErrorForNonSuccessStatus() {
-        guard case .failure(let error) = Image.parse(from: nil, errorParser: nil, context: ParsableContext(status: 400, HTTPMethod: .get)) else {
+        guard case .failure(let error) = Image.parse(from: nil, response: Response(status: 400, HTTPMethod: .get), errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let responseError = error as? ResponseError else {
@@ -37,7 +37,7 @@ class UIImageParsingTests: XCTestCase {
     }
 
     func testItReturnsAParseErrorForBadImageData() {
-        guard case .failure(let error) = Image.parse(from: Data(), errorParser: nil, context: ParsableContext(status: 200, HTTPMethod: .get)) else {
+        guard case .failure(let error) = Image.parse(from: Data(), response: Response(status: 200, HTTPMethod: .get), errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let parseError = error as? ImageParseError else {
@@ -47,7 +47,7 @@ class UIImageParsingTests: XCTestCase {
     }
 
     func testItReturnsAnErrorForNoImageData() {
-        guard case .failure(let error) = Image.parse(from: nil, errorParser: nil, context: ParsableContext(status: 200, HTTPMethod: .get)) else {
+        guard case .failure(let error) = Image.parse(from: nil, response: Response(status: 200, HTTPMethod: .get), errorParser: nil) else {
             return fail("Expected a failure")
         }
         guard let parseError = error as? ImageParseError else {
@@ -57,7 +57,7 @@ class UIImageParsingTests: XCTestCase {
     }
 }
 
-extension ParsableContext {
+extension Response {
     init(status: Int, HTTPMethod: HTTPMethod) {
         self.init(status: status, HTTPMethod: HTTPMethod, headers: nil, userInfo: nil)
     }

@@ -24,15 +24,15 @@ struct TestResponse: Parsable {
 
     let name: String
     let desc: String
-    let context: ParsableContext
+    let response: Response
 
-    static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> Result<TestResponse> {
-        if context.status != 200 {
+    static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
+        if response.status != 200 {
             return .failure(Fail.statusFail)
         }
         do {
             if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
-                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, context: context))
+                return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, response: response))
             }
         } catch {}
         return .failure(Fail.parseFail)
@@ -88,7 +88,7 @@ class FetchTests: XCTestCase {
             case .success(let response):
                 expect(response.name).to(equal("test name"))
                 expect(response.desc).to(equal("test desc"))
-                expect(response.context.headers).to(equal(["header": "test header", "Content-Length": "44"]))
+                expect(response.response.headers).to(equal(["header": "test header", "Content-Length": "44"]))
             default:
                 fail("Should be a successful response")
             }
@@ -155,7 +155,7 @@ class FetchTests: XCTestCase {
         performGetRequestTest(request: request, passingTest: requestTestBlock) { (receivedResult) -> Void in
             switch receivedResult! {
             case .success(let response):
-                expect(response.context.userInfo?["Test"] as? String).to(equal("Test Value!"))
+                expect(response.response.userInfo?["Test"] as? String).to(equal("Test Value!"))
             default:
                 fail("Should be a successful response")
             }
@@ -207,7 +207,7 @@ class FetchTests: XCTestCase {
         waitForExpectations(timeout: 1.0, handler: nil)
         switch receivedResult! {
         case .success(let response):
-            expect(response.context.HTTPMethod).to(equal(.trace))
+            expect(response.response.HTTPMethod).to(equal(.trace))
         default:
             fail("Should be a successful response")
         }

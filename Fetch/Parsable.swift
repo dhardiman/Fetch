@@ -17,14 +17,14 @@ public protocol Parsable {
      Parses an object from the supplied data
 
      - parameter data:    The data received
+     - parameter response: The response that was received.
      - parameter errorParser: Object used to parse errors
-     - parameter context: Contextual information about the response
      */
-    static func parse(from data: Data?, errorParser: ErrorParsing.Type?, context: ParsableContext) -> Result<Self>
+    static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<Self>
 
 }
 
-public struct ParsableContext {
+public struct Response {
     /// The HTTP status code received
     public let status: Int
 

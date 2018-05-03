@@ -26,12 +26,12 @@ struct TestResponse: Parsable {
     let desc: String
     let response: Response
 
-    static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
+    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
         if response.status != 200 {
             return .failure(Fail.statusFail)
         }
         do {
-            if let data = data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
+            if let data = response.data, let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String] {
                 return .success(TestResponse(name: dict["name"]!, desc: dict["desc"]!, response: response))
             }
         } catch {}
@@ -207,7 +207,7 @@ class FetchTests: XCTestCase {
         waitForExpectations(timeout: 1.0, handler: nil)
         switch receivedResult! {
         case .success(let response):
-            expect(response.response.HTTPMethod).to(equal(.trace))
+            expect(response.response.originalRequest.method).to(equal(.trace))
         default:
             fail("Should be a successful response")
         }

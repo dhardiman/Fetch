@@ -21,11 +21,11 @@ public struct Image {
 }
 
 extension Image: Parsable {
-    public static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<Image> {
+    public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<Image> {
         guard response.status < 400 else {
             return .failure(ResponseError.statusCode(response.status))
         }
-        guard let data = data else {
+        guard let data = response.data else {
             return .failure(ImageParseError.noDataReceived)
         }
         guard let image = UIImage(data: data) else {

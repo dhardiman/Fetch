@@ -24,7 +24,7 @@ public enum NoDataResponseError: Error {
 public typealias VoidResult = Result<NoDataResponse>
 
 extension NoDataResponse: Parsable {
-    public static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> VoidResult {
+    public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> VoidResult {
         if response.status < 400 {
             return .success(NoDataResponse())
         } else {

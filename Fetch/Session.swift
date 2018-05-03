@@ -75,8 +75,8 @@ public class Session: RequestPerforming {
                 return
             }
             let userInfo = (request as? UserInfoProviding)?.userInfo
-            let response = Response(status: actualResponse.statusCode, HTTPMethod: request.method, headers: actualResponse.allHeaderFields as? [String: String], userInfo: userInfo)
-            result = T.parse(from: data, response: response, errorParser: errorParser)
+            let response = Response(data: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
+            result = T.parse(response: response, errorParser: errorParser)
 
         })
         self.taskQueue.sync {

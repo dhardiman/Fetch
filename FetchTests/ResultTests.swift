@@ -6,9 +6,9 @@
 //  Copyright © 2017 David Hardiman. All rights reserved.
 //
 
-import XCTest
-import Nimble
 import Fetch
+import Nimble
+import XCTest
 
 struct ResultTestPayload {
     let identifier = "hello"

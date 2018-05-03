@@ -24,7 +24,7 @@ struct UserRequest: Request {
 ```
 
 ## `Parsable`
-This is the protocol to use for handling a response. It has a single function, `static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?, userInfo: [String: Any]?) -> Result<Self>`, which is intended to interpret the data and status code received from the successful request. Implement this method to determine success or failure and to populate a model object with data. For example, if parsing a response from our user request above, you might create the following:
+This is the protocol to use for handling a response. It has a single function, `static func parse(response: Response, errorParser: ErrorParsing?) -> Result<Self>`, which is intended to interpret the response (containing the data, status code, original request and other associated information) received from the request. Implement this method to determine success or failure and to populate a model object with data. For example, if parsing a response from our user request above, you might create the following:
 
 ```swift
 struct User {
@@ -38,15 +38,15 @@ extension User: Parsable {
     case parseError
   }
   
-  static func parse(from data: Data?, status: Int, headers: [String: String]?, errorParser: ErrorParsing?, userInfo: [String: Any]?) -> Result<User> {
-    guard status == 200 else {
+  static func parse(response: Response, errorParser: ErrorParsing?) -> Result<User> {
+    guard response.status == 200 else {
       // Parse data for any error message
-      if let error = errorParser.parseError(from: data, status: status) {
+      if let error = errorParser.parseError(from: response.data, status: response.status) {
         return .failure(error)
       }
       return .failure(UserError.statusCodeError)
     }
-    guard let data = data, 
+    guard let data = response.data, 
           let parsedResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String: AnyObject]],
           let id = parsedResponse["id"] as? Int,
           let name = parsedResponse["name"] as? String else {

@@ -6,9 +6,9 @@
 //  Copyright © 2017 David Hardiman. All rights reserved.
 //
 
-import XCTest
-import Nimble
 @testable import Fetch
+import Nimble
+import XCTest
 
 class JSONRequestTests: XCTestCase {
     func testItConvertsItsJSONBodyToData() throws {

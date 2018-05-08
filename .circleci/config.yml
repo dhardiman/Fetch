@@ -48,8 +48,9 @@ jobs:
           command: carthage update --platform macOS --no-use-binaries
       - run:
           name: Run Tests
-          command: xcodebuild -scheme "Fetch-macOS" clean test |
-          tee xcodebuild.log
+          command: |
+              xcodebuild -scheme "Fetch-macOS" clean test |
+              tee xcodebuild.log
       - store_artifacts:
           path: xcodebuild.log
 workflows:

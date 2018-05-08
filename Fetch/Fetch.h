@@ -6,7 +6,7 @@
 //  Copyright © 2016 David Hardiman. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Fetch.
 FOUNDATION_EXPORT double FetchVersionNumber;
@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double FetchVersionNumber;
 FOUNDATION_EXPORT const unsigned char FetchVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Fetch/PublicHeader.h>
-
-

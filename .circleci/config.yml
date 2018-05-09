@@ -38,11 +38,26 @@ jobs:
           command: |
               xcodebuild -destination 'platform=tvOS Simulator,name=Apple TV 4K,OS=latest' -sdk appletvsimulator -scheme "Fetch-tvOS" clean test |
               tee xcodebuild.log
-
+  macOStest:
+    macos:
+      xcode: "9.3.0"
+    steps:
+      - checkout
+      - run:
+          name: Install Carthage Dependencies
+          command: carthage update --platform macOS --no-use-binaries
+      - run:
+          name: Run Tests
+          command: |
+              xcodebuild -scheme "Fetch-macOS" clean test |
+              tee xcodebuild.log
+      - store_artifacts:
+          path: xcodebuild.log
 workflows:
   version: 2
   run-tests:
     jobs:
       - iOStest
       - tvOStest
+      - macOStest
 

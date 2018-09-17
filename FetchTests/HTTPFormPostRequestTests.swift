@@ -18,7 +18,11 @@ class HTTPFormPostRequestTests: XCTestCase {
             return fail("Expected to receive some data")
         }
         let string = String(data: data, encoding: .utf8)! // swiftlint:disable:this
-        expect(string).to(equal("test=test&extra=characters%26here"))
+        let values = string.split(separator: "&").reduce(into: [:]) { result, query in
+            let keyValue = query.split(separator: "=").map { String($0) }
+            result[keyValue[0]] = keyValue[1]
+        }
+        expect(values as NSDictionary).to(equal(["test": "test", "extra": "characters%26here"] as NSDictionary))
     }
 
     func testItDefaultsToPOST() {

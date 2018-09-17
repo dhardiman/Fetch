@@ -328,6 +328,5 @@ public class MockTask: URLSessionDataTask {
         cancelCalled = true
     }
 
-    override public func resume() {
-    }
+    override public func resume() {}
 }

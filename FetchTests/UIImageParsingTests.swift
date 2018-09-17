@@ -14,13 +14,13 @@ class UIImageParsingTests: XCTestCase {
     func testItReturnsAnImageForASuccessfulResponse() {
         let testBundle = Bundle(for: UIImageParsingTests.self)
         guard let testImage = UIImage(named: "image", in: testBundle, compatibleWith: nil),
-            let data = UIImagePNGRepresentation(testImage) else {
+            let data = testImage.pngData() else {
             return fail("Couldn't parse test image")
         }
         guard case .success(let image) = Image.parse(response: Response(data: data, status: 200, originalRequest: TestJSONRequest()), errorParser: nil) else {
             return fail("Expected a successful response")
         }
-        expect(UIImagePNGRepresentation(image.image)).to(equal(data))
+        expect(image.image.pngData()).to(equal(data))
     }
 
     func testItReturnsAnErrorForNonSuccessStatus() {

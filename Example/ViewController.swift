@@ -58,10 +58,9 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-
-    static func parse(from data: Data?, response: Response, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
-        if context.status != 200 {
-            if let error = errorParser?.parseError(from: data, statusCode: response.status) {
+    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
+        if response.status != 200 {
+            if let error = errorParser?.parseError(from: response.data, statusCode: response.status) {
                 return .failure(error)
             } else {
                 return .failure(EstablishmentParseError.non200Response)
@@ -69,7 +68,7 @@ extension EstablishmentsResponse: Parsable {
         }
         do {
             // swiftlint:disable force_cast
-            if let data = data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: AnyObject]] {
+            if let data = response.data, let parsedResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: AnyObject]] {
                 let establishments = parsedResponse.map { est -> Establishment in
                     let identifier = est["id"] as! Int
                     let address = est["address"] as! String

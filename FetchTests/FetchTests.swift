@@ -39,6 +39,14 @@ struct TestResponse: Parsable {
     }
 }
 
+enum CustomError: ErrorParsing, Error {
+    static func parseError(from data: Data?, statusCode: Int) -> Error? {
+        return CustomError.error
+    }
+
+    case error
+}
+
 class FetchTests: XCTestCase {
 
     var session: Session!
@@ -296,6 +304,27 @@ class FetchTests: XCTestCase {
             expect(code).to(equal(400))
         default:
             fail("Should be a 400 response")
+        }
+    }
+
+    func testNoDataResponseFailureWithCustomErrorHandler() {
+        stubRequest(statusCode: 400) { (request) -> Bool in
+            return request.url! == testURL && request.httpMethod == "GET"
+        }
+        let exp = expectation(description: "get request")
+        var receivedResult: VoidResult?
+        session.perform(BasicURLRequest(url: testURL), errorParser: CustomError.self) { (result: VoidResult) in
+            receivedResult = result
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 1.0, handler: nil)
+        switch receivedResult! {
+        case .success:
+            fail("Should be a failing response")
+        case .failure(let error as CustomError):
+            expect(error).to(equal(CustomError.error))
+        default:
+            fail("Expected a custom error")
         }
     }
 

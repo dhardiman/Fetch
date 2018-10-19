@@ -27,6 +27,8 @@ extension NoDataResponse: Parsable {
     public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> VoidResult {
         if response.status < 400 {
             return .success(NoDataResponse())
+        } else if let errorParser = errorParser, let error = errorParser.parseError(from: response.data, statusCode: response.status) {
+            return .failure(error)
         } else {
             return .failure(NoDataResponseError.httpError(code: response.status))
         }

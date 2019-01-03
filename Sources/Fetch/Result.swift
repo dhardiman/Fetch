@@ -20,10 +20,32 @@ public enum Result<T> {
 }
 
 public extension Result {
+
+    /// Maps the successful value and returns a new result
+    ///
+    /// - Parameter transform: The transform block
     public func map<U>(_ transform: (T) -> U) -> Result<U> {
         switch self {
         case .success(let value):
             return .success(transform(value))
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+
+    /// Attempts to map the successful value and return a new result.
+    /// If the transform fails, the failure value is returned as .failure in
+    /// the new result
+    ///
+    /// - Parameter transform: The transform block
+    public func map<U>(_ transform: (T) throws -> U) -> Result<U> {
+        switch self {
+        case .success(let value):
+            do {
+                return .success(try transform(value))
+            } catch {
+                return .failure(error)
+            }
         case .failure(let error):
             return .failure(error)
         }

@@ -5,4 +5,4 @@ scheme: Fetch-iOS
 ignore:
   - Carthage/*
   - Example/*
-  - FetchTests/*
+  - Tests/*

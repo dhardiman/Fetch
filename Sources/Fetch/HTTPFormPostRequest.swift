@@ -18,7 +18,7 @@ public extension HTTPFormPostRequest {
         return .post
     }
 
-    public var body: Data? {
+    var body: Data? {
         return jsonBody.keyValueHTTPBody
     }
 }

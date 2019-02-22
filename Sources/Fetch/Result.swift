@@ -24,7 +24,7 @@ public extension Result {
     /// Maps the successful value and returns a new result
     ///
     /// - Parameter transform: The transform block
-    public func map<U>(_ transform: (T) -> U) -> Result<U> {
+    func map<U>(_ transform: (T) -> U) -> Result<U> {
         switch self {
         case .success(let value):
             return .success(transform(value))
@@ -38,7 +38,7 @@ public extension Result {
     /// the new result
     ///
     /// - Parameter transform: The transform block
-    public func map<U>(_ transform: (T) throws -> U) -> Result<U> {
+    func map<U>(_ transform: (T) throws -> U) -> Result<U> {
         switch self {
         case .success(let value):
             do {

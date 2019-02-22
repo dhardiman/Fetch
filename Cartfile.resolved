@@ -1,2 +1,2 @@
-github "AliSoftware/OHHTTPStubs" "6.1.0"
-github "Quick/Nimble" "v7.3.1"
+github "Quick/Nimble" "9cfacd2d0a95c7e829b7931ceda05ee132910582"
+github "dhardiman/OHHTTPStubs" "4978f9ce2f8a2176108bd8748161f1403412edac"

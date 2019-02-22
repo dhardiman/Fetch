@@ -13,7 +13,7 @@ public protocol JSONRequest: Request {
 }
 
 public extension JSONRequest {
-    public var body: Data? {
+    var body: Data? {
         return try? JSONSerialization.data(withJSONObject: jsonBody, options: [])
     }
 }

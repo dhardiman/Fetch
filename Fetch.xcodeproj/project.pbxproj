@@ -532,15 +532,15 @@
 				TargetAttributes = {
 					071F20221C6F86BF00BBCBAF = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 					071F202C1C6F86BF00BBCBAF = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 					07A3997E1C6F8E5600896C87 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1020;
 					};
 					3DFEF7A720A1FBBE006377F4 = {
 						CreatedOnToolsVersion = 9.3;
@@ -987,7 +987,7 @@
 				PRODUCT_NAME = Fetch;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1007,7 +1007,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Fetch;
 				PRODUCT_NAME = Fetch;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1022,7 +1022,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1037,7 +1037,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(SRCROOT)/Carthage/Build/iOS";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1050,8 +1050,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1064,8 +1063,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

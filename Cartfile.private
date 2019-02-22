@@ -1,2 +1,2 @@
-github "AliSoftware/OHHTTPStubs"
-github "Quick/Nimble"
+github "dhardiman/OHHTTPStubs" "xcode10.2"
+github "Quick/Nimble" "master"

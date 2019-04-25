@@ -1,5 +1,5 @@
 //
-//  Result.swift
+//  FetchResult.swift
 //  Fetch
 //
 //  Created by David Hardiman on 14/02/2016.
@@ -8,37 +8,16 @@
 
 import Foundation
 
-/**
- The result of a fetch request
+public typealias FetchResult<T> = Result<T, Error>
 
- - Successful: Represents a success
- - Failure:    Represents a failure
- */
-public enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
-public extension Result {
-
-    /// Maps the successful value and returns a new result
-    ///
-    /// - Parameter transform: The transform block
-    func map<U>(_ transform: (T) -> U) -> Result<U> {
-        switch self {
-        case .success(let value):
-            return .success(transform(value))
-        case .failure(let error):
-            return .failure(error)
-        }
-    }
+public extension FetchResult {
 
     /// Attempts to map the successful value and return a new result.
     /// If the transform fails, the failure value is returned as .failure in
     /// the new result
     ///
     /// - Parameter transform: The transform block
-    func map<U>(_ transform: (T) throws -> U) -> Result<U> {
+    func map<U>(_ transform: (Success) throws -> U) -> FetchResult<U> {
         switch self {
         case .success(let value):
             do {

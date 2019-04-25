@@ -19,7 +19,7 @@ public protocol RequestPerforming {
     ///   - errorParser: Optional object to provide custom error parsing
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
-    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable
+    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable
 
     /// Cancels all outstanding tasks
     func cancelAllTasks()
@@ -33,7 +33,7 @@ public extension RequestPerforming {
     ///   - completion: The completion block to call with the response
     /// - Returns: A cancellable reference to the request operation
     @discardableResult
-    func perform<T: Parsable>(_ request: Request, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+    func perform<T: Parsable>(_ request: Request, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         return perform(request, errorParser: nil, completion: completion)
     }
 }
@@ -52,14 +52,14 @@ public class Session: RequestPerforming {
     let taskQueue = DispatchQueue(label: "me.davidhardiman.taskqueue")
 
     @discardableResult
-    public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (Result<T>) -> Void) -> Cancellable {
+    public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         let taskIdentifier = UUID()
         SessionActivityMonitor.shared.incrementCount()
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             self.taskQueue.sync {
                 self.removeTask(for: taskIdentifier)
             }
-            let result: Result<T>
+            let result: FetchResult<T>
             defer {
                 SessionActivityMonitor.shared.decrementCount()
                 self.responseQueue.addOperation {

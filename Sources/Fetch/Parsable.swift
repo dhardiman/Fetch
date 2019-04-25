@@ -19,6 +19,6 @@ public protocol Parsable {
      - parameter response: The response that was received.
      - parameter errorParser: Object used to parse errors
      */
-    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<Self>
+    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> FetchResult<Self>
 
 }

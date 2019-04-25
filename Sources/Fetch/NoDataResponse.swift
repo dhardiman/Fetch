@@ -21,7 +21,7 @@ public enum NoDataResponseError: Error {
 /// Use this result type when you don't want to parse (e.g. for a response with
 /// no data). The result will be `success` for http status codes below 400, or
 /// `failure` for anything else.
-public typealias VoidResult = Result<NoDataResponse>
+public typealias VoidResult = FetchResult<NoDataResponse>
 
 extension NoDataResponse: Parsable {
     public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> VoidResult {

@@ -23,7 +23,7 @@
     }
 
     extension Image: Parsable {
-        public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<Image> {
+        public static func parse(response: Response, errorParser: ErrorParsing.Type?) -> FetchResult<Image> {
             guard response.status < 400 else {
                 return .failure(ResponseError.statusCode(response.status))
             }

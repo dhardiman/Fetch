@@ -26,7 +26,7 @@ struct TestResponse: Parsable {
     let desc: String
     let response: Response
 
-    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<TestResponse> {
+    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> FetchResult<TestResponse> {
         if response.status != 200 {
             return .failure(Fail.statusFail)
         }
@@ -68,15 +68,15 @@ class FetchTests: XCTestCase {
         }
     }
 
-    typealias TestBlock = (Result<TestResponse>?) -> Void
+    typealias TestBlock = (FetchResult<TestResponse>?) -> Void
 
     func performGetRequestTest(request: Request = basicRequest, statusCode: Int32 = 200, passingTest requestTest: OHHTTPStubsTestBlock?, testBlock testToPerform: TestBlock) {
         if let requestTest = requestTest {
             stubRequest(statusCode: statusCode, passingTest: requestTest)
         }
         let exp = expectation(description: "get request")
-        var receivedResult: Result<TestResponse>?
-        session.perform(request) { (result: Result<TestResponse>) in
+        var receivedResult: FetchResult<TestResponse>?
+        session.perform(request) { (result: FetchResult<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -108,8 +108,8 @@ class FetchTests: XCTestCase {
             return request.url! == testURL && request.httpMethod == "POST"
         }
         let exp = expectation(description: "post request")
-        var receivedResult: Result<TestResponse>?
-        session.perform(BasicURLRequest(url: testURL, method: .post)) { (result: Result<TestResponse>) in
+        var receivedResult: FetchResult<TestResponse>?
+        session.perform(BasicURLRequest(url: testURL, method: .post)) { (result: FetchResult<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -197,7 +197,7 @@ class FetchTests: XCTestCase {
         }
         let mockSession = MockSession()
         session = Session(session: mockSession)
-        session.perform(testRequest) { (_: Result<TestResponse>) in
+        session.perform(testRequest) { (_: FetchResult<TestResponse>) in
         }
         expect(mockSession.receivedBody).to(equal(testBody))
     }
@@ -207,8 +207,8 @@ class FetchTests: XCTestCase {
             return request.url! == testURL && request.httpMethod == "TRACE"
         }
         let exp = expectation(description: "trace request")
-        var receivedResult: Result<TestResponse>?
-        session.perform(BasicURLRequest(url: testURL, method: .trace)) { (result: Result<TestResponse>) in
+        var receivedResult: FetchResult<TestResponse>?
+        session.perform(BasicURLRequest(url: testURL, method: .trace)) { (result: FetchResult<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -229,7 +229,7 @@ class FetchTests: XCTestCase {
         let exp = expectation(description: "post request")
         var receivedQueue: OperationQueue?
         session = Session(responseQueue: callBackQueue)
-        session.perform(BasicURLRequest(url: testURL, method: .post)) { (_: Result<TestResponse>) in
+        session.perform(BasicURLRequest(url: testURL, method: .post)) { (_: FetchResult<TestResponse>) in
             receivedQueue = OperationQueue.current
             exp.fulfill()
         }
@@ -241,9 +241,9 @@ class FetchTests: XCTestCase {
         let mockSession = MockSession()
         mockSession.mockResponse = URLResponse()
         session = Session(session: mockSession)
-        var receivedResult: Result<TestResponse>?
+        var receivedResult: FetchResult<TestResponse>?
         let exp = expectation(description: "test request")
-        session.perform(basicRequest) { (result: Result<TestResponse>) in
+        session.perform(basicRequest) { (result: FetchResult<TestResponse>) in
             receivedResult = result
             exp.fulfill()
         }
@@ -260,8 +260,8 @@ class FetchTests: XCTestCase {
     func testAllTasksCanBeCancelled() {
         let mockSession = MockSession()
         session = Session(session: mockSession)
-        let task1 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
-        let task2 = session.perform(BasicURLRequest(url: testURL), completion: { (_: Result<TestResponse>) in }) as? MockTask
+        let task1 = session.perform(BasicURLRequest(url: testURL), completion: { (_: FetchResult<TestResponse>) in }) as? MockTask
+        let task2 = session.perform(BasicURLRequest(url: testURL), completion: { (_: FetchResult<TestResponse>) in }) as? MockTask
         session.cancelAllTasks()
         expect(task1?.cancelCalled).to(beTrue())
         expect(task2?.cancelCalled).to(beTrue())

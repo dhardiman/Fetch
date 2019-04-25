@@ -28,7 +28,7 @@ enum ResultTestError: Error {
 
 class ResultTests: XCTestCase {
     func testItIsPossibleToMapASuccessfulResult() {
-        let success = Result<ResultTestPayload>.success(ResultTestPayload())
+        let success = FetchResult<ResultTestPayload>.success(ResultTestPayload())
         guard case .success(let string) = success.map({ $0.identifier }) else {
             return fail("Expected some success")
         }
@@ -36,7 +36,7 @@ class ResultTests: XCTestCase {
     }
 
     func testAFailureMapsToTheExistingError() {
-        let failure = Result<ResultTestPayload>.failure(ResultTestError.anError)
+        let failure = FetchResult<ResultTestPayload>.failure(ResultTestError.anError)
         guard case .failure(let error) = failure.map({ $0.identifier }) else {
             return fail("Expected an error")
         }
@@ -44,15 +44,15 @@ class ResultTests: XCTestCase {
     }
 
     func testItIsPossibleToMapASuccessfulResultUsingAThrowingTransform() throws {
-        let success = Result<ResultTestPayload>.success(ResultTestPayload())
+        let success = FetchResult<ResultTestPayload>.success(ResultTestPayload())
         guard case .success(let string) = success.map({ try $0.success() }) else {
             return fail("Expected some success")
         }
         expect(string).to(equal("hello"))
     }
 
-    func testItIsPossibleToMapAnExstingErrorUsingAThrowingTransform() {
-        let failure = Result<ResultTestPayload>.failure(ResultTestError.anError)
+    func testItIsPossibleToMapAnExistingErrorUsingAThrowingTransform() {
+        let failure = FetchResult<ResultTestPayload>.failure(ResultTestError.anError)
         guard case .failure(let error) = failure.map({ try $0.success() }) else {
             return fail("Expected an error")
         }
@@ -60,7 +60,7 @@ class ResultTests: XCTestCase {
     }
 
     func testIfATransformThrowsItReturnsTheNewError() {
-        let failure = Result<ResultTestPayload>.success(ResultTestPayload())
+        let failure = FetchResult<ResultTestPayload>.success(ResultTestPayload())
         guard case .failure(let error) = failure.map({ try $0.failure() }) else {
             return fail("Expected an error")
         }

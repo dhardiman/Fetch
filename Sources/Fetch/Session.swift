@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
+    import Combine
+#endif
 
 /// Protocol describing an object that can make requests
 public protocol RequestPerforming {
@@ -23,6 +26,11 @@ public protocol RequestPerforming {
 
     /// Cancels all outstanding tasks
     func cancelAllTasks()
+
+    #if canImport(Combine)
+        @available(iOS 13.0, *)
+        func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
+    #endif
 }
 
 public extension RequestPerforming {
@@ -40,8 +48,8 @@ public extension RequestPerforming {
 
 /// Session for making requests using a URLSession
 public class Session: RequestPerforming {
-    private let session: URLSession
-    private let responseQueue: OperationQueue
+    let session: URLSession
+    let responseQueue: OperationQueue
 
     public init(session: URLSession = .shared, responseQueue: OperationQueue = .main) {
         self.session = session
@@ -102,7 +110,7 @@ enum SessionError: Error {
     case unknownResponseType
 }
 
-private extension Request {
+extension Request {
     func urlRequest() -> URLRequest {
         var request = URLRequest(url: url)
         if let headers = headers {

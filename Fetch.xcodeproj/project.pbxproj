@@ -23,6 +23,12 @@
 		0764F7E81FB84FBC006AA048 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0764F7E71FB84FBC006AA048 /* image.png */; };
 		0764F7EA1FB852ED006AA048 /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7E91FB852ED006AA048 /* ResponseError.swift */; };
 		0764F7F01FB98C4D006AA048 /* BasicURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */; };
+		0773A08C22BCBB3F00F64CA2 /* Session+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */; };
+		0773A08F22BCDEEE00F64CA2 /* FetchCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */; };
+		0773A09022BCDEEF00F64CA2 /* FetchCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */; };
+		0773A09122BCDEF100F64CA2 /* FetchCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */; };
+		0773A09222BCDEF400F64CA2 /* Session+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */; };
+		0773A09322BCDEF500F64CA2 /* Session+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */; };
 		0773A09622BCE17400F64CA2 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 0773A09522BCE17400F64CA2 /* Nimble */; };
 		0773A09822BCE19D00F64CA2 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 0773A09722BCE19D00F64CA2 /* Nimble */; };
 		0773A09A22BCE1A500F64CA2 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 0773A09922BCE1A500F64CA2 /* Nimble */; };
@@ -190,6 +196,8 @@
 		0764F7E71FB84FBC006AA048 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 		0764F7E91FB852ED006AA048 /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 		0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicURLRequest.swift; sourceTree = "<group>"; };
+		0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+Combine.swift"; sourceTree = "<group>"; };
+		0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCombineTests.swift; sourceTree = "<group>"; };
 		0790B3851FBF399B002D9116 /* ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultTests.swift; sourceTree = "<group>"; };
 		0790B38A1FBF549E002D9116 /* SessionActivityMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionActivityMonitor.swift; sourceTree = "<group>"; };
 		0790B38C1FBF5798002D9116 /* SessionActivityMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionActivityMonitorTests.swift; sourceTree = "<group>"; };
@@ -320,6 +328,7 @@
 				072B88601FB9F86B00E66676 /* ErrorParsing.swift */,
 				96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */,
 				0790B38A1FBF549E002D9116 /* SessionActivityMonitor.swift */,
+				0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */,
 			);
 			name = Fetch;
 			path = Sources/Fetch;
@@ -338,6 +347,7 @@
 				0790B3851FBF399B002D9116 /* ResultTests.swift */,
 				0790B38C1FBF5798002D9116 /* SessionActivityMonitorTests.swift */,
 				07D3E1AC1FFB970F00C6063C /* ResponseErrorTests.swift */,
+				0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */,
 			);
 			name = FetchTests;
 			path = Tests/FetchTests;
@@ -722,6 +732,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0764F7DE1FB71D96006AA048 /* Session.swift in Sources */,
+				0773A08C22BCBB3F00F64CA2 /* Session+Combine.swift in Sources */,
 				3D6DA17F1FE2A4F80024C131 /* NoDataResponse.swift in Sources */,
 				0764F7EA1FB852ED006AA048 /* ResponseError.swift in Sources */,
 				0764F7E41FB84DF9006AA048 /* UIImage+Parsable.swift in Sources */,
@@ -748,6 +759,7 @@
 				0764F7E61FB84E25006AA048 /* UIImageParsingTests.swift in Sources */,
 				072B885F1FB9E3A700E66676 /* URLQueryItemTests.swift in Sources */,
 				071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */,
+				0773A08F22BCDEEE00F64CA2 /* FetchCombineTests.swift in Sources */,
 				0790B38D1FBF5798002D9116 /* SessionActivityMonitorTests.swift in Sources */,
 				96154EFE1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift in Sources */,
 				0764F7E21FB84BEF006AA048 /* JSONRequestTests.swift in Sources */,
@@ -769,6 +781,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D6A61931FCED95F002AB5C0 /* Session.swift in Sources */,
+				0773A09222BCDEF400F64CA2 /* Session+Combine.swift in Sources */,
 				3D6DA1801FE2ADDD0024C131 /* NoDataResponse.swift in Sources */,
 				3D6A61941FCED95F002AB5C0 /* ResponseError.swift in Sources */,
 				3D6A61951FCED95F002AB5C0 /* UIImage+Parsable.swift in Sources */,
@@ -795,6 +808,7 @@
 				3D6A61B11FCED96D002AB5C0 /* UIImageParsingTests.swift in Sources */,
 				3D6A61B21FCED96D002AB5C0 /* URLQueryItemTests.swift in Sources */,
 				3D6A61B31FCED96D002AB5C0 /* FetchTests.swift in Sources */,
+				0773A09022BCDEEF00F64CA2 /* FetchCombineTests.swift in Sources */,
 				3D6A61B41FCED96D002AB5C0 /* SessionActivityMonitorTests.swift in Sources */,
 				3D6A61B51FCED96D002AB5C0 /* HTTPFormPostRequestTests.swift in Sources */,
 				3D6A61B61FCED96D002AB5C0 /* JSONRequestTests.swift in Sources */,
@@ -818,6 +832,7 @@
 				3DFEF7DB20A200F8006377F4 /* ErrorParsing.swift in Sources */,
 				3DFEF7D320A200D7006377F4 /* HTTPMethod.swift in Sources */,
 				3DFEF7D820A200F1006377F4 /* ResponseError.swift in Sources */,
+				0773A09322BCDEF500F64CA2 /* Session+Combine.swift in Sources */,
 				3DFEF7DA20A200F6006377F4 /* URL+QueryItems.swift in Sources */,
 				3DFEF7CF20A200CD006377F4 /* Parsable.swift in Sources */,
 				3DFEF7D620A200DE006377F4 /* HTTPFormPostRequest.swift in Sources */,
@@ -829,6 +844,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DFEF7C320A1FF14006377F4 /* ResultTests.swift in Sources */,
+				0773A09122BCDEF100F64CA2 /* FetchCombineTests.swift in Sources */,
 				3DFEF7BF20A1FF0A006377F4 /* JSONRequestTests.swift in Sources */,
 				3DFEF7C420A1FF17006377F4 /* SessionActivityMonitorTests.swift in Sources */,
 				3DFEF7C020A1FF0C006377F4 /* HTTPFormPostRequestTests.swift in Sources */,

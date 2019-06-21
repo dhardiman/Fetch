@@ -13,7 +13,7 @@
 
     extension Session {
         @available(iOS 13.0, *)
-        public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error> {
+        public func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error> {
             let publisher = session.dataTaskPublisher(for: request.urlRequest())
                 .tryMap { data, response -> T in
                     guard let httpResponse = response as? HTTPURLResponse else {

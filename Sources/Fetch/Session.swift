@@ -29,7 +29,7 @@ public protocol RequestPerforming {
 
     #if canImport(Combine)
         @available(iOS 13.0, *)
-        func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
+        func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
     #endif
 }
 

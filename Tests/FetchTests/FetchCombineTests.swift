@@ -17,7 +17,7 @@
     extension FetchTests {
         func testItIsPossibleToMakeAGetRequestUsingAPublisher() {
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
-            let publisher = session!.perform(basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
+            let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
             _ = publisher.sink {
                 expect($0.name).to(equal("test name"))
@@ -34,7 +34,7 @@
             }, withStubResponse: { (_) -> OHHTTPStubsResponse in
                 return OHHTTPStubsResponse(error: testError)
             })
-            let publisher = session!.perform(basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
+            let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
             _ = publisher.sink(receiveCompletion: {
                 switch $0 {
@@ -53,7 +53,7 @@
                 return request.url! == testURL && request.httpMethod == "GET"
             }
             let exp = expectation(description: "get request")
-            let publisher = session!.perform(basicRequest, errorParser: CustomError.self) as AnyPublisher<NoDataResponse, Error>
+            let publisher = session!.publisher(for: basicRequest, errorParser: CustomError.self) as AnyPublisher<NoDataResponse, Error>
             var receivedError: Error?
             _ = publisher.sink(receiveCompletion: {
                 switch $0 {

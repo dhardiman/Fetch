@@ -21,12 +21,7 @@
                     defer {
                         self.activityMonitor.decrementCount()
                     }
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        throw SessionError.unknownResponseType
-                    }
-                    let userInfo = (request as? UserInfoProviding)?.userInfo
-                    let response = Response(data: data, status: httpResponse.statusCode, headers: httpResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
-                    return try T.parse(response: response, errorParser: errorParser).get()
+                    return try self.result(from: data, urlResponse: response, request: request, errorParser: errorParser).get()
                 }
                 .receive(on: responseQueue)
                 .eraseToAnyPublisher()

@@ -80,20 +80,26 @@ public class Session: RequestPerforming {
                 result = .failure(error)
                 return
             }
-            guard let actualResponse = response as? HTTPURLResponse else {
-                result = .failure(SessionError.unknownResponseType)
-                return
+            do {
+                result = try self.result(from: data, urlResponse: response, request: request, errorParser: errorParser)
+            } catch {
+                result = .failure(error)
             }
-            let userInfo = (request as? UserInfoProviding)?.userInfo
-            let response = Response(data: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
-            result = T.parse(response: response, errorParser: errorParser)
-
         })
         self.taskQueue.sync {
             tasks[taskIdentifier] = task
         }
         task.resume()
         return task
+    }
+
+    func result<T: Parsable>(from data: Data?, urlResponse: URLResponse?, request: Request, errorParser: ErrorParsing.Type?) throws -> FetchResult<T> {
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw SessionError.unknownResponseType
+        }
+        let userInfo = (request as? UserInfoProviding)?.userInfo
+        let response = Response(data: data, status: httpResponse.statusCode, headers: httpResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
+        return T.parse(response: response, errorParser: errorParser)
     }
 
     private func removeTask(for identifier: UUID) {

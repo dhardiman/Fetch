@@ -14,8 +14,13 @@
     extension Session {
         @available(iOS 13.0, *)
         public func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error> {
-            let publisher = session.dataTaskPublisher(for: request.urlRequest())
+            activityMonitor.incrementCount()
+            return session.dataTaskPublisher(for: request.urlRequest())
+                .mapError(handleActivityMonitorOnError)
                 .tryMap { data, response -> T in
+                    defer {
+                        self.activityMonitor.decrementCount()
+                    }
                     guard let httpResponse = response as? HTTPURLResponse else {
                         throw SessionError.unknownResponseType
                     }
@@ -24,7 +29,12 @@
                     return try T.parse(response: response, errorParser: errorParser).get()
                 }
                 .receive(on: responseQueue)
-            return AnyPublisher(publisher)
+                .eraseToAnyPublisher()
+        }
+
+        func handleActivityMonitorOnError(_ error: URLError) -> URLError {
+            activityMonitor.decrementCount()
+            return error
         }
     }
 

@@ -68,6 +68,46 @@
             let customError = receivedError as! CustomError // swiftlint:disable:this force_cast
             expect(customError).to(equal(CustomError.error))
         }
+
+        func testItIncrementsTheActivityMonitorCorrectly() {
+            let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
+            stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
+            var isCurrentlyActive: Bool = false
+            SessionActivityMonitor.sessionActivityChanged = {
+                isCurrentlyActive = $0
+            }
+            session.activityMonitor = stubMonitor
+            let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
+            expect(isCurrentlyActive).to(beTrue())
+            let exp = expectation(description: "get request")
+            _ = publisher.sink { _ in
+                exp.fulfill()
+            }
+            waitForExpectations(timeout: 1.0, handler: nil)
+            expect(isCurrentlyActive).to(beFalse())
+        }
+
+        func testItDecrementsTheActivityMonitorCorrectlyOnSessionErrors() {
+            let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
+            session.activityMonitor = stubMonitor
+            let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)
+            OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
+                return request.url! == testURL && request.httpMethod == "GET"
+            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
+                return OHHTTPStubsResponse(error: testError)
+            })
+            var isCurrentlyActive: Bool = false
+            SessionActivityMonitor.sessionActivityChanged = {
+                isCurrentlyActive = $0
+            }
+            let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
+            let exp = expectation(description: "get request")
+            _ = publisher.sink(receiveCompletion: { _ in
+                exp.fulfill()
+            }, receiveValue: { _ in })
+            waitForExpectations(timeout: 1.0, handler: nil)
+            expect(isCurrentlyActive).to(beFalse())
+        }
     }
 
 #endif

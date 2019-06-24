@@ -59,18 +59,20 @@ public class Session: RequestPerforming {
     var tasks = [UUID: URLSessionTask]()
     let taskQueue = DispatchQueue(label: "me.davidhardiman.taskqueue")
 
+    var activityMonitor: SessionActivityMonitor = .shared
+
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         let taskIdentifier = UUID()
-        SessionActivityMonitor.shared.incrementCount()
+        activityMonitor.incrementCount()
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             self.taskQueue.sync {
                 self.removeTask(for: taskIdentifier)
             }
             let result: FetchResult<T>
             defer {
-                SessionActivityMonitor.shared.decrementCount()
                 self.responseQueue.addOperation {
+                    self.activityMonitor.decrementCount()
                     completion(result)
                 }
             }

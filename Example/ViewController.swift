@@ -8,6 +8,9 @@
 
 import Fetch
 import UIKit
+#if canImport(Combine)
+    import Combine
+#endif
 
 class ViewController: UIViewController {
     let session = Session()
@@ -15,14 +18,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let request = EstablishmentRequest()
-        session.perform(request) { (result: Result<EstablishmentsResponse>) in
-            switch result {
-            case .success(let response):
-                response.establishments.forEach { est in
+        if #available(iOS 13, *) {
+            let publisher = session.publisher(for: request, errorParser: nil) as AnyPublisher<EstablishmentsResponse, Error>
+            _ = publisher.sink(receiveCompletion: {
+                if case let .failure(error) = $0 {
+                    print("Badness \(error)")
+                }
+            }, receiveValue: {
+                $0.establishments.forEach { est in
                     print("\(est.name)")
                 }
-            case .failure(let error):
-                print("Badness \(error)")
+            })
+        } else {
+            session.perform(request) { (result: FetchResult<EstablishmentsResponse>) in
+                switch result {
+                case .success(let response):
+                    response.establishments.forEach { est in
+                        print("\(est.name)")
+                    }
+                case .failure(let error):
+                    print("Badness \(error)")
+                }
             }
         }
     }
@@ -58,7 +74,7 @@ struct EstablishmentsResponse {
 }
 
 extension EstablishmentsResponse: Parsable {
-    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> Result<EstablishmentsResponse> {
+    static func parse(response: Response, errorParser: ErrorParsing.Type?) -> FetchResult<EstablishmentsResponse> {
         if response.status != 200 {
             if let error = errorParser?.parseError(from: response.data, statusCode: response.status) {
                 return .failure(error)

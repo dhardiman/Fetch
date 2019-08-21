@@ -19,11 +19,12 @@
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
-            _ = publisher.sink {
+            _ = publisher.sink(receiveCompletion: { _ in
+            }, receiveValue: {
                 expect($0.name).to(equal("test name"))
                 expect($0.desc).to(equal("test desc"))
                 exp.fulfill()
-            }
+            })
             waitForExpectations(timeout: 1.0, handler: nil)
         }
 
@@ -80,9 +81,9 @@
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             expect(isCurrentlyActive).to(beTrue())
             let exp = expectation(description: "get request")
-            _ = publisher.sink { _ in
+            _ = publisher.sink(receiveCompletion: { _ in }, receiveValue: { _ in
                 exp.fulfill()
-            }
+            })
             waitForExpectations(timeout: 1.0, handler: nil)
             expect(isCurrentlyActive).to(beFalse())
         }

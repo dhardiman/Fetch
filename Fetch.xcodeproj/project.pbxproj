@@ -576,10 +576,12 @@
 					};
 					3DFEF7A720A1FBBE006377F4 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1100;
 						ProvisioningStyle = Manual;
 					};
 					3DFEF7AF20A1FBBE006377F4 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1100;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1276,7 +1278,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1312,7 +1314,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1346,7 +1348,7 @@
 				PRODUCT_NAME = FetchTests;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1379,7 +1381,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

@@ -12,15 +12,12 @@ jobs:
           - destination: "platform=macOS"
             scheme: "Fetch-macOS"
             platform: "macOS"
-          - destination: "platform=macOS"
-            scheme: "Fetch-macOS"
-            platform: "macOS"
-          - destination: "platform=macOS"
-            scheme: "Fetch-macOS"
-            platform: "macOS"                        
-        # destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8", "platform=tvOS Simulator,name=Apple TV"]
-        # scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
-        # platform: ["macOS", "iOS", "tvOS"]
+          - destination: "platform=iOS Simulator,name=iPhone 8"
+            scheme: "Fetch-iOS"
+            platform: "iOS"
+          - destination: "platform=tvOS Simulator,name=Apple TV"
+            scheme: "Fetch-tvOS"
+            platform: "tvOS"
     
     steps:
     - uses: actions/checkout@v1

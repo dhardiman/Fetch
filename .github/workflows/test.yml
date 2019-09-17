@@ -1,18 +1,17 @@
 name: Test
-# This workflow is triggered on pushes to the repository.
+
 on: [push]
 
 jobs:
-  build:
+  test:
     name: Test on destination ${{ matrix.destination }}
-      runs-on: macOS-latest
-      strategy:
-        matrix:
-          destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8,OS=latest", "platform=tvOS Simulator,name=Apple TV 4K,OS=latest"]
-          scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
-            
-      steps:
-      - uses: actions/checkout@v1
-      - name: Use platform ${{ matrix.destination }}
-        run: |
-          xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" clean test
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8", "platform=tvOS Simulator,name=Apple TV"]
+        scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use platform ${{ matrix.destination }}
+      run: xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" test

@@ -12,13 +12,19 @@ jobs:
           - destination: "platform=macOS"
             scheme: "Fetch-macOS"
             platform: "macOS"
+          - destination: "platform=macOS"
+            scheme: "Fetch-macOS"
+            platform: "macOS"
+          - destination: "platform=macOS"
+            scheme: "Fetch-macOS"
+            platform: "macOS"                        
         # destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8", "platform=tvOS Simulator,name=Apple TV"]
         # scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
         # platform: ["macOS", "iOS", "tvOS"]
     
     steps:
     - uses: actions/checkout@v1
-    - name: Use platform ${{ matrix.configurations.destination }}
-      run: |
-        carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
-        xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test
+    - name: Carthage
+      run: carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
+    - name: Run tests on ${{ matrix.configurations.destination }}
+      run: xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

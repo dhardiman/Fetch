@@ -28,7 +28,7 @@ public protocol RequestPerforming {
     func cancelAllTasks()
 
     #if canImport(Combine)
-        @available(iOS 13.0, *)
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
     #endif
 }

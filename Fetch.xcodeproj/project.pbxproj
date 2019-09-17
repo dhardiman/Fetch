@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070789952330EFD3003CD104 /* FetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F20321C6F86BF00BBCBAF /* FetchTests.swift */; };
 		071F20271C6F86BF00BBCBAF /* Fetch.h in Headers */ = {isa = PBXBuildFile; fileRef = 071F20261C6F86BF00BBCBAF /* Fetch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		071F202E1C6F86BF00BBCBAF /* Fetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 071F20231C6F86BF00BBCBAF /* Fetch.framework */; };
 		071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071F20321C6F86BF00BBCBAF /* FetchTests.swift */; };
@@ -843,6 +844,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				070789952330EFD3003CD104 /* FetchTests.swift in Sources */,
 				3DFEF7C320A1FF14006377F4 /* ResultTests.swift in Sources */,
 				0773A09122BCDEF100F64CA2 /* FetchCombineTests.swift in Sources */,
 				3DFEF7BF20A1FF0A006377F4 /* JSONRequestTests.swift in Sources */,

@@ -13,8 +13,9 @@
     import OHHTTPStubs
     import XCTest
 
-    @available(iOS 13.0, *)
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     extension FetchTests {
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItIsPossibleToMakeAGetRequestUsingAPublisher() {
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
@@ -28,6 +29,7 @@
             waitForExpectations(timeout: 1.0, handler: nil)
         }
 
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testSessionErrorsAreReturnedUsingAPublisher() {
             let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)
             OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
@@ -49,6 +51,7 @@
             waitForExpectations(timeout: 1.0, handler: nil)
         }
 
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItReturnsParsedErrorsCorrectlyUsingAPublisher() {
             stubRequest(statusCode: 400) { (request) -> Bool in
                 return request.url! == testURL && request.httpMethod == "GET"
@@ -70,6 +73,7 @@
             expect(customError).to(equal(CustomError.error))
         }
 
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItIncrementsTheActivityMonitorCorrectly() {
             let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
@@ -88,6 +92,7 @@
             expect(isCurrentlyActive).to(beFalse())
         }
 
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItDecrementsTheActivityMonitorCorrectlyOnSessionErrors() {
             let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
             session.activityMonitor = stubMonitor

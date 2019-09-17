@@ -16,5 +16,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: Use platform ${{ matrix.destination }}
       run: |
-      carthage update --platform "${{ matrix.platform }}" --no-use-binaries
-      xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" test
+        carthage update --platform "${{ matrix.platform }}" --no-use-binaries
+        xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" test

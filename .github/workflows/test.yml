@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Select Xcode Version
-      run: xcode-select -switch /Applications/Xcode_11.app
+      run: sudo xcode-select -switch /Applications/Xcode_11.app
     - name: Carthage
       run: carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
     - name: Run tests on ${{ matrix.configurations.destination }}

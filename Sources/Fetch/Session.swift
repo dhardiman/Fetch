@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
+    import Combine
+#endif
 
 /// Protocol describing an object that can make requests
 public protocol RequestPerforming {
@@ -23,6 +26,11 @@ public protocol RequestPerforming {
 
     /// Cancels all outstanding tasks
     func cancelAllTasks()
+
+    #if canImport(Combine)
+        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
+    #endif
 }
 
 public extension RequestPerforming {
@@ -40,8 +48,8 @@ public extension RequestPerforming {
 
 /// Session for making requests using a URLSession
 public class Session: RequestPerforming {
-    private let session: URLSession
-    private let responseQueue: OperationQueue
+    let session: URLSession
+    let responseQueue: OperationQueue
 
     public init(session: URLSession = .shared, responseQueue: OperationQueue = .main) {
         self.session = session
@@ -51,18 +59,20 @@ public class Session: RequestPerforming {
     var tasks = [UUID: URLSessionTask]()
     let taskQueue = DispatchQueue(label: "me.davidhardiman.taskqueue")
 
+    var activityMonitor: SessionActivityMonitor = .shared
+
     @discardableResult
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         let taskIdentifier = UUID()
-        SessionActivityMonitor.shared.incrementCount()
+        activityMonitor.incrementCount()
         let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
             self.taskQueue.sync {
                 self.removeTask(for: taskIdentifier)
             }
             let result: FetchResult<T>
             defer {
-                SessionActivityMonitor.shared.decrementCount()
                 self.responseQueue.addOperation {
+                    self.activityMonitor.decrementCount()
                     completion(result)
                 }
             }
@@ -70,20 +80,26 @@ public class Session: RequestPerforming {
                 result = .failure(error)
                 return
             }
-            guard let actualResponse = response as? HTTPURLResponse else {
-                result = .failure(SessionError.unknownResponseType)
-                return
+            do {
+                result = try self.result(from: data, urlResponse: response, request: request, errorParser: errorParser)
+            } catch {
+                result = .failure(error)
             }
-            let userInfo = (request as? UserInfoProviding)?.userInfo
-            let response = Response(data: data, status: actualResponse.statusCode, headers: actualResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
-            result = T.parse(response: response, errorParser: errorParser)
-
         })
         self.taskQueue.sync {
             tasks[taskIdentifier] = task
         }
         task.resume()
         return task
+    }
+
+    func result<T: Parsable>(from data: Data?, urlResponse: URLResponse?, request: Request, errorParser: ErrorParsing.Type?) throws -> FetchResult<T> {
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw SessionError.unknownResponseType
+        }
+        let userInfo = (request as? UserInfoProviding)?.userInfo
+        let response = Response(data: data, status: httpResponse.statusCode, headers: httpResponse.allHeaderFields as? [String: String], userInfo: userInfo, originalRequest: request)
+        return T.parse(response: response, errorParser: errorParser)
     }
 
     private func removeTask(for identifier: UUID) {
@@ -102,7 +118,7 @@ enum SessionError: Error {
     case unknownResponseType
 }
 
-private extension Request {
+extension Request {
     func urlRequest() -> URLRequest {
         var request = URLRequest(url: url)
         if let headers = headers {

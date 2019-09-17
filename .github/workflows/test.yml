@@ -24,6 +24,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    - name: Check version
+      run: xcodebuild -version
     - name: Carthage
       run: carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
     - name: Run tests on ${{ matrix.configurations.destination }}

@@ -4,17 +4,21 @@ on: [push]
 
 jobs:
   test:
-    name: Test on destination ${{ matrix.destination }}
+    name: Test on destination ${{ matrix.configurations.destination }}
     runs-on: macOS-latest
     strategy:
       matrix:
-        destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8", "platform=tvOS Simulator,name=Apple TV"]
-        scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
-        platform: ["macOS", "iOS", "tvOS"]
+        configurations:
+          - destination: "platform=macOS"
+            scheme: "Fetch-macOS"
+            platform: "macOS"
+        # destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8", "platform=tvOS Simulator,name=Apple TV"]
+        # scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
+        # platform: ["macOS", "iOS", "tvOS"]
     
     steps:
     - uses: actions/checkout@v1
-    - name: Use platform ${{ matrix.destination }}
+    - name: Use platform ${{ matrix.configurations.destination }}
       run: |
-        carthage update --platform "${{ matrix.platform }}" --no-use-binaries
-        xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" test
+        carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
+        xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

@@ -6,13 +6,13 @@ jobs:
   build:
     name: Test on destination ${{ matrix.destination }}
       runs-on: macOS-latest
-        strategy:
-          matrix:
-            destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8,OS=latest", "platform=tvOS Simulator,name=Apple TV 4K,OS=latest"]
-            scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
+      strategy:
+        matrix:
+          destination: ["platform=macOS", "platform=iOS Simulator,name=iPhone 8,OS=latest", "platform=tvOS Simulator,name=Apple TV 4K,OS=latest"]
+          scheme: ["Fetch-macOS", "Fetch-iOS", "Fetch-tvOS"]
             
-        steps:
-        - uses: actions/checkout@v1
-        - name: Use platform ${{ matrix.destination }}
-          run: |
-            xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" clean test
+      steps:
+      - uses: actions/checkout@v1
+      - name: Use platform ${{ matrix.destination }}
+        run: |
+          xcodebuild -destination "${{ matrix.destination }}" -scheme "${{ matrix.scheme }}" clean test

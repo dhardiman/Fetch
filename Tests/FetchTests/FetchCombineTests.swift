@@ -13,10 +13,13 @@
     import OHHTTPStubs
     import XCTest
 
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     extension FetchTests {
-        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItIsPossibleToMakeAGetRequestUsingAPublisher() {
+            guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else {
+                // @available attribute doesn't seem to work for tests.
+                // I assume XCTest can't read the attribute, which would make sense.
+                return
+            }
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
@@ -29,8 +32,8 @@
             waitForExpectations(timeout: 1.0, handler: nil)
         }
 
-        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testSessionErrorsAreReturnedUsingAPublisher() {
+            guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else { return }
             let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)
             OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
                 return request.url! == testURL && request.httpMethod == "GET"
@@ -51,8 +54,8 @@
             waitForExpectations(timeout: 1.0, handler: nil)
         }
 
-        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItReturnsParsedErrorsCorrectlyUsingAPublisher() {
+            guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else { return }
             stubRequest(statusCode: 400) { (request) -> Bool in
                 return request.url! == testURL && request.httpMethod == "GET"
             }
@@ -73,8 +76,8 @@
             expect(customError).to(equal(CustomError.error))
         }
 
-        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItIncrementsTheActivityMonitorCorrectly() {
+            guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else { return }
             let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
             var isCurrentlyActive: Bool = false
@@ -92,8 +95,8 @@
             expect(isCurrentlyActive).to(beFalse())
         }
 
-        @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func testItDecrementsTheActivityMonitorCorrectlyOnSessionErrors() {
+            guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else { return }
             let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
             session.activityMonitor = stubMonitor
             let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)

@@ -5,7 +5,7 @@ jobs:
       xcode: "11.0"
     steps:
       - checkout
-#      - run: bundle install
+      - run: bundle install
       - run:
           name: Install Carthage Dependencies
           command: carthage update --platform iOS --no-use-binaries
@@ -15,9 +15,9 @@ jobs:
               xcodebuild -destination 'platform=iOS Simulator,name=iPhone 8,OS=latest' -sdk iphonesimulator -scheme "Fetch-iOS" clean test |
               tee xcodebuild.log |
               xcpretty --report html --output test_output/results.html --report junit --output test_output/unit-tests/results.xml
-#      - run:
-#          name: Post Coverage
-#          command: bundle exec slather
+      - run:
+          name: Post Coverage
+          command: bundle exec slather
       - store_test_results:
           path: test_output
       - store_artifacts:

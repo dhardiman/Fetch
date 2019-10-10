@@ -1,0 +1,29 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    name: Test on destination ${{ matrix.configurations.destination }}
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        configurations:
+          - destination: "platform=macOS"
+            scheme: "Fetch-macOS"
+            platform: "macOS"
+          - destination: "platform=iOS Simulator,name=iPhone 8"
+            scheme: "Fetch-iOS"
+            platform: "iOS"
+          - destination: "platform=tvOS Simulator,name=Apple TV"
+            scheme: "Fetch-tvOS"
+            platform: "tvOS"
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Select Xcode Version
+      run: sudo xcode-select -switch /Applications/Xcode_11.app
+    - name: Carthage
+      run: carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries
+    - name: Run tests on ${{ matrix.configurations.destination }}
+      run: xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

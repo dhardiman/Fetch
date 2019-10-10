@@ -6,3 +6,4 @@ ignore:
   - Carthage/*
   - Example/*
   - Tests/*
+  - ../*

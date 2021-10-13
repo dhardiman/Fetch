@@ -2,7 +2,7 @@ version: 2
 jobs:
   iOStest:
     macos:
-      xcode: "11.0"
+      xcode: "13.0"
     steps:
       - checkout
       - run: bundle install
@@ -39,7 +39,7 @@ jobs:
               tee xcodebuild.log
   macOStest:
     macos:
-      xcode: "11.0"
+      xcode: "13.0"
     steps:
       - checkout
       - run:

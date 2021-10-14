@@ -106,6 +106,9 @@
 		96226B482271B96A0068E492 /* FetchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A399961C70976800896C87 /* FetchResult.swift */; };
 		96BA6B59209B41870094E78E /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BA6B58209B41870094E78E /* Response.swift */; };
 		96BA6B5A209B41870094E78E /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BA6B58209B41870094E78E /* Response.swift */; };
+		D1DBED82271824B50059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED81271824B50059253C /* OHHTTPStubs */; };
+		D1DBED84271824BD0059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED83271824BD0059253C /* OHHTTPStubs */; };
+		D1DBED86271824C10059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED85271824C10059253C /* OHHTTPStubs */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				071F202E1C6F86BF00BBCBAF /* Fetch.framework in Frameworks */,
+				D1DBED82271824B50059253C /* OHHTTPStubs in Frameworks */,
 				0773A09622BCE17400F64CA2 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D6A61C81FCEE2A4002AB5C0 /* Fetch.framework in Frameworks */,
+				D1DBED84271824BD0059253C /* OHHTTPStubs in Frameworks */,
 				0773A09822BCE19D00F64CA2 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DFEF7B120A1FBBE006377F4 /* Fetch.framework in Frameworks */,
+				D1DBED86271824C10059253C /* OHHTTPStubs in Frameworks */,
 				0773A09A22BCE1A500F64CA2 /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +435,8 @@
 			dependencies = (
 			);
 			name = "Fetch-iOS";
+			packageProductDependencies = (
+			);
 			productName = Fetch;
 			productReference = 071F20231C6F86BF00BBCBAF /* Fetch.framework */;
 			productType = "com.apple.product-type.framework";
@@ -450,6 +458,7 @@
 			name = "Fetch-iOSTests";
 			packageProductDependencies = (
 				0773A09522BCE17400F64CA2 /* Nimble */,
+				D1DBED81271824B50059253C /* OHHTTPStubs */,
 			);
 			productName = FetchTests;
 			productReference = 071F202D1C6F86BF00BBCBAF /* FetchTests.xctest */;
@@ -511,6 +520,7 @@
 			name = "Fetch-tvOSTests";
 			packageProductDependencies = (
 				0773A09722BCE19D00F64CA2 /* Nimble */,
+				D1DBED83271824BD0059253C /* OHHTTPStubs */,
 			);
 			productName = FetchTests;
 			productReference = 3D6A61C31FCED96D002AB5C0 /* FetchTests.xctest */;
@@ -551,6 +561,7 @@
 			name = "Fetch-macOSTests";
 			packageProductDependencies = (
 				0773A09922BCE1A500F64CA2 /* Nimble */,
+				D1DBED85271824C10059253C /* OHHTTPStubs */,
 			);
 			productName = FetchTests;
 			productReference = 3DFEF7B020A1FBBE006377F4 /* FetchTests.xctest */;
@@ -607,6 +618,7 @@
 			mainGroup = 071F20191C6F86BF00BBCBAF;
 			packageReferences = (
 				0773A09422BCE17400F64CA2 /* XCRemoteSwiftPackageReference "Nimble" */,
+				D1DBED7E271730580059253C /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
 			);
 			productRefGroup = 071F20241C6F86BF00BBCBAF /* Products */;
 			projectDirPath = "";
@@ -1087,16 +1099,12 @@
 		071F203B1C6F86BF00BBCBAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
@@ -1107,16 +1115,12 @@
 		071F203C1C6F86BF00BBCBAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
@@ -1167,10 +1171,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Sources/Fetch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1200,10 +1201,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Sources/Fetch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1224,42 +1222,36 @@
 		3D6A61C11FCED96D002AB5C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/Carthage/Build/tvOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
 		};
 		3D6A61C21FCED96D002AB5C0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/tvOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
-					"$(SRCROOT)/Carthage/Build/tvOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
 				PRODUCT_NAME = FetchTests;
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
 		};
@@ -1349,17 +1341,13 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
-					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
@@ -1383,17 +1371,13 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/FetchTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
-					"$(SRCROOT)/Carthage/Build/Mac",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.FetchTests;
@@ -1489,6 +1473,14 @@
 				minimumVersion = 8.0.2;
 			};
 		};
+		D1DBED7E271730580059253C /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1506,6 +1498,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0773A09422BCE17400F64CA2 /* XCRemoteSwiftPackageReference "Nimble" */;
 			productName = Nimble;
+		};
+		D1DBED81271824B50059253C /* OHHTTPStubs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1DBED7E271730580059253C /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubs;
+		};
+		D1DBED83271824BD0059253C /* OHHTTPStubs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1DBED7E271730580059253C /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubs;
+		};
+		D1DBED85271824C10059253C /* OHHTTPStubs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1DBED7E271730580059253C /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubs;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

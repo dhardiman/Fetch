@@ -58,19 +58,19 @@ class FetchTests: XCTestCase {
 
     override func tearDown() {
         session = nil
-        OHHTTPStubs.removeAllStubs()
+        HTTPStubs.removeAllStubs()
         super.tearDown()
     }
 
-    func stubRequest(statusCode: Int32 = 200, passingTest test: @escaping OHHTTPStubsTestBlock) {
-        OHHTTPStubs.stubRequests(passingTest: test) { (_) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(data: testString.data(using: String.Encoding.utf8)!, statusCode: statusCode, headers: ["header": "test header"])
+    func stubRequest(statusCode: Int32 = 200, passingTest test: @escaping HTTPStubsTestBlock) {
+        HTTPStubs.stubRequests(passingTest: test) { (_) -> HTTPStubsResponse in
+            return HTTPStubsResponse(data: testString.data(using: String.Encoding.utf8)!, statusCode: statusCode, headers: ["header": "test header"])
         }
     }
 
     typealias TestBlock = (FetchResult<TestResponse>?) -> Void
 
-    func performGetRequestTest(request: Request = basicRequest, statusCode: Int32 = 200, passingTest requestTest: OHHTTPStubsTestBlock?, testBlock testToPerform: TestBlock) {
+    func performGetRequestTest(request: Request = basicRequest, statusCode: Int32 = 200, passingTest requestTest: HTTPStubsTestBlock?, testBlock testToPerform: TestBlock) {
         if let requestTest = requestTest {
             stubRequest(statusCode: statusCode, passingTest: requestTest)
         }
@@ -124,15 +124,16 @@ class FetchTests: XCTestCase {
 
     func testSessionErrorsAreReturned() {
         let testError = NSError(domain: "me.davidhardiman", code: 1234, userInfo: nil)
-        OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
+        HTTPStubs.stubRequests(passingTest: { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "GET"
-        }, withStubResponse: { (_) -> OHHTTPStubsResponse in
-            return OHHTTPStubsResponse(error: testError)
+        }, withStubResponse: { (_) -> HTTPStubsResponse in
+            return HTTPStubsResponse(error: testError)
         })
         performGetRequestTest(passingTest: nil) { receivedResult in
             switch receivedResult! {
             case .failure(let receivedError as NSError):
-                expect(receivedError).to(equal(testError))
+                expect(receivedError.domain).to(equal(testError.domain))
+                expect(receivedError.code).to(equal(testError.code))
             default:
                 fail("Should be an error response")
             }
@@ -333,6 +334,7 @@ class FetchTests: XCTestCase {
 public class MockSession: URLSession {
     var receivedBody: String?
     var mockResponse: URLResponse?
+    
     public override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         if let body = request.httpBody {
             receivedBody = String(data: body, encoding: String.Encoding.utf8)

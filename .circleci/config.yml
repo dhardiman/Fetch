@@ -2,7 +2,7 @@ version: 2
 jobs:
   iOStest:
     macos:
-      xcode: "13.0"
+      xcode: "13.0.0"
     steps:
       - checkout
       - run: bundle install
@@ -23,7 +23,7 @@ jobs:
           path: xcodebuild.log
   tvOStest:
     macos:
-      xcode: "13.0"
+      xcode: "13.0.0"
     steps:
       - checkout
       - run:
@@ -33,7 +33,7 @@ jobs:
               tee xcodebuild.log
   macOStest:
     macos:
-      xcode: "13.0"
+      xcode: "13.0.0"
     steps:
       - checkout
       - run:

@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-              xcodebuild -destination 'platform=tvOS Simulator,name=Apple TV 4K,OS=latest' -sdk appletvsimulator -scheme "Fetch-tvOS" clean test |
+              xcodebuild -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' -sdk appletvsimulator -scheme "Fetch-tvOS" clean test |
               tee xcodebuild.log
   macOStest:
     macos:

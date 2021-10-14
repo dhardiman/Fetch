@@ -2,13 +2,10 @@ version: 2
 jobs:
   iOStest:
     macos:
-      xcode: "13.0"
+      xcode: "13.0.0"
     steps:
       - checkout
       - run: bundle install
-      - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform iOS --no-use-binaries
       - run:
           name: Run Tests
           command: |
@@ -26,25 +23,19 @@ jobs:
           path: xcodebuild.log
   tvOStest:
     macos:
-      xcode: "11.0"
+      xcode: "13.0.0"
     steps:
       - checkout
-      - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform tvOS --no-use-binaries
       - run:
           name: Run Tests
           command: |
-              xcodebuild -destination 'platform=tvOS Simulator,name=Apple TV 4K,OS=latest' -sdk appletvsimulator -scheme "Fetch-tvOS" clean test |
+              xcodebuild -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' -sdk appletvsimulator -scheme "Fetch-tvOS" clean test |
               tee xcodebuild.log
   macOStest:
     macos:
-      xcode: "13.0"
+      xcode: "13.0.0"
     steps:
       - checkout
-      - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform macOS --no-use-binaries
       - run:
           name: Run Tests
           command: |

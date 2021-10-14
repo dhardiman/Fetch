@@ -23,35 +23,37 @@
             stubRequest(passingTest: { $0.url! == testURL && $0.httpMethod == "GET" })
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
-            _ = publisher.sink(receiveCompletion: { _ in
-            }, receiveValue: {
+            let sub = publisher.sink(receiveCompletion: { _ in }, receiveValue: {
                 expect($0.name).to(equal("test name"))
                 expect($0.desc).to(equal("test desc"))
                 exp.fulfill()
             })
-            waitForExpectations(timeout: 1.0, handler: nil)
+            waitForExpectations(timeout: 10.0, handler: nil)
+            print("\(sub.hashValue)") // Need to keep a reference to avoid the subscriber being disposed immediately, this is to silence the warning
         }
 
         func testSessionErrorsAreReturnedUsingAPublisher() {
             guard #available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *, *) else { return }
             let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)
-            OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
+            HTTPStubs.stubRequests(passingTest: { (request) -> Bool in
                 return request.url! == testURL && request.httpMethod == "GET"
-            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
-                return OHHTTPStubsResponse(error: testError)
+            }, withStubResponse: { (_) -> HTTPStubsResponse in
+                return HTTPStubsResponse(error: testError)
             })
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
-            _ = publisher.sink(receiveCompletion: {
+            let sub = publisher.sink(receiveCompletion: {
                 switch $0 {
                 case .finished:
                     fail("Expected an error")
-                case .failure(let error):
-                    expect(error as NSError).to(equal(testError))
+                case .failure(let error as NSError):
+                    expect(error.code).to(equal(testError.code))
+                    expect(error.domain).to(equal(testError.domain))
                 }
                 exp.fulfill()
             }, receiveValue: { _ in })
             waitForExpectations(timeout: 1.0, handler: nil)
+            print("\(sub.hashValue)")
         }
 
         func testItReturnsParsedErrorsCorrectlyUsingAPublisher() {
@@ -62,7 +64,7 @@
             let exp = expectation(description: "get request")
             let publisher = session!.publisher(for: basicRequest, errorParser: CustomError.self) as AnyPublisher<NoDataResponse, Error>
             var receivedError: Error?
-            _ = publisher.sink(receiveCompletion: {
+            let sub = publisher.sink(receiveCompletion: {
                 switch $0 {
                 case .finished:
                     fail("Expected an error")
@@ -74,6 +76,7 @@
             waitForExpectations(timeout: 1.0, handler: nil)
             let customError = receivedError as! CustomError // swiftlint:disable:this force_cast
             expect(customError).to(equal(CustomError.error))
+            print("\(sub.hashValue)")
         }
 
         func testItIncrementsTheActivityMonitorCorrectly() {
@@ -88,11 +91,12 @@
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             expect(isCurrentlyActive).to(beTrue())
             let exp = expectation(description: "get request")
-            _ = publisher.sink(receiveCompletion: { _ in }, receiveValue: { _ in
+            let sub = publisher.sink(receiveCompletion: { _ in }, receiveValue: { _ in
                 exp.fulfill()
             })
             waitForExpectations(timeout: 1.0, handler: nil)
             expect(isCurrentlyActive).to(beFalse())
+            print("\(sub.hashValue)")
         }
 
         func testItDecrementsTheActivityMonitorCorrectlyOnSessionErrors() {
@@ -100,10 +104,10 @@
             let stubMonitor = SessionActivityMonitor(initialValue: 0, isAsynchronous: false)
             session.activityMonitor = stubMonitor
             let testError = NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled, userInfo: nil)
-            OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
+            HTTPStubs.stubRequests(passingTest: { (request) -> Bool in
                 return request.url! == testURL && request.httpMethod == "GET"
-            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
-                return OHHTTPStubsResponse(error: testError)
+            }, withStubResponse: { (_) -> HTTPStubsResponse in
+                return HTTPStubsResponse(error: testError)
             })
             var isCurrentlyActive: Bool = false
             SessionActivityMonitor.sessionActivityChanged = {
@@ -111,11 +115,12 @@
             }
             let publisher = session!.publisher(for: basicRequest, errorParser: nil) as AnyPublisher<TestResponse, Error>
             let exp = expectation(description: "get request")
-            _ = publisher.sink(receiveCompletion: { _ in
+            let sub = publisher.sink(receiveCompletion: { _ in
                 exp.fulfill()
             }, receiveValue: { _ in })
             waitForExpectations(timeout: 1.0, handler: nil)
             expect(isCurrentlyActive).to(beFalse())
+            print("\(sub.hashValue)")
         }
     }
 

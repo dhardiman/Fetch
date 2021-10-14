@@ -21,8 +21,5 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-
-    - name: Carthage
-      run: carthage update --platform "${{ matrix.configurations.platform }}" --no-use-binaries --use-xcframeworks
     - name: Run tests on ${{ matrix.configurations.destination }}
       run: xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

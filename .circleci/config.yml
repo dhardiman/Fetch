@@ -7,9 +7,6 @@ jobs:
       - checkout
       - run: bundle install
       - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform iOS --no-use-binaries
-      - run:
           name: Run Tests
           command: |
               xcodebuild -destination 'platform=iOS Simulator,name=iPhone 8,OS=latest' -sdk iphonesimulator -scheme "Fetch-iOS" clean test |
@@ -26,12 +23,9 @@ jobs:
           path: xcodebuild.log
   tvOStest:
     macos:
-      xcode: "11.0"
+      xcode: "13.0"
     steps:
       - checkout
-      - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform tvOS --no-use-binaries
       - run:
           name: Run Tests
           command: |
@@ -42,9 +36,6 @@ jobs:
       xcode: "13.0"
     steps:
       - checkout
-      - run:
-          name: Install Carthage Dependencies
-          command: carthage update --platform macOS --no-use-binaries
       - run:
           name: Run Tests
           command: |

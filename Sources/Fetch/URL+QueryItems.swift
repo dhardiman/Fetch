@@ -9,6 +9,7 @@
 import Foundation
 
 public extension URL {
+    @backDeployed(before: iOS 16, tvOS 16, macOS 13)
     func appending(queryItems: [URLQueryItem]) -> URL {
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else {
             return self

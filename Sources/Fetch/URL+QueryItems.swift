@@ -9,7 +9,9 @@
 import Foundation
 
 public extension URL {
-    @backDeployed(before: iOS 16, tvOS 16, macOS 13)
+    @available(iOS, introduced: 12.0, obsoleted: 16.0, message: "Use Foundation function")
+    @available(tvOS, introduced: 12.0, obsoleted: 16.0, message: "Use Foundation function")
+    @available(macOS, introduced: 10.11, obsoleted: 13.0, message: "Use Foundation function")
     func appending(queryItems: [URLQueryItem]) -> URL {
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: true) else {
             return self

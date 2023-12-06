@@ -196,7 +196,7 @@ class FetchTests: XCTestCase {
         stubRequest { (request) -> Bool in
             return request.url! == testURL && request.httpMethod == "POST"
         }
-        let mockSession = MockSession()
+        let mockSession = MockSession.forcedInit()
         session = Session(session: mockSession)
         session.perform(testRequest) { (_: FetchResult<TestResponse>) in
         }
@@ -239,7 +239,7 @@ class FetchTests: XCTestCase {
     }
 
     func testAnUnknownResponseTypeReturnsAnError() {
-        let mockSession = MockSession()
+        let mockSession = MockSession.forcedInit()
         mockSession.mockResponse = URLResponse()
         session = Session(session: mockSession)
         var receivedResult: FetchResult<TestResponse>?
@@ -259,7 +259,7 @@ class FetchTests: XCTestCase {
     }
 
     func testAllTasksCanBeCancelled() {
-        let mockSession = MockSession()
+        let mockSession = MockSession.forcedInit()
         session = Session(session: mockSession)
         let task1 = session.perform(BasicURLRequest(url: testURL), completion: { (_: FetchResult<TestResponse>) in }) as? MockTask
         let task2 = session.perform(BasicURLRequest(url: testURL), completion: { (_: FetchResult<TestResponse>) in }) as? MockTask
@@ -331,6 +331,12 @@ class FetchTests: XCTestCase {
 
 }
 
+extension NSObject {
+    static func forcedInit() -> Self {
+        Self.self.init()
+    }
+}
+
 public class MockSession: URLSession {
     var receivedBody: String?
     var mockResponse: URLResponse?
@@ -342,7 +348,7 @@ public class MockSession: URLSession {
         if let mockResponse = mockResponse {
             completionHandler(nil, mockResponse, nil)
         }
-        let task = MockTask()
+        let task = MockTask.forcedInit()
         mockedTasks.append(task)
         return task
     }

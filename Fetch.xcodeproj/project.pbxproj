@@ -501,8 +501,6 @@
 				3D6A61A11FCED95F002AB5C0 /* Frameworks */,
 				3D6A61A21FCED95F002AB5C0 /* Headers */,
 				3D6A61A41FCED95F002AB5C0 /* Resources */,
-				3D6A61A51FCED95F002AB5C0 /* Formatting */,
-				3D6A61A61FCED95F002AB5C0 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -719,34 +717,6 @@
 			shellScript = "#!/bin/bash\nreleaseConfig=\"Release\"\nif [ \"$releaseConfig\" != \"${CONFIGURATION}\" ]; then\n  if which swiftformat >/dev/null; then\n    SCAN_PATH=\"${SRCROOT}\"\n    OPTIONS=`< ./Scripts/swiftformat-options.txt`\n    echo \"$OPTIONS\"\n    swiftformat \"${SCAN_PATH}\" $OPTIONS\n  else\n    echo \"swiftformat not installed, install from homebrew\"\n  fi\nfi";
 		};
 		0764F7DA1FB70415006AA048 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "releaseConfig=\"Release\"\nif [ \"$releaseConfig\" != \"${CONFIGURATION}\" ] && [ -z \"${CI}\" ]; then\n  if which swiftlint >/dev/null; then\n    swiftlint\n  else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  fi\nfi";
-		};
-		3D6A61A51FCED95F002AB5C0 /* Formatting */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Formatting;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nreleaseConfig=\"Release\"\nif [ \"$releaseConfig\" != \"${CONFIGURATION}\" ]; then\n  if which swiftformat >/dev/null; then\n    SCAN_PATH=\"${SRCROOT}\"\n    OPTIONS=`< ./Scripts/swiftformat-options.txt`\n    echo \"$OPTIONS\"\n    swiftformat \"${SCAN_PATH}\" $OPTIONS\n  else\n    echo \"swiftformat not installed, install from homebrew\"\n  fi\nfi";
-		};
-		3D6A61A61FCED95F002AB5C0 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1314,7 +1284,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Fetch;
@@ -1355,7 +1325,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = me.davidhardiman.Fetch;

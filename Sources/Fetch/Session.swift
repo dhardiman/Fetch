@@ -31,6 +31,15 @@ public protocol RequestPerforming {
         @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error>
     #endif
+    
+    /// Make an HTTP request for the resource described by this `Request`
+    ///
+    /// - Parameters:
+    ///   - request: The request to perform
+    ///   - errorParser: Optional object to provide custom error parsing
+    /// - Returns: The fetched object
+    @available(macOS 10.15, *, iOS 13.0, *, tvOS 13.0, *)
+    func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?) async throws -> T
 }
 
 public extension RequestPerforming {
@@ -91,6 +100,20 @@ public class Session: RequestPerforming {
         }
         task.resume()
         return task
+    }
+    
+    @available(macOS 10.15, *, iOS 13.0, *, tvOS 13.0, *)
+    public func perform<T>(_ request: Request, errorParser: ErrorParsing.Type?) async throws -> T where T : Parsable {
+        return try await withCheckedThrowingContinuation { continuation in
+            perform(request, errorParser: errorParser) { (result: FetchResult<T>) in
+                switch result {
+                case .failure(let failure):
+                    continuation.resume(throwing: failure)
+                case .success(let response):
+                    continuation.resume(returning: response)
+                }
+            }
+        }
     }
 
     func result<T: Parsable>(from data: Data?, urlResponse: URLResponse?, request: Request, errorParser: ErrorParsing.Type?) throws -> FetchResult<T> {

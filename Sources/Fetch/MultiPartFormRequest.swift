@@ -17,14 +17,14 @@ public struct MultiPartFormRequest: Request {
 
     public let body: Data?
 
-    public init(url: URL, method: HTTPMethod = .post, sections: [MultipartFormDataSection]) {
+    public init(url: URL, method: HTTPMethod = .post, sections: [MultipartFormDataSection], additionalHeaders: [String: String] = [:]) {
         self.url = url
         self.method = method
         let elements = [MultiPartFormHeader.marker] + sections.map { $0.data }
         self.body = elements.combined
         self.headers = [
             "Content-Type": MultiPartFormHeader.headerText
-        ]
+        ].merging(additionalHeaders, uniquingKeysWith: { $1 })
     }
 }
 

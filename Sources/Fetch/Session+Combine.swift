@@ -15,7 +15,7 @@
         @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         public func publisher<T: Parsable>(for request: Request, errorParser: ErrorParsing.Type?) -> AnyPublisher<T, Error> {
             activityMonitor.incrementCount()
-            return session.dataTaskPublisher(for: request.urlRequest())
+            return session.dataTaskPublisher(for: request.urlRequest(for: request.defaultURLRequest()))
                 .mapError(handleActivityMonitorOnError)
                 .tryMap { data, response -> T in
                     defer {

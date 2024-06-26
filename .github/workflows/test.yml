@@ -5,7 +5,7 @@ on: [push]
 jobs:
   test:
     name: Test on destination ${{ matrix.configurations.destination }}
-    runs-on: macOS-13
+    runs-on: macOS-14
     strategy:
       matrix:
         configurations:
@@ -21,7 +21,7 @@ jobs:
     
     steps:
     - name: Xcode Select
-      run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+      run: sudo xcode-select -s /Applications/Xcode_15.4.app
 
     - name: Checkout
       uses: actions/checkout@v4

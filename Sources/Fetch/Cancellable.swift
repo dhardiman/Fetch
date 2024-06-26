@@ -10,6 +10,9 @@ import Foundation
 
 /// Protocol describing an operation that can be cancelled
 public protocol Cancellable {
+    
+    /// The underlying progress object for the cancellable task.
+    var progress: Progress { get }
 
     /// Cancel the operation
     func cancel()

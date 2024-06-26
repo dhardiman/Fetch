@@ -74,7 +74,7 @@ public class Session: RequestPerforming {
     public func perform<T: Parsable>(_ request: Request, errorParser: ErrorParsing.Type?, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         let taskIdentifier = UUID()
         activityMonitor.incrementCount()
-        let task = session.dataTask(with: request.urlRequest(), completionHandler: { data, response, error in
+        let task = session.dataTask(with: request.urlRequest(for: request.defaultURLRequest()), completionHandler: { data, response, error in
             self.taskQueue.sync {
                 self.removeTask(for: taskIdentifier)
             }
@@ -103,15 +103,10 @@ public class Session: RequestPerforming {
     }
     
     @available(macOS 10.15, *, iOS 13.0, *, tvOS 13.0, *)
-    public func perform<T>(_ request: Request, errorParser: ErrorParsing.Type?) async throws -> T where T : Parsable {
-        return try await withCheckedThrowingContinuation { continuation in
+    public func perform<T>(_ request: Request, errorParser: ErrorParsing.Type?) async throws -> T where T: Parsable {
+        try await withCheckedThrowingContinuation { continuation in
             perform(request, errorParser: errorParser) { (result: FetchResult<T>) in
-                switch result {
-                case .failure(let failure):
-                    continuation.resume(throwing: failure)
-                case .success(let response):
-                    continuation.resume(returning: response)
-                }
+                continuation.resume(with: result)
             }
         }
     }
@@ -142,7 +137,7 @@ enum SessionError: Error {
 }
 
 extension Request {
-    func urlRequest() -> URLRequest {
+    func defaultURLRequest() -> URLRequest {
         var request = URLRequest(url: url)
         if let headers = headers {
             request.allHTTPHeaderFields = headers
@@ -154,12 +149,3 @@ extension Request {
         return request
     }
 }
-
-/// Protocol describing an operation that can be cancelled
-public protocol Cancellable {
-
-    /// Cancel the operation
-    func cancel()
-}
-
-extension URLSessionTask: Cancellable {}

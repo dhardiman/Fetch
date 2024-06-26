@@ -17,7 +17,9 @@ public struct MultiPartFormRequest: Request {
 
     public let body: Data?
 
-    public init(url: URL, method: HTTPMethod = .post, sections: [MultipartFormDataSection], additionalHeaders: [String: String] = [:]) {
+    public let timeout: TimeInterval
+
+    public init(url: URL, method: HTTPMethod = .post, sections: [MultipartFormDataSection], additionalHeaders: [String: String] = [:], timeout: TimeInterval = 60) {
         self.url = url
         self.method = method
         let elements = [MultiPartFormHeader.marker] + sections.map { $0.data }
@@ -25,6 +27,13 @@ public struct MultiPartFormRequest: Request {
         self.headers = [
             "Content-Type": MultiPartFormHeader.headerText
         ].merging(additionalHeaders, uniquingKeysWith: { $1 })
+        self.timeout = timeout
+    }
+
+    public func urlRequest(for urlRequest: URLRequest) -> URLRequest {
+        var urlRequest = urlRequest
+        urlRequest.timeoutInterval = timeout
+        return urlRequest
     }
 }
 

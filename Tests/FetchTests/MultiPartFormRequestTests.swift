@@ -38,4 +38,16 @@ class MultiPartFormRequestTests: XCTestCase {
         expect(request.headers?["Content-Type"]).to(equal("multipart/form-data; boundary=__fetch_boundary_token__"))
         expect(request.headers?["gregg"]).to(equal("wallace"))
     }
+
+    func testTheRequestTimeoutDefaultsToSixty() {
+        let request = MultiPartFormRequest(url: testURL, sections: [], additionalHeaders: ["gregg": "wallace"])
+        let urlRequest = request.urlRequest(for: request.defaultURLRequest())
+        expect(urlRequest.timeoutInterval).to(equal(60))
+    }
+
+    func testTheRequestTimeoutCanBeCustomised() {
+        let request = MultiPartFormRequest(url: testURL, sections: [], additionalHeaders: ["gregg": "wallace"], timeout: 120)
+        let urlRequest = request.urlRequest(for: request.defaultURLRequest())
+        expect(urlRequest.timeoutInterval).to(equal(120))
+    }
 }

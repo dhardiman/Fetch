@@ -340,25 +340,19 @@
 				48359D672B987063007D415F /* Resources */,
 				071F20261C6F86BF00BBCBAF /* Fetch.h */,
 				071F20281C6F86BF00BBCBAF /* Info.plist */,
+				BD8E5E722C2C035C00DB9477 /* Requests */,
+				BD8E5E732C2C037500DB9477 /* Responses */,
 				071F203D1C6F878400BBCBAF /* Parsable.swift */,
-				96BA6B58209B41870094E78E /* Response.swift */,
-				07A399771C6F89A100896C87 /* Request.swift */,
 				07A399961C70976800896C87 /* FetchResult.swift */,
 				0764F7DB1FB71027006AA048 /* HTTPMethod.swift */,
 				0764F7DD1FB71D96006AA048 /* Session.swift */,
-				0764F7DF1FB84B24006AA048 /* JSONRequest.swift */,
-				3D63B1F127BABAEB00443DBB /* EncodableRequest.swift */,
-				96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */,
 				0764F7E31FB84DF9006AA048 /* UIImage+Parsable.swift */,
-				3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */,
 				0764F7E91FB852ED006AA048 /* ResponseError.swift */,
-				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
 				072B885C1FB9E37300E66676 /* URL+QueryItems.swift */,
 				072B88601FB9F86B00E66676 /* ErrorParsing.swift */,
 				96154EF71FBC824500B6B4F3 /* UserInfoProviding.swift */,
 				0790B38A1FBF549E002D9116 /* SessionActivityMonitor.swift */,
 				0773A08B22BCBB3F00F64CA2 /* Session+Combine.swift */,
-				0793AF9B234E09BF00D7257A /* MultiPartFormRequest.swift */,
 			);
 			name = Fetch;
 			path = Sources/Fetch;
@@ -411,6 +405,28 @@
 				48359D682B987063007D415F /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BD8E5E722C2C035C00DB9477 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				07A399771C6F89A100896C87 /* Request.swift */,
+				0764F7EF1FB98C4D006AA048 /* BasicURLRequest.swift */,
+				3D63B1F127BABAEB00443DBB /* EncodableRequest.swift */,
+				96154EFB1FBED04C00B6B4F3 /* HTTPFormPostRequest.swift */,
+				0764F7DF1FB84B24006AA048 /* JSONRequest.swift */,
+				0793AF9B234E09BF00D7257A /* MultiPartFormRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		BD8E5E732C2C037500DB9477 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				3D6DA17E1FE2A4F80024C131 /* NoDataResponse.swift */,
+				96BA6B58209B41870094E78E /* Response.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

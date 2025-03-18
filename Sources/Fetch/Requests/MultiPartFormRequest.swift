@@ -54,10 +54,10 @@ public struct MultipartFormDataSection {
     let contentType: String
     let charset: String
     let name: String
-    let filename: String
+    let filename: String?
     let content: Data
 
-    public init(contentType: String = "text/plain", charset: String = "utf-8", name: String, filename: String, content: Data) {
+    public init(contentType: String = "text/plain", charset: String = "utf-8", name: String, filename: String?, content: Data) {
         self.contentType = contentType
         self.charset = charset
         self.name = name
@@ -66,9 +66,16 @@ public struct MultipartFormDataSection {
     }
 
     var data: Data {
+        let contentDisposition: String
+        if let filename {
+            contentDisposition = "form-data; name=\"\(name)\"; filename=\"\(filename)\""
+        } else {
+            contentDisposition = "form-data; name=\"\(name)\""
+        }
+
         let headers = [
             "Content-Type: \(contentType); charset=\(charset)",
-            #"Content-Disposition: form-data; name="\#(name)";filename="\#(filename)""#
+            "Content-Disposition: \(contentDisposition)"
         ]
         var output = Data()
         output.append(headers.joined(separator: newLine).data(using: .utf8)!)

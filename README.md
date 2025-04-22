@@ -1,6 +1,5 @@
 # Fetch
 [![Coverage Status](https://coveralls.io/repos/github/dhardiman/Fetch/badge.svg)](https://coveralls.io/github/dhardiman/Fetch)
-[![Circle CI](https://circleci.com/gh/dhardiman/Fetch.svg?style=svg)](https://circleci.com/gh/dhardiman/Fetch)
 
 Simple HTTP in Swift. Hides the boilerplate code. Fetch allows you to make protocol-based HTTP requests, whilst providing a custom class or struct capable of parsing the response in to model objects your app can understand. Makes everything simple to unit test without needing to resort to stubbing network connections or using asynchronous tests.
 

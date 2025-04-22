@@ -124,6 +124,9 @@
 		D1D154A82DB7C08C004E900C /* Parsable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154A72DB7C081004E900C /* Parsable+Decodable.swift */; };
 		D1D154A92DB7C08C004E900C /* Parsable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154A72DB7C081004E900C /* Parsable+Decodable.swift */; };
 		D1D154AA2DB7C08C004E900C /* Parsable+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154A72DB7C081004E900C /* Parsable+Decodable.swift */; };
+		D1D154AC2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154AB2DB7C659004E900C /* ParsableDecodableTests.swift */; };
+		D1D154AD2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154AB2DB7C659004E900C /* ParsableDecodableTests.swift */; };
+		D1D154AE2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D154AB2DB7C659004E900C /* ParsableDecodableTests.swift */; };
 		D1DBED82271824B50059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED81271824B50059253C /* OHHTTPStubs */; };
 		D1DBED84271824BD0059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED83271824BD0059253C /* OHHTTPStubs */; };
 		D1DBED86271824C10059253C /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = D1DBED85271824C10059253C /* OHHTTPStubs */; };
@@ -256,6 +259,7 @@
 		BD8E5E742C2C046400DB9477 /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		BD8E5E782C2C18C200DB9477 /* RequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTests.swift; sourceTree = "<group>"; };
 		D1D154A72DB7C081004E900C /* Parsable+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Parsable+Decodable.swift"; sourceTree = "<group>"; };
+		D1D154AB2DB7C659004E900C /* ParsableDecodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsableDecodableTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,6 +392,7 @@
 				07D3E1AC1FFB970F00C6063C /* ResponseErrorTests.swift */,
 				0773A08D22BCDC4D00F64CA2 /* FetchCombineTests.swift */,
 				0793AF9F234E09E400D7257A /* MultiPartFormRequestTests.swift */,
+				D1D154AB2DB7C659004E900C /* ParsableDecodableTests.swift */,
 			);
 			name = FetchTests;
 			path = Tests/FetchTests;
@@ -785,6 +790,7 @@
 				071F20331C6F86BF00BBCBAF /* FetchTests.swift in Sources */,
 				0773A08F22BCDEEE00F64CA2 /* FetchCombineTests.swift in Sources */,
 				0790B38D1FBF5798002D9116 /* SessionActivityMonitorTests.swift in Sources */,
+				D1D154AD2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */,
 				96154EFE1FBED14600B6B4F3 /* HTTPFormPostRequestTests.swift in Sources */,
 				0764F7E21FB84BEF006AA048 /* JSONRequestTests.swift in Sources */,
 				0793AFA0234E09E400D7257A /* MultiPartFormRequestTests.swift in Sources */,
@@ -841,6 +847,7 @@
 				3D6A61B31FCED96D002AB5C0 /* FetchTests.swift in Sources */,
 				0773A09022BCDEEF00F64CA2 /* FetchCombineTests.swift in Sources */,
 				3D6A61B41FCED96D002AB5C0 /* SessionActivityMonitorTests.swift in Sources */,
+				D1D154AC2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */,
 				3D6A61B51FCED96D002AB5C0 /* HTTPFormPostRequestTests.swift in Sources */,
 				3D6A61B61FCED96D002AB5C0 /* JSONRequestTests.swift in Sources */,
 				0793AFA1234E09E400D7257A /* MultiPartFormRequestTests.swift in Sources */,
@@ -888,6 +895,7 @@
 				BD8E5E7B2C2C18E500DB9477 /* RequestTests.swift in Sources */,
 				3DFEF7BF20A1FF0A006377F4 /* JSONRequestTests.swift in Sources */,
 				3DFEF7C420A1FF17006377F4 /* SessionActivityMonitorTests.swift in Sources */,
+				D1D154AE2DB7C659004E900C /* ParsableDecodableTests.swift in Sources */,
 				3DFEF7C020A1FF0C006377F4 /* HTTPFormPostRequestTests.swift in Sources */,
 				3DFEF7C220A1FF11006377F4 /* URLQueryItemTests.swift in Sources */,
 				3DFEF7C520A1FF19006377F4 /* ResponseErrorTests.swift in Sources */,

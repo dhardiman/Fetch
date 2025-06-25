@@ -53,6 +53,16 @@ public extension RequestPerforming {
     func perform<T: Parsable>(_ request: Request, completion: @escaping (FetchResult<T>) -> Void) -> Cancellable {
         return perform(request, errorParser: nil, completion: completion)
     }
+
+    /// Make an HTTP request for the resource described by this `Request`
+    ///
+    /// - Parameters:
+    ///   - request: The request to perform
+    /// - Returns: The fetched object
+    @available(macOS 10.15, *, iOS 13.0, *, tvOS 13.0, *)
+    func perform<T: Parsable>(_ request: Request) async throws -> T {
+        return try await perform(request, errorParser: nil)
+    }
 }
 
 /// Session for making requests using a URLSession

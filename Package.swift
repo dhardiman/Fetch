@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Fetch",
     products: [
-      .library(name: "Fetch", targets: ["Fetch"])
+      .library(name: "Fetch", type: .dynamic, targets: ["Fetch"])
     ],
     dependencies: [],
     targets: [

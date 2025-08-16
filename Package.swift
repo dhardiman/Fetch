@@ -5,13 +5,17 @@ import PackageDescription
 
 let package = Package(
     name: "Fetch",
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v13),
+    ],
     products: [
-      .library(name: "Fetch", type: .dynamic, targets: ["Fetch"])
+        .library(name: "Fetch", type: .dynamic, targets: ["Fetch"])
     ],
     dependencies: [],
     targets: [
-      .target(name: "Fetch", dependencies: [], resources: [.copy("Resources/PrivacyInfo.xcprivacy")]),
-      .testTarget(name: "FetchTests", dependencies: ["Fetch"])
+        .target(name: "Fetch", dependencies: [], resources: [.copy("Resources/PrivacyInfo.xcprivacy")]),
+        .testTarget(name: "FetchTests", dependencies: ["Fetch"])
     ],
     swiftLanguageVersions: [.v5]
 )

@@ -3,15 +3,24 @@
 
 import PackageDescription
 
+let frameworkURL = "https://github.com/dhardiman/Fetch/releases/download/5.1.0/Fetch.zip"
+let frameworkChecksum = "64029b7d19d6d8113e2811d64e7c17f42ae464d6f13174d79df39e10c9903100"
+
 let package = Package(
     name: "Fetch",
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v13),
+    ],
     products: [
-      .library(name: "Fetch", type: .dynamic, targets: ["Fetch"])
+        .library(name: "Fetch", targets: ["Fetch"])
     ],
     dependencies: [],
     targets: [
-      .target(name: "Fetch", dependencies: [], resources: [.copy("Resources/PrivacyInfo.xcprivacy")]),
-      .testTarget(name: "FetchTests", dependencies: ["Fetch"])
+        .binaryTarget(
+            name: "Fetch",
+            url: frameworkURL,
+            checksum: frameworkChecksum),
     ],
     swiftLanguageVersions: [.v5]
 )

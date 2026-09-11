@@ -20,7 +20,7 @@ class MultiPartFormRequestTests: XCTestCase {
         let request = MultiPartFormRequest(url: testURL, sections: [
             MultipartFormDataSection(name: "testfile", filename: "testfile.txt", content: "test".data(using: .utf8)!)
         ])
-        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"; filename=\"testfile.txt\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)\r\n"
+        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"; filename=\"testfile.txt\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)--\r\n"
         expect(request.body).to(equal(expectedString.data(using: .utf8)))
     }
 
@@ -29,7 +29,7 @@ class MultiPartFormRequestTests: XCTestCase {
             MultipartFormDataSection(name: "testfile", filename: "testfile.txt", content: "test".data(using: .utf8)!),
             MultipartFormDataSection(contentType: "test-type", charset: "testset", name: "second test", filename: "second-test.txt", content: "another-test".data(using: .utf8)!)
         ])
-        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"; filename=\"testfile.txt\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)\r\nContent-Type: test-type; charset=testset\r\nContent-Disposition: form-data; name=\"second test\"; filename=\"second-test.txt\"\r\n\r\nanother-test\r\n--\(MultiPartFormHeader.boundary)\r\n"
+        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"; filename=\"testfile.txt\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)\r\nContent-Type: test-type; charset=testset\r\nContent-Disposition: form-data; name=\"second test\"; filename=\"second-test.txt\"\r\n\r\nanother-test\r\n--\(MultiPartFormHeader.boundary)--\r\n"
         expect(request.body).to(equal(expectedString.data(using: .utf8)))
     }
 
@@ -37,7 +37,7 @@ class MultiPartFormRequestTests: XCTestCase {
         let request = MultiPartFormRequest(url: testURL, sections: [
             MultipartFormDataSection(name: "testfile", filename: nil, content: "test".data(using: .utf8)!)
         ])
-        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)\r\n"
+        let expectedString = "--\(MultiPartFormHeader.boundary)\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Disposition: form-data; name=\"testfile\"\r\n\r\ntest\r\n--\(MultiPartFormHeader.boundary)--\r\n"
         expect(request.body).to(equal(expectedString.data(using: .utf8)))
     }
 

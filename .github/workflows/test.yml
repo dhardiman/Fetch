@@ -29,7 +29,15 @@ jobs:
 
     - name: Install ${{ matrix.configurations.platform }} platform
       if: matrix.configurations.platform != 'macOS'
-      run: xcodebuild -downloadPlatform ${{ matrix.configurations.platform }}
+      run: |
+        for attempt in 1 2 3 4 5; do
+          if xcodebuild -downloadPlatform ${{ matrix.configurations.platform }}; then
+            exit 0
+          fi
+          echo "Attempt $attempt to download the ${{ matrix.configurations.platform }} platform failed, retrying in 30s..."
+          sleep 30
+        done
+        exit 1
 
     - name: Run tests on ${{ matrix.configurations.destination }}
       run: xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

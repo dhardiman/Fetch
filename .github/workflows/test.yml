@@ -7,6 +7,7 @@ jobs:
     name: Test on destination ${{ matrix.configurations.destination }}
     runs-on: macos-15
     strategy:
+      fail-fast: false
       matrix:
         configurations:
           - destination: "platform=macOS"
@@ -25,6 +26,9 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Install ${{ matrix.configurations.platform }} platform
+      run: sudo xcodebuild -downloadPlatform ${{ matrix.configurations.platform }}
 
     - name: Run tests on ${{ matrix.configurations.destination }}
       run: xcodebuild -destination "${{ matrix.configurations.destination }}" -scheme "${{ matrix.configurations.scheme }}" test

@@ -28,6 +28,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install ${{ matrix.configurations.platform }} platform
+      if: matrix.configurations.platform != 'macOS'
       run: sudo xcodebuild -downloadPlatform ${{ matrix.configurations.platform }}
 
     - name: Run tests on ${{ matrix.configurations.destination }}

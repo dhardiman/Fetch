@@ -22,7 +22,11 @@ public struct MultiPartFormRequest: Request {
     public init(url: URL, method: HTTPMethod = .post, sections: [MultipartFormDataSection], additionalHeaders: [String: String] = [:], timeout: TimeInterval = 60) {
         self.url = url
         self.method = method
-        let elements = [MultiPartFormHeader.marker] + sections.map { $0.data }
+        var elements: [Data] = [MultiPartFormHeader.marker]
+        for (index, section) in sections.enumerated() {
+            elements.append(section.data)
+            elements.append(index == sections.count - 1 ? MultiPartFormHeader.closingMarker : MultiPartFormHeader.marker)
+        }
         self.body = elements.combined
         self.headers = [
             "Content-Type": MultiPartFormHeader.headerText
@@ -45,6 +49,10 @@ struct MultiPartFormHeader {
 
     static var marker: Data {
         "--\(boundary)\(newLine)".data(using: .utf8)!
+    }
+
+    static var closingMarker: Data {
+        "--\(boundary)--\(newLine)".data(using: .utf8)!
     }
 }
 
@@ -82,7 +90,6 @@ public struct MultipartFormDataSection {
         output.append([newLine, newLine].joined().data(using: .utf8)!)
         output.append(content)
         output.append(newLine.data(using: .utf8)!)
-        output.append(MultiPartFormHeader.marker)
         return output
     }
 }

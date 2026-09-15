@@ -9,7 +9,7 @@ let frameworkChecksum = "64029b7d19d6d8113e2811d64e7c17f42ae464d6f13174d79df39e1
 let package = Package(
     name: "Fetch",
     platforms: [
-        .iOS(.v13),
+        .iOS(.v17),
         .macOS(.v13),
     ],
     products: [

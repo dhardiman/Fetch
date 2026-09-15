@@ -3,8 +3,8 @@
 
 import PackageDescription
 
-let frameworkURL = "https://github.com/dhardiman/Fetch/releases/download/5.1.0/Fetch.zip"
-let frameworkChecksum = "64029b7d19d6d8113e2811d64e7c17f42ae464d6f13174d79df39e10c9903100"
+let frameworkURL = "https://github.com/dhardiman/Fetch/releases/download/5.1.1/Fetch.zip"
+let frameworkChecksum = "354941bb077ebcf5822b538aa0c5a629fd6c5dc04c0009930396674b49355746"
 
 let package = Package(
     name: "Fetch",
